@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DrivesAndDirectories
+namespace FileManager
 {
     /// <summary>
     /// Класс для хранения текущего состояния программы

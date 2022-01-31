@@ -28,7 +28,7 @@ namespace FileManager
         /// <summary>
         /// Высота буфера
         /// </summary>
-        public const int BUFFER_HEIGTH = 300;
+        public const int BUFFER_HEIGTH = 50;
 
         /// <summary>
         /// Ширина окна
@@ -39,16 +39,6 @@ namespace FileManager
         /// Высота окна
         /// </summary>
         public const int WINDOW_HEIGTH = 50;
-
-        /// <summary>
-        /// Стандартный цвет текста консоли
-        /// </summary>
-        public static ConsoleColor coloFontDefault = ConsoleColor.White;
-
-        /// <summary>
-        /// Цвет текста консоли для предупреждений о отчета об ошибках
-        /// </summary>
-        public static ConsoleColor colorWarning = ConsoleColor.DarkRed;
         #endregion
 
         /// <summary>
@@ -76,7 +66,8 @@ namespace FileManager
         /// <summary>
         /// Метод выводит на экран все подкаталоги и файлы текущего каталога
         /// </summary>
-        public static void WriteAllSubdirectoriesAndFiles(DrivesAndDirectories.DrivesDirectoriesFilesArray dirFiles)
+        /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
+        public static void WriteAllSubdirectoriesAndFiles(FileManager.DrivesDirectoriesFilesArray dirFiles)
         {
 
             FileInfo[] files = dirFiles.Files;
@@ -89,23 +80,37 @@ namespace FileManager
             {
                 Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-                Console.Write($"{subdir.FullName}");
+                Console.Write($"{subdir.Name}");
 
-                Console.SetCursorPosition(70, Console.BufferHeight - 1);
+                Console.SetCursorPosition(20, Console.BufferHeight - 1);
 
-                Console.Write($"{subdir.CreationTime}");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                Console.Write($"<DIR>");
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.SetCursorPosition(30, Console.BufferHeight - 1);
+
+                Console.Write($"{subdir.CreationTime:dd-MM-yyyy}");
 
                 Console.WriteLine();
             }
             foreach (FileInfo file in files)
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
                 Console.Write($"{ Path.GetFileNameWithoutExtension(file.FullName)}");
 
                 Console.SetCursorPosition(25, Console.BufferHeight - 1);
 
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+
                 Console.Write($"{ Path.GetExtension(file.FullName)}");
+
+                Console.ForegroundColor = ConsoleColor.White;
 
                 Console.SetCursorPosition(30, Console.BufferHeight - 1);
 
@@ -113,15 +118,153 @@ namespace FileManager
 
                 Console.SetCursorPosition(70, Console.BufferHeight - 1);
 
-                Console.Write($"{ file.CreationTime}");
+                Console.Write($"{ file.CreationTime:HH-mm-ss dd-MM-yyyy}");
 
                 Console.SetCursorPosition(90, Console.BufferHeight - 1);
 
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+
                 Console.Write($"{ file.Attributes}");
+
+                Console.ForegroundColor = ConsoleColor.White;
 
                 Console.WriteLine();
             }
+        }
 
+        /// <summary>
+        /// Метод выводит на экран все подкаталоги и файлы текущего каталога постранично
+        /// </summary>
+        /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
+        public static void WriteAllSubdirectoriesAndFilesByPages(FileManager.DrivesDirectoriesFilesArray dirFiles)
+        {
+
+            FileInfo[] files = dirFiles.Files;
+
+            DirectoryInfo[] subdirectories = dirFiles.Directories;
+
+            Console.WriteLine();
+
+            foreach (DirectoryInfo subdir in subdirectories)
+            {
+                Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                Console.Write($"{subdir.Name}");
+
+                Console.SetCursorPosition(20, Console.BufferHeight - 1);
+
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                Console.Write($"<DIR>");
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.SetCursorPosition(30, Console.BufferHeight - 1);
+
+                Console.Write($"{subdir.CreationTime:dd-MM-yyyy}");
+
+                Console.WriteLine();
+            }
+            foreach (FileInfo file in files)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+                Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                Console.Write($"{ Path.GetFileNameWithoutExtension(file.FullName)}");
+
+                Console.SetCursorPosition(25, Console.BufferHeight - 1);
+
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+                Console.Write($"{ Path.GetExtension(file.FullName)}");
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.SetCursorPosition(30, Console.BufferHeight - 1);
+
+                Console.Write($"{file.Length} Bytes");
+
+                Console.SetCursorPosition(70, Console.BufferHeight - 1);
+
+                Console.Write($"{ file.CreationTime:HH-mm-ss dd-MM-yyyy}");
+
+                Console.SetCursorPosition(90, Console.BufferHeight - 1);
+
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+                Console.Write($"{ file.Attributes}");
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine();
+            }
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// Метод выводит на экран состояние текущей директории
+        /// </summary>
+        /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
+        public static void PrintDirectoryProrerties(DrivesAndDirectories dir)
+        {
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+            Console.WriteLine();
+
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            Console.Write($"Текущая директория: ");
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.Write($"{dir.CuttentDirectory.FullName}");
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            Console.Write($" содержит: ");
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.Write($"{dir.CuttentDirectory.GetFiles().Length}");
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            Console.Write($" файлов,");
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.WriteLine();
+
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            Console.Write($"имеет атрибуты: ");
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.Write($"{dir.CuttentDirectory.Attributes}");
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            Console.Write($", Время создания: ");
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.Write($"{dir.CuttentDirectory.CreationTime:dd-MM-yyyy HH-mm-ss}");
+
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -156,11 +299,16 @@ namespace FileManager
         /// <summary>
         /// метод перемещает курсор на указанную позицию
         /// </summary>
-        public static void SetCursorPosition(string temp)
+        /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
+        public static void SetCursorPosition(DrivesAndDirectories temp)
         {
+            PrintDirectoryProrerties(temp);
+
+            Console.ForegroundColor = ConsoleColor.White;
+
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-            Console.Write(temp + INPUT_REQUEST);
+            Console.Write(temp.CuttentDirectory + INPUT_REQUEST);
         }
 
         /// <summary>
@@ -179,7 +327,7 @@ namespace FileManager
 
             Console.WriteLine();
 
-            Console.ReadKey();            
+            Console.ReadKey();
         }
     }
 }

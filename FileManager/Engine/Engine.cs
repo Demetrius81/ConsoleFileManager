@@ -52,7 +52,7 @@ namespace FileManager
         /// <summary>
         /// Объект для хранения текущего состояния системы
         /// </summary>
-        public static DrivesAndDirectories.DrivesAndDirectories drivesAndDirectories = new DrivesAndDirectories.DrivesAndDirectories();
+        public static DrivesAndDirectories drivesAndDirectories = new DrivesAndDirectories();
         #endregion
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace FileManager
 
                 if (!drivesAndDirectories.CuttentDirectory.Exists)
                 {
-                    drivesAndDirectories = new DrivesAndDirectories.DrivesAndDirectories();
+                    drivesAndDirectories = new DrivesAndDirectories();
                 }
             }
         }
@@ -396,9 +396,9 @@ namespace FileManager
         /// Метод выводит в консоль все подкаталоги и файлы текущего каталога
         /// </summary>
         /// <returns>DrivesDirectoriesFilesArray Объект, в котором находятся данные о подкаталогах и файлах текущего каталога</returns>
-        public static DrivesAndDirectories.DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
+        public static FileManager.DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
         {
-            DrivesAndDirectories.DrivesDirectoriesFilesArray dirFiles = new DrivesAndDirectories.DrivesDirectoriesFilesArray();
+            FileManager.DrivesDirectoriesFilesArray dirFiles = new FileManager.DrivesDirectoriesFilesArray();
 
             DirectoryInfo ddd = drivesAndDirectories.CuttentDirectory;
 
