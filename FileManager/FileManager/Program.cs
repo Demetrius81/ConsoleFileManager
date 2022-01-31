@@ -95,8 +95,8 @@ namespace FileManager
                         }
                     case 9:
                         {
-                            PseudoConsoleUI.WriteAllSubdirectoriesAndFiles(Engine.ShowAllSubdirectoriesAndFilesCommandExecuter());
-
+                            //PseudoConsoleUI.WriteAllSubdirectoriesAndFiles(Engine.ShowAllSubdirectoriesAndFilesCommandExecuter());
+                            Engine.ShowAllSubdirectoriesAndFilesByPages();
                             PseudoConsoleUI.PrintDirectoryProrerties(Engine.drivesAndDirectories);
 
                             break;
@@ -104,9 +104,7 @@ namespace FileManager
                     case 10:
                         {
                             PseudoConsoleUI.WriteHelp(Engine.HelpCommandExecuter());
-
-                            PseudoConsoleUI.PrintDirectoryProrerties(Engine.drivesAndDirectories);
-
+                                                        
                             break;
                         }
                     default:

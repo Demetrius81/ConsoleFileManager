@@ -10,6 +10,7 @@ namespace FileManager
     public class PseudoConsoleUI
     {
         #region Fields and properties
+
         /// <summary>
         /// Константа запроса на ввод информации
         /// </summary>
@@ -39,6 +40,12 @@ namespace FileManager
         /// Высота окна
         /// </summary>
         public const int WINDOW_HEIGTH = 50;
+
+        /// <summary>
+        /// Количество строк в странице
+        /// </summary>
+        public const int PAGE_LINES = 40;
+
         #endregion
 
         /// <summary>
@@ -67,7 +74,7 @@ namespace FileManager
         /// Метод выводит на экран все подкаталоги и файлы текущего каталога
         /// </summary>
         /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
-        public static void WriteAllSubdirectoriesAndFiles(FileManager.DrivesDirectoriesFilesArray dirFiles)
+        public static void WriteAllSubdirectoriesAndFiles(DrivesDirectoriesFilesArray dirFiles)
         {
 
             FileInfo[] files = dirFiles.Files;
@@ -133,23 +140,99 @@ namespace FileManager
         }
 
         /// <summary>
-        /// Метод выводит на экран все подкаталоги и файлы текущего каталога постранично
+        /// Метод выводит на экран все подкаталоги и файлы текущего каталога
         /// </summary>
         /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
-        public static void WriteAllSubdirectoriesAndFilesByPages(FileManager.DrivesDirectoriesFilesArray dirFiles)
+        /// <param name="page">int Номер страницы</param>
+        public static void WriteAllSubdirectoriesAndFilesByPages(DrivesDirectoriesFilesArray dirFiles, int userPage)
         {
-
             FileInfo[] files = dirFiles.Files;
 
             DirectoryInfo[] subdirectories = dirFiles.Directories;
 
+            int dirStart = 0;
+
+            int dirStop = 0;
+
+            int fileStart = 0;
+
+            int fileStop = 0;
+
+            int allLinesDir = subdirectories.Length;
+
+            int allLinesFile = files.Length;
+
+            if (userPage == -1)
+            {
+                dirStart = 0;
+
+                dirStop = allLinesDir;
+
+                fileStart = 0;
+
+                fileStop = allLinesFile;
+            }
+            else
+            {
+                int pageDir = allLinesDir / PAGE_LINES;
+
+                //int pageFiles = allLinesFile / PAGE_LINES;
+
+                int restDirLines = allLinesDir % PAGE_LINES;
+
+                int linesOfFileAfterDir = PAGE_LINES - restDirLines;
+
+                int countPages = (allLinesDir + allLinesFile) % PAGE_LINES != 0 ?
+                    (allLinesDir + allLinesFile) / PAGE_LINES + 1 : (allLinesDir + allLinesFile) / PAGE_LINES;
+
+                int pageToPrint = userPage > countPages ? countPages : userPage;
+
+
+                if ((userPage < pageDir) || (userPage == pageDir && (allLinesDir % PAGE_LINES == 0)))
+                {
+                    dirStart = (userPage - 1) * PAGE_LINES;
+
+                    dirStop = userPage * PAGE_LINES;
+                }
+                if (userPage == pageDir && (allLinesDir % PAGE_LINES > 0))
+                {
+                    if ((restDirLines + allLinesFile) / PAGE_LINES == 0)
+                    {
+                        dirStart = (userPage - 1) * PAGE_LINES;
+
+                        dirStop = (userPage) * PAGE_LINES;
+
+                        fileStop = allLinesFile;
+                    }
+                    if ((restDirLines + allLinesFile) / PAGE_LINES > 0)
+                    {
+                        dirStart = (userPage - 1) * PAGE_LINES;
+
+                        dirStop = (userPage) * PAGE_LINES;
+
+                        fileStop = linesOfFileAfterDir;
+                    }
+                }
+                if (userPage > pageDir && userPage < pageToPrint)
+                {
+                    fileStart = linesOfFileAfterDir + ((userPage - pageDir + 1) - 1) * PAGE_LINES;
+
+                    fileStop = linesOfFileAfterDir + ((userPage - pageDir + 1)) * PAGE_LINES;
+                }
+                if (userPage > pageDir && userPage == pageToPrint)
+                {
+                    fileStart = linesOfFileAfterDir + ((userPage - pageDir + 1) - 1) * PAGE_LINES;
+
+                    fileStop = allLinesFile;
+                }
+            }
             Console.WriteLine();
 
-            foreach (DirectoryInfo subdir in subdirectories)
+            for (int i = dirStart; i < dirStop; i++)
             {
                 Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-                Console.Write($"{subdir.Name}");
+                Console.Write($"{subdirectories[i].Name}");
 
                 Console.SetCursorPosition(20, Console.BufferHeight - 1);
 
@@ -161,39 +244,39 @@ namespace FileManager
 
                 Console.SetCursorPosition(30, Console.BufferHeight - 1);
 
-                Console.Write($"{subdir.CreationTime:dd-MM-yyyy}");
+                Console.Write($"{subdirectories[i].CreationTime:dd-MM-yyyy}");
 
                 Console.WriteLine();
             }
-            foreach (FileInfo file in files)
+            for (int i = fileStart; i < fileStop; i++)
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
 
                 Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-                Console.Write($"{ Path.GetFileNameWithoutExtension(file.FullName)}");
+                Console.Write($"{ Path.GetFileNameWithoutExtension(files[i].FullName)}");
 
                 Console.SetCursorPosition(25, Console.BufferHeight - 1);
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
 
-                Console.Write($"{ Path.GetExtension(file.FullName)}");
+                Console.Write($"{ Path.GetExtension(files[i].FullName)}");
 
                 Console.ForegroundColor = ConsoleColor.White;
 
                 Console.SetCursorPosition(30, Console.BufferHeight - 1);
 
-                Console.Write($"{file.Length} Bytes");
+                Console.Write($"{files[i].Length} Bytes");
 
                 Console.SetCursorPosition(70, Console.BufferHeight - 1);
 
-                Console.Write($"{ file.CreationTime:HH-mm-ss dd-MM-yyyy}");
+                Console.Write($"{ files[i].CreationTime:HH-mm-ss dd-MM-yyyy}");
 
                 Console.SetCursorPosition(90, Console.BufferHeight - 1);
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
 
-                Console.Write($"{ file.Attributes}");
+                Console.Write($"{ files[i].Attributes}");
 
                 Console.ForegroundColor = ConsoleColor.White;
 
@@ -302,7 +385,7 @@ namespace FileManager
         /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
         public static void SetCursorPosition(DrivesAndDirectories temp)
         {
-            PrintDirectoryProrerties(temp);
+            //PrintDirectoryProrerties(temp);
 
             Console.ForegroundColor = ConsoleColor.White;
 

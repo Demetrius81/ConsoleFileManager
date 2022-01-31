@@ -11,6 +11,7 @@ namespace FileManager
     public class Engine
     {
         #region Fields and properties
+
         /// <summary>
         /// Поле для хранения текущей команды пользователя
         /// </summary>
@@ -53,6 +54,7 @@ namespace FileManager
         /// Объект для хранения текущего состояния системы
         /// </summary>
         public static DrivesAndDirectories drivesAndDirectories = new DrivesAndDirectories();
+
         #endregion
 
         /// <summary>
@@ -396,9 +398,9 @@ namespace FileManager
         /// Метод выводит в консоль все подкаталоги и файлы текущего каталога
         /// </summary>
         /// <returns>DrivesDirectoriesFilesArray Объект, в котором находятся данные о подкаталогах и файлах текущего каталога</returns>
-        public static FileManager.DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
+        public static DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
         {
-            FileManager.DrivesDirectoriesFilesArray dirFiles = new FileManager.DrivesDirectoriesFilesArray();
+            DrivesDirectoriesFilesArray dirFiles = new DrivesDirectoriesFilesArray();
 
             DirectoryInfo ddd = drivesAndDirectories.CuttentDirectory;
 
@@ -408,6 +410,44 @@ namespace FileManager
 
             return (dirFiles);
         }
+
+
+
+        public static void ShowAllSubdirectoriesAndFilesByPages()
+        {
+            string[] commands = Command.Split();
+
+            bool isOk = false;
+
+            string param = "";
+
+            int page = -1;
+
+            if (commands.Length > 2)
+            {
+                param = commands[1];
+            }
+            //else
+            //{
+            //    return;
+            //}
+            if (commands.Length == 3)
+            {
+                isOk = int.TryParse(commands[2], out page);
+            }
+            if (commands.Length == 3 && isOk && commands[1] == "-P" && page > 0)
+            {
+                PseudoConsoleUI.WriteAllSubdirectoriesAndFilesByPages(ShowAllSubdirectoriesAndFilesCommandExecuter(), page);
+            }
+            if (commands.Length == 1)
+            {
+                PseudoConsoleUI.WriteAllSubdirectoriesAndFilesByPages(ShowAllSubdirectoriesAndFilesCommandExecuter(), page);
+            }
+        }
+
+
+
+
 
         /// <summary>
         /// Метод воспроизводит из файла Help - лист
