@@ -97,6 +97,7 @@ namespace FileManager
                         {
                             //PseudoConsoleUI.WriteAllSubdirectoriesAndFiles(Engine.ShowAllSubdirectoriesAndFilesCommandExecuter());
                             Engine.ShowAllSubdirectoriesAndFilesByPages();
+
                             PseudoConsoleUI.PrintDirectoryProrerties(Engine.drivesAndDirectories);
 
                             break;

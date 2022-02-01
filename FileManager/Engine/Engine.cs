@@ -163,8 +163,6 @@ namespace FileManager
 
             List<string> files = new List<string>();
 
-
-
             if (commands.Length > 3 && (commands[commands.Length - 1].Contains(":\\") || commands[commands.Length - 1].Contains(":/")))
             {
                 for (int i = 1; i < commands.Length - 1; i++)
@@ -411,10 +409,41 @@ namespace FileManager
             return (dirFiles);
         }
 
+        public static void FilePropertiesCommandExecuter()//todo
+        {
+            FileInfo file;
 
+            string[] commands = Command.Split();
+
+            if (commands.Length == 2)
+            {
+                if ((commands[1].Contains(":\\") || commands[1].Contains(":/")) && commands[1].Contains('.'))
+                {
+                    file = new FileInfo(commands[1]);
+
+                    try
+                    {
+                        if (file.Exists)
+                        {
+                            PseudoConsoleUI.PrintFileProperties(file);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        PseudoConsoleUI.ShowException(ex);
+
+                        ExceptionInFile(ex);
+
+                        return;
+                    }
+                }
+            }
+        }
 
         public static void ShowAllSubdirectoriesAndFilesByPages()
         {
+            DrivesDirectoriesFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
+
             string[] commands = Command.Split();
 
             bool isOk = false;
@@ -422,32 +451,22 @@ namespace FileManager
             string param = "";
 
             int page = -1;
-
-            if (commands.Length > 2)
-            {
-                param = commands[1];
-            }
-            //else
-            //{
-            //    return;
-            //}
+            
             if (commands.Length == 3)
             {
+                param = commands[1];
+
                 isOk = int.TryParse(commands[2], out page);
             }
             if (commands.Length == 3 && isOk && commands[1] == "-P" && page > 0)
             {
-                PseudoConsoleUI.WriteAllSubdirectoriesAndFilesByPages(ShowAllSubdirectoriesAndFilesCommandExecuter(), page);
+                PseudoConsoleUI.WriteAllSubdirectoriesAndFilesByPages(dirFiles, page);
             }
             if (commands.Length == 1)
             {
-                PseudoConsoleUI.WriteAllSubdirectoriesAndFilesByPages(ShowAllSubdirectoriesAndFilesCommandExecuter(), page);
+                PseudoConsoleUI.WriteAllSubdirectoriesAndFilesByPages(dirFiles, page);
             }
         }
-
-
-
-
 
         /// <summary>
         /// Метод воспроизводит из файла Help - лист
