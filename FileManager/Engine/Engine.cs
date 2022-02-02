@@ -47,7 +47,8 @@ namespace FileManager
                 "MD",
                 "RD",
                 "DIR",
-                "HELP"
+                "HELP",
+                "FILEINF"
             };
 
         /// <summary>
@@ -409,6 +410,9 @@ namespace FileManager
             return (dirFiles);
         }
 
+        /// <summary>
+        /// Метод выводит в консоль данные о выбранном файле
+        /// </summary>
         public static void FilePropertiesCommandExecuter()//todo
         {
             FileInfo file;
@@ -420,6 +424,26 @@ namespace FileManager
                 if ((commands[1].Contains(":\\") || commands[1].Contains(":/")) && commands[1].Contains('.'))
                 {
                     file = new FileInfo(commands[1]);
+
+                    try
+                    {
+                        if (file.Exists)
+                        {
+                            PseudoConsoleUI.PrintFileProperties(file);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        PseudoConsoleUI.ShowException(ex);
+
+                        ExceptionInFile(ex);
+
+                        return;
+                    }
+                }
+                if (!commands[1].Contains(":\\") && !commands[1].Contains(":/") && !commands[1].Contains("/") && !commands[1].Contains("\\") && commands[1].Contains('.'))
+                {
+                    file = new FileInfo($"{drivesAndDirectories.CuttentDirectory}\\{commands[1]}");
 
                     try
                     {
