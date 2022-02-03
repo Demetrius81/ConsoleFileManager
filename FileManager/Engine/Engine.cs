@@ -565,6 +565,8 @@ namespace FileManager
 
                 int linesOfFileAfterDir = PseudoConsoleUI.PAGE_LINES - restDirLines;
 
+                int filesdir = (allLinesFile - linesOfFileAfterDir) / PseudoConsoleUI.PAGE_LINES +1;
+
                 if (userPage < pageDir)
                 {
                     dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
@@ -592,15 +594,15 @@ namespace FileManager
                 }
                 if (userPage > pageDir)
                 {
-                    if (userPage < allLinesFile / PseudoConsoleUI.PAGE_LINES)
+                    if (userPage < (pageDir + filesdir))
                     {
-                        fileStart = linesOfFileAfterDir + (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+                        fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
 
-                        fileStop = linesOfFileAfterDir + (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+                        fileStop = linesOfFileAfterDir + (userPage - pageDir) * PseudoConsoleUI.PAGE_LINES;
                     }
-                    if (userPage >= allLinesFile / PseudoConsoleUI.PAGE_LINES)
+                    if (userPage >= (pageDir + filesdir))
                     {
-                        fileStart = linesOfFileAfterDir + (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+                        fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
 
                         fileStop = allLinesFile;
                     }
