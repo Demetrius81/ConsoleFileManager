@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -48,7 +49,8 @@ namespace FileManager
                 "RD",
                 "DIR",
                 "HELP",
-                "FILEINF"
+                "FILEINF",
+                "PROC"
             };
 
         /// <summary>
@@ -84,6 +86,7 @@ namespace FileManager
         /// Метод завершает работу консоли и сохраняет параметры программы в файл.
         /// </summary>
         /// <returns>Значение типа bool своего рода выключатель программы</returns>
+        /// 
         public static bool ExitCommandExecuter()
         {
             string temp = $"{drivesAndDirectories.CurrentDrive.Name}|W|{drivesAndDirectories.CuttentDirectory.ToString()}";
@@ -182,9 +185,9 @@ namespace FileManager
                         }
                         catch (Exception ex)
                         {
-                            PseudoConsoleUI.ShowException(ex);
+                            Exeptions.ShowException(ex);
 
-                            ExceptionInFile(ex);
+                            Exeptions.ExceptionInFile(ex);
                         }
                     }
                 }
@@ -226,9 +229,9 @@ namespace FileManager
             }
             catch (Exception ex)
             {
-                PseudoConsoleUI.ShowException(ex);
+                Exeptions.ShowException(ex);
 
-                ExceptionInFile(ex);
+                Exeptions.ExceptionInFile(ex);
 
                 return;
             }
@@ -269,9 +272,9 @@ namespace FileManager
             }
             catch (Exception ex)
             {
-                PseudoConsoleUI.ShowException(ex);
+                Exeptions.ShowException(ex);
 
-                ExceptionInFile(ex);
+                Exeptions.ExceptionInFile(ex);
 
                 return;
             }
@@ -328,9 +331,9 @@ namespace FileManager
                     }
                     catch (Exception ex)
                     {
-                        PseudoConsoleUI.ShowException(ex);
+                        Exeptions.ShowException(ex);
 
-                        ExceptionInFile(ex);
+                        Exeptions.ExceptionInFile(ex);
 
                         return;
                     }
@@ -383,9 +386,9 @@ namespace FileManager
                     }
                     catch (Exception ex)
                     {
-                        PseudoConsoleUI.ShowException(ex);
+                        Exeptions.ShowException(ex);
 
-                        ExceptionInFile(ex);
+                        Exeptions.ExceptionInFile(ex);
 
                         return;
                     }
@@ -434,9 +437,9 @@ namespace FileManager
                     }
                     catch (Exception ex)
                     {
-                        PseudoConsoleUI.ShowException(ex);
+                        Exeptions.ShowException(ex);
 
-                        ExceptionInFile(ex);
+                        Exeptions.ExceptionInFile(ex);
 
                         return;
                     }
@@ -454,9 +457,9 @@ namespace FileManager
                     }
                     catch (Exception ex)
                     {
-                        PseudoConsoleUI.ShowException(ex);
+                        Exeptions.ShowException(ex);
 
-                        ExceptionInFile(ex);
+                        Exeptions.ExceptionInFile(ex);
 
                         return;
                     }
@@ -492,6 +495,30 @@ namespace FileManager
             if (commands.Length == 1)
             {
                 ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
+            }
+        }
+
+        /// <summary>
+        /// Метод распознает команду управления процессами
+        /// </summary>
+        public static void ProcessCommandExecuter()
+        {
+            string[] commands = Command.Split();
+
+            if (commands.Length == 2)
+            {
+                if (commands[1] == "-DEL")
+                {
+                    PseudoConsoleUI.DeleteProcess();
+                }
+                if (commands[1] == "-CRT")
+                {
+                    PseudoConsoleUI.CreateProcess();
+                }
+            }
+            if (commands.Length == 1)
+            {
+                PseudoConsoleUI.PrintProcesses(BasicLogic.GetAllProcesses());
             }
         }
 
@@ -602,16 +629,7 @@ namespace FileManager
             }
             return list;
         }
-
-        /// <summary>
-        /// Метод записывает их в файл Exceptions.log сообщения о возникающих ошибках
-        /// </summary>
-        /// <param name="ex">Exception Объект, содержащий в себе данные об ошибке</param>
-        public static void ExceptionInFile(Exception ex)
-        {
-            File.AppendAllText("Exceptions.log", $"Time:\n{DateTime.Now}\nException\n{ex}");
-        }
-
+                
         /// <summary>
         /// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
         /// </summary>
@@ -628,6 +646,12 @@ namespace FileManager
                     CommandInt = i;
 
                     break;
+                }
+                else if (comm.Contains(".EXE")||comm.Contains(".COM")||comm.Contains(".BAT"))
+                {
+                    comm = String.Format(drivesAndDirectories.CuttentDirectory.ToString() + Command);
+
+                    BasicLogic.CreateProcess(comm);
                 }
             }
         }

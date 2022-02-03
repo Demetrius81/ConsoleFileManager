@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace FileManager
@@ -20,6 +21,11 @@ namespace FileManager
         /// Наименование окна
         /// </summary>
         public const string TILDE = "Проект \"Файловый менеджер\"";
+
+        /// <summary>
+        /// Длина строки для вывода списка процессов
+        /// </summary>
+        public const int LENGTH_LINE = 75;
 
         /// <summary>
         /// Ширина Буфера
@@ -216,8 +222,6 @@ namespace FileManager
             Console.WriteLine();
         }
 
-
-
         /// <summary>
         /// Метод выводит на экран состояние текущей директории
         /// </summary>
@@ -322,22 +326,203 @@ namespace FileManager
         }
 
         /// <summary>
-        /// Метод выводит на экран сообщения о возникающих ошибках
+        /// Метод перещает курсор на указанную позицию для работы с процессами
         /// </summary>
-        /// <param name="ex">Exception Объект, содержащий в себе данные об ошибке</param>
-        public static void ShowException(Exception ex)
+        private static void SetCursorPositionForProcesses()
         {
-            Console.SetCursorPosition(0, Console.BufferHeight - 1);
-
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-
-            Console.WriteLine(ex.ToString());
-
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine();
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-            Console.ReadKey();
+            Console.Write(INPUT_REQUEST);
         }
+
+        /// <summary>
+        /// Метод запрашивает сведения о процессе
+        /// </summary>
+        private static void RequestToEnterProcess(string proc)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+            Console.WriteLine(proc);
+
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+            Console.WriteLine(@"для выхода введите пустую строку");
+
+            SetCursorPositionForProcesses();
+        }
+
+        /// <summary>
+        /// Метод удаляет процесс
+        /// </summary>
+        public static void DeleteProcess()
+        {
+            BasicLogic logic = new BasicLogic();
+
+            int userDataInt = 0;
+
+            bool isItId;
+
+            RequestToEnterProcess(@"Введите имя процесса или его ID,");
+
+            string userData = Console.ReadLine();
+
+            if (userData != "")
+            {
+                try
+                {
+                    userDataInt = Convert.ToInt32(userData);
+
+                    isItId = true;
+                }
+                catch (Exception)
+                {
+                    isItId = false;
+                }
+
+                if (isItId)
+                {
+                    isItId = logic.KillProcess(userDataInt);
+                }
+                else
+                {
+                    isItId = logic.KillProcess(userData);
+                }
+                if (isItId)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                    Console.WriteLine("Process is sussessfally terminated...Press any key");
+
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                    Console.WriteLine("Process not found...Press any key");
+
+                    Console.ReadKey();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Метод запускает процесс
+        /// </summary>
+        public static void CreateProcess()
+        {
+            BasicLogic logic = new BasicLogic();
+
+            bool isItId;
+
+            RequestToEnterProcess(@"Введите имя файла или URL для запуска процесса,");
+
+            string userData = Console.ReadLine();
+
+            if (userData != "")
+            {
+                isItId = logic.CreateNewProcess(userData);
+
+                if (!isItId)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                    Console.WriteLine($"The file {userData} is not exist. Press any key");
+
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                    Console.WriteLine($"Process {userData} is launched. Press any key");
+
+                    Console.ReadKey();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Метод выводит в консоль все процессы
+        /// </summary>
+        /// <param name="process"></param>
+        public static void PrintProcesses(Process[] process)
+        {
+            Console.Clear();
+
+            int pgNum = 1;
+
+            for (int i = 0; i < process.Length; i++)
+            {
+                string str = "";
+
+                int stringLength = process[i].ProcessName.Length + Convert.ToString(process[i].Id).Length;
+
+                if (stringLength < LENGTH_LINE)
+                {
+                    for (int j = 0; j < LENGTH_LINE - stringLength; j++)
+                    {
+                        str = str + ".";
+                    }
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                Console.WriteLine($" {String.Format("{0:d4}", i)} {process[i].ProcessName}{str}{process[i].Id}");
+
+                if (i == pgNum*(PAGE_LINES - 1))
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+                    Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                    Console.WriteLine($"Страница {pgNum}. Для продолжения нажмите любую клавишу...");
+
+                    Console.ReadKey();
+
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    pgNum++;
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
