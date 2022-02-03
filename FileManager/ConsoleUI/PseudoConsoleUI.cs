@@ -73,87 +73,17 @@ namespace FileManager
         /// <summary>
         /// Метод выводит на экран все подкаталоги и файлы текущего каталога
         /// </summary>
-        /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
-        /// <param name="page">int Номер страницы</param>
-        public static void WriteAllSubdirectoriesAndFilesByPages(DrivesDirectoriesFilesArray dirFiles, int userPage)
+        /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
+        /// <param name="dirStart">int первый каталог на странице</param>
+        /// <param name="dirStop">int крайний каталог на странице</param>
+        /// <param name="fileStart">int первый файл на странице</param>
+        /// <param name="fileStop">int крайний файл на странице</param>
+        public static void WriteAllSubdirectoriesAndFilesByPages(DrivesDirectoriesFilesArray dirFiles, int dirStart, int dirStop, int fileStart, int fileStop)
         {
             FileInfo[] files = dirFiles.Files;
 
             DirectoryInfo[] subdirectories = dirFiles.Directories;
 
-            int dirStart = 0;
-
-            int dirStop = 0;
-
-            int fileStart = 0;
-
-            int fileStop = 0;
-
-            int allLinesDir = subdirectories.Length;
-
-            int allLinesFile = files.Length;
-
-            int allLines = allLinesDir + allLinesFile;
-
-            if (userPage == -1)
-            {
-                dirStart = 0;
-
-                dirStop = allLinesDir;
-
-                fileStart = 0;
-
-                fileStop = allLinesFile;
-            }
-            else
-            {
-                int pageDir = 1 + allLinesDir / PAGE_LINES;
-
-                int restDirLines = allLinesDir % PAGE_LINES;
-
-                int linesOfFileAfterDir = PAGE_LINES - restDirLines;
-
-                if (userPage < pageDir)
-                {
-                    dirStart = (userPage - 1) * PAGE_LINES;
-
-                    dirStop = userPage * PAGE_LINES;
-                }
-                if (userPage == pageDir)
-                {
-                    if ((restDirLines + allLinesFile) / PAGE_LINES == 0)
-                    {
-                        dirStart = (userPage - 1) * PAGE_LINES;
-
-                        dirStop = allLinesDir;
-
-                        fileStop = allLinesFile;
-                    }
-                    if ((restDirLines + allLinesFile) / PAGE_LINES > 0)
-                    {
-                        dirStart = (userPage - 1) * PAGE_LINES;
-
-                        dirStop = allLinesDir;
-
-                        fileStop = linesOfFileAfterDir;
-                    }
-                }
-                if (userPage > pageDir)
-                {
-                    if (userPage < allLinesFile / PAGE_LINES)
-                    {
-                        fileStart = linesOfFileAfterDir + (userPage - 1) * PAGE_LINES;
-
-                        fileStop = linesOfFileAfterDir + (userPage - 1) * PAGE_LINES;
-                    }
-                    if (userPage >= allLinesFile / PAGE_LINES)
-                    {
-                        fileStart = linesOfFileAfterDir + (userPage - 1) * PAGE_LINES;
-
-                        fileStop = allLinesFile;
-                    }
-                }
-            }
             Console.WriteLine();
 
             for (int i = dirStart; i < dirStop; i++)
@@ -209,8 +139,16 @@ namespace FileManager
                 Console.ForegroundColor = ConsoleColor.White;
 
                 Console.WriteLine();
-
             }
+        }
+
+        /// <summary>
+        /// Метод выводит на экран текущий номер страницы
+        /// </summary>
+        /// <param name="allLines">int количество всех подкаталогов и файлов в каталоге</param>
+        /// <param name="userPage">int страница</param>
+        public static void PrintPageNumber(int allLines, int userPage)
+        {
             if (userPage != -1)
             {
                 Console.SetCursorPosition(0, Console.BufferHeight - 1);
@@ -225,7 +163,7 @@ namespace FileManager
         /// Метод выводит в консоль параметры полученного файла
         /// </summary>
         /// <param name="file">FileInfo файл, параметры которого нужно изучить</param>
-        public static void PrintFileProperties(FileInfo file)//todo
+        public static void PrintFileProperties(FileInfo file)
         {
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
@@ -277,7 +215,7 @@ namespace FileManager
 
             Console.WriteLine();
         }
-        
+
 
 
         /// <summary>
@@ -376,8 +314,6 @@ namespace FileManager
         /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
         public static void SetCursorPosition(DrivesAndDirectories temp)
         {
-            //PrintDirectoryProrerties(temp);
-
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
@@ -402,6 +338,6 @@ namespace FileManager
             Console.WriteLine();
 
             Console.ReadKey();
-        }               
+        }
     }
 }

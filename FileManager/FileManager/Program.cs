@@ -40,7 +40,7 @@ namespace FileManager
                     case 0:
                         {
                             exit = Engine.ExitCommandExecuter();
-                                                        
+
                             break;
                         }
                     case 1:
@@ -94,7 +94,7 @@ namespace FileManager
                             break;
                         }
                     case 9:
-                        {                            
+                        {
                             Engine.ShowAllSubdirectoriesAndFilesByPages();
 
                             PseudoConsoleUI.PrintDirectoryProrerties(Engine.drivesAndDirectories);
@@ -104,7 +104,7 @@ namespace FileManager
                     case 10:
                         {
                             PseudoConsoleUI.WriteHelp(Engine.HelpCommandExecuter());
-                                                        
+
                             break;
                         }
                     case 11:
