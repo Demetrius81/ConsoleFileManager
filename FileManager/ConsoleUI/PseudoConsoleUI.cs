@@ -84,7 +84,7 @@ namespace FileManager
         /// <param name="dirStop">int крайний каталог на странице</param>
         /// <param name="fileStart">int первый файл на странице</param>
         /// <param name="fileStop">int крайний файл на странице</param>
-        public static void WriteAllSubdirectoriesAndFilesByPages(DrivesDirectoriesFilesArray dirFiles, int dirStart, int dirStop, int fileStart, int fileStop)
+        public static void PrintAllSubdirectoriesAndFilesByPages(DrivesDirectoriesFilesArray dirFiles, int dirStart, int dirStop, int fileStart, int fileStop)
         {
             FileInfo[] files = dirFiles.Files;
 
@@ -143,6 +143,50 @@ namespace FileManager
                 Console.Write($"{ files[i].Attributes}");
 
                 Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine();
+            }
+        }
+
+        /// <summary>
+        /// Метод выводит в консоль все логические диски
+        /// </summary>
+        /// <param name="drives">DriveInfo[] массив логических дисков</param>
+        public static void PrintAllDrives(DriveInfo[] drives)
+        {
+            string r;
+
+            Console.WriteLine();
+
+            for (int i = 0; i < drives.Length; i++)
+            {
+                r = drives[i].IsReady ? "READY" : "NOT READY";
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.SetCursorPosition(0, Console.BufferHeight - 1);
+
+                Console.Write($"{drives[i].Name}");
+
+                Console.SetCursorPosition(4, Console.BufferHeight - 1);
+
+                Console.Write($"{r}");
+
+                Console.SetCursorPosition(10, Console.BufferHeight - 1);
+
+                Console.Write($"{drives[i].DriveType}");
+
+                Console.SetCursorPosition(20, Console.BufferHeight - 1);
+
+                Console.Write($"{drives[i].DriveFormat}");
+
+                Console.SetCursorPosition(27, Console.BufferHeight - 1);
+
+                Console.Write($"Доступно {((drives[i].TotalFreeSpace / 1024) / 1024)} Мбайт");
+
+                Console.SetCursorPosition(60, Console.BufferHeight - 1);
+
+                Console.Write($"из {((drives[i].TotalSize / 1024) / 1024)} Мбайт");
 
                 Console.WriteLine();
             }
@@ -483,7 +527,7 @@ namespace FileManager
 
                 Console.WriteLine($" {String.Format("{0:d4}", i)} {process[i].ProcessName}{str}{process[i].Id}");
 
-                if (i == pgNum*(PAGE_LINES - 1))
+                if (i == pgNum * (PAGE_LINES - 1))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
 

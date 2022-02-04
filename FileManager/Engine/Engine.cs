@@ -80,6 +80,10 @@ namespace FileManager
                     drivesAndDirectories = new DrivesAndDirectories();
                 }
             }
+            else
+            {
+                drivesAndDirectories = new DrivesAndDirectories();
+            }
         }
 
         /// <summary>
@@ -478,24 +482,25 @@ namespace FileManager
 
             bool isOk = false;
 
-            string param = "";
-
             int page = -1;
 
             if (commands.Length == 3)
             {
-                param = commands[1];
-
                 isOk = int.TryParse(commands[2], out page);
             }
             if (commands.Length == 3 && isOk && commands[1] == "-P" && page > 0)
             {
                 ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
             }
+            if (commands.Length == 2 && (commands[1] == "\\\\" || commands[1] == "//"))
+            {
+                ShowAllDrivesLogic();
+            }
             if (commands.Length == 1)
             {
                 ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
             }
+
         }
 
         /// <summary>
@@ -520,6 +525,16 @@ namespace FileManager
             {
                 PseudoConsoleUI.PrintProcesses(BasicLogic.GetAllProcesses());
             }
+        }
+
+        /// <summary>
+        /// Метод создает массив логических дисков
+        /// </summary>
+        public static void ShowAllDrivesLogic()
+        {
+            DriveInfo[] drives = DriveInfo.GetDrives();
+
+            PseudoConsoleUI.PrintAllDrives(drives);
         }
 
         /// <summary>
@@ -565,7 +580,7 @@ namespace FileManager
 
                 int linesOfFileAfterDir = PseudoConsoleUI.PAGE_LINES - restDirLines;
 
-                int filesdir = (allLinesFile - linesOfFileAfterDir) / PseudoConsoleUI.PAGE_LINES +1;
+                int filesdir = (allLinesFile - linesOfFileAfterDir) / PseudoConsoleUI.PAGE_LINES + 1;
 
                 if (userPage < pageDir)
                 {
@@ -608,7 +623,7 @@ namespace FileManager
                     }
                 }
             }
-            PseudoConsoleUI.WriteAllSubdirectoriesAndFilesByPages(dirFiles, dirStart, dirStop, fileStart, fileStop);
+            PseudoConsoleUI.PrintAllSubdirectoriesAndFilesByPages(dirFiles, dirStart, dirStop, fileStart, fileStop);
 
             PseudoConsoleUI.PrintPageNumber(allLines, userPage);
         }
@@ -631,7 +646,7 @@ namespace FileManager
             }
             return list;
         }
-                
+
         /// <summary>
         /// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
         /// </summary>
@@ -649,7 +664,7 @@ namespace FileManager
 
                     break;
                 }
-                else if (comm.Contains(".EXE")||comm.Contains(".COM")||comm.Contains(".BAT"))
+                else if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
                 {
                     comm = String.Format(drivesAndDirectories.CuttentDirectory.ToString() + Command);
 

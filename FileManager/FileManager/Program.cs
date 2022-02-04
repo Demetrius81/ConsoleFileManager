@@ -118,7 +118,7 @@ namespace FileManager
                             Engine.ProcessCommandExecuter();
 
                             break;
-                        }                    
+                        }
                     default:
                         {
                             break;
