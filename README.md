@@ -25,11 +25,12 @@
 
 ## C# Пример кода: 
 
-```
 <details> 
-  <summary>Нажмите, чтобы развернуть!</summary>
+<summary> Нажмите, чтобы развернуть</summary>
 
 
+```
+ 
   public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirectoriesFilesArray dirFiles, int userPage)
         {
             FileInfo[] files = dirFiles.Files;
@@ -117,6 +118,10 @@
         }
 
 ``` 
+
 </details> 
 
 
+## Скриншоты
+
+![Файлы](pic/scr1.png) ![Файлы](pic/scr2.png) ![Файлы](pic/scr3.png)
