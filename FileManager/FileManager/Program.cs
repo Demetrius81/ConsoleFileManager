@@ -25,7 +25,7 @@ namespace FileManager
 
             while (!exit)
             {
-                PseudoConsoleUI.SetCursorPosition(Engine.drivesAndDirectories.CuttentDirectory.ToString().ToUpperInvariant());
+                PseudoConsoleUI.SetCursorPosition(Engine.drivesAndDirectories);
 
                 Engine.UserCommandReader();
 
@@ -40,13 +40,15 @@ namespace FileManager
                     case 0:
                         {
                             exit = Engine.ExitCommandExecuter();
-                                                        
+
                             break;
                         }
                     case 1:
                         {
                             Engine.ChangeDirectoryCommandExecuter(commandsStringArray[1]);
-                            
+
+                            PseudoConsoleUI.PrintDirectoryProrerties(Engine.drivesAndDirectories);
+
                             break;
                         }
                     case 2:
@@ -64,7 +66,7 @@ namespace FileManager
                     case 4:
                         {
                             Engine.DeleteCommandExecuter();
-                            
+
                             break;
                         }
                     case 5:
@@ -76,7 +78,7 @@ namespace FileManager
                     case 6:
                         {
                             Engine.MoveCommandExecuter(commandsStringArray[1], commandsStringArray[2]);
-                            
+
                             break;
                         }
                     case 7:
@@ -88,18 +90,32 @@ namespace FileManager
                     case 8:
                         {
                             Engine.RemoveDirectoryCommandExecuter(commandsStringArray[1], commandsStringArray[2]);
-                            
+
                             break;
                         }
                     case 9:
                         {
-                            PseudoConsoleUI.WriteAllSubdirectoriesAndFiles(Engine.ShowAllSubdirectoriesAndFilesCommandExecuter());
+                            Engine.ShowAllSubdirectoriesAndFilesByPages();
+
+                            PseudoConsoleUI.PrintDirectoryProrerties(Engine.drivesAndDirectories);
 
                             break;
                         }
                     case 10:
                         {
                             PseudoConsoleUI.WriteHelp(Engine.HelpCommandExecuter());
+
+                            break;
+                        }
+                    case 11:
+                        {
+                            Engine.FilePropertiesCommandExecuter();
+
+                            break;
+                        }
+                    case 12:
+                        {
+                            Engine.ProcessCommandExecuter();
 
                             break;
                         }

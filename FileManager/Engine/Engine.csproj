@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ConsoleUI\PseudoConsoleUI.csproj" />
     <ProjectReference Include="..\DrivesAndDirectories\DrivesAndDirectories.csproj" />
+    <ProjectReference Include="..\Exeptions\Exeptions.csproj" />
   </ItemGroup>
 
 </Project>

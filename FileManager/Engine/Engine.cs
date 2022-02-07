@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -11,6 +12,7 @@ namespace FileManager
     public class Engine
     {
         #region Fields and properties
+
         /// <summary>
         /// Поле для хранения текущей команды пользователя
         /// </summary>
@@ -46,13 +48,16 @@ namespace FileManager
                 "MD",
                 "RD",
                 "DIR",
-                "HELP"
+                "HELP",
+                "FILEINF",
+                "PROC"
             };
 
         /// <summary>
         /// Объект для хранения текущего состояния системы
         /// </summary>
-        public static DrivesAndDirectories.DrivesAndDirectories drivesAndDirectories = new DrivesAndDirectories.DrivesAndDirectories();
+        public static DrivesAndDirectories drivesAndDirectories = new DrivesAndDirectories();
+
         #endregion
 
         /// <summary>
@@ -72,8 +77,12 @@ namespace FileManager
 
                 if (!drivesAndDirectories.CuttentDirectory.Exists)
                 {
-                    drivesAndDirectories = new DrivesAndDirectories.DrivesAndDirectories();
+                    drivesAndDirectories = new DrivesAndDirectories();
                 }
+            }
+            else
+            {
+                drivesAndDirectories = new DrivesAndDirectories();
             }
         }
 
@@ -81,6 +90,7 @@ namespace FileManager
         /// Метод завершает работу консоли и сохраняет параметры программы в файл.
         /// </summary>
         /// <returns>Значение типа bool своего рода выключатель программы</returns>
+        /// 
         public static bool ExitCommandExecuter()
         {
             string temp = $"{drivesAndDirectories.CurrentDrive.Name}|W|{drivesAndDirectories.CuttentDirectory.ToString()}";
@@ -139,7 +149,7 @@ namespace FileManager
                         drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
                     }
                     Command = "";
-                }                
+                }
             }
         }
 
@@ -161,8 +171,6 @@ namespace FileManager
 
             List<string> files = new List<string>();
 
-
-
             if (commands.Length > 3 && (commands[commands.Length - 1].Contains(":\\") || commands[commands.Length - 1].Contains(":/")))
             {
                 for (int i = 1; i < commands.Length - 1; i++)
@@ -181,9 +189,9 @@ namespace FileManager
                         }
                         catch (Exception ex)
                         {
-                            PseudoConsoleUI.ShowException(ex);
+                            Exeptions.ShowException(ex);
 
-                            ExceptionInFile(ex);
+                            Exeptions.ExceptionInFile(ex);
                         }
                     }
                 }
@@ -225,9 +233,9 @@ namespace FileManager
             }
             catch (Exception ex)
             {
-                PseudoConsoleUI.ShowException(ex);
+                Exeptions.ShowException(ex);
 
-                ExceptionInFile(ex);
+                Exeptions.ExceptionInFile(ex);
 
                 return;
             }
@@ -268,9 +276,9 @@ namespace FileManager
             }
             catch (Exception ex)
             {
-                PseudoConsoleUI.ShowException(ex);
+                Exeptions.ShowException(ex);
 
-                ExceptionInFile(ex);
+                Exeptions.ExceptionInFile(ex);
 
                 return;
             }
@@ -327,13 +335,13 @@ namespace FileManager
                     }
                     catch (Exception ex)
                     {
-                        PseudoConsoleUI.ShowException(ex);
+                        Exeptions.ShowException(ex);
 
-                        ExceptionInFile(ex);
+                        Exeptions.ExceptionInFile(ex);
 
                         return;
                     }
-                }                
+                }
             }
         }
 
@@ -382,13 +390,13 @@ namespace FileManager
                     }
                     catch (Exception ex)
                     {
-                        PseudoConsoleUI.ShowException(ex);
+                        Exeptions.ShowException(ex);
 
-                        ExceptionInFile(ex);
+                        Exeptions.ExceptionInFile(ex);
 
                         return;
                     }
-                }               
+                }
             }
         }
 
@@ -396,9 +404,9 @@ namespace FileManager
         /// Метод выводит в консоль все подкаталоги и файлы текущего каталога
         /// </summary>
         /// <returns>DrivesDirectoriesFilesArray Объект, в котором находятся данные о подкаталогах и файлах текущего каталога</returns>
-        public static DrivesAndDirectories.DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
+        public static DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
         {
-            DrivesAndDirectories.DrivesDirectoriesFilesArray dirFiles = new DrivesAndDirectories.DrivesDirectoriesFilesArray();
+            DrivesDirectoriesFilesArray dirFiles = new DrivesDirectoriesFilesArray();
 
             DirectoryInfo ddd = drivesAndDirectories.CuttentDirectory;
 
@@ -407,6 +415,217 @@ namespace FileManager
             dirFiles.Files = ddd.GetFiles();
 
             return (dirFiles);
+        }
+
+        /// <summary>
+        /// Метод выводит в консоль данные о выбранном файле
+        /// </summary>
+        public static void FilePropertiesCommandExecuter()
+        {
+            FileInfo file;
+
+            string[] commands = Command.Split();
+
+            if (commands.Length == 2)
+            {
+                if ((commands[1].Contains(":\\") || commands[1].Contains(":/")) && commands[1].Contains('.'))
+                {
+                    file = new FileInfo(commands[1]);
+
+                    try
+                    {
+                        if (file.Exists)
+                        {
+                            PseudoConsoleUI.PrintFileProperties(file);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Exeptions.ShowException(ex);
+
+                        Exeptions.ExceptionInFile(ex);
+
+                        return;
+                    }
+                }
+                if (!commands[1].Contains(":\\") && !commands[1].Contains(":/") && !commands[1].Contains("/") && !commands[1].Contains("\\") && commands[1].Contains('.'))
+                {
+                    file = new FileInfo($"{drivesAndDirectories.CuttentDirectory}\\{commands[1]}");
+
+                    try
+                    {
+                        if (file.Exists)
+                        {
+                            PseudoConsoleUI.PrintFileProperties(file);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Exeptions.ShowException(ex);
+
+                        Exeptions.ExceptionInFile(ex);
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Метод распознает команду пользователя для постраничного вывода каталагов и файлов.
+        /// </summary>
+        public static void ShowAllSubdirectoriesAndFilesByPages()
+        {
+            DrivesDirectoriesFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
+
+            string[] commands = Command.Split();
+
+            bool isOk = false;
+
+            int page = -1;
+
+            if (commands.Length == 3)
+            {
+                isOk = int.TryParse(commands[2], out page);
+            }
+            if (commands.Length == 3 && isOk && commands[1] == "-P" && page > 0)
+            {
+                ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
+            }
+            if (commands.Length == 2 && (commands[1] == "\\\\" || commands[1] == "//"))
+            {
+                ShowAllDrivesLogic();
+            }
+            if (commands.Length == 1)
+            {
+                ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
+            }
+
+        }
+
+        /// <summary>
+        /// Метод распознает команду управления процессами
+        /// </summary>
+        public static void ProcessCommandExecuter()
+        {
+            string[] commands = Command.Split();
+
+            if (commands.Length == 2)
+            {
+                if (commands[1] == "-DEL")
+                {
+                    PseudoConsoleUI.DeleteProcess();
+                }
+                if (commands[1] == "-CRT")
+                {
+                    PseudoConsoleUI.CreateProcess();
+                }
+            }
+            if (commands.Length == 1)
+            {
+                PseudoConsoleUI.PrintProcesses(BasicLogic.GetAllProcesses());
+            }
+        }
+
+        /// <summary>
+        /// Метод создает массив логических дисков
+        /// </summary>
+        public static void ShowAllDrivesLogic()
+        {
+            DriveInfo[] drives = DriveInfo.GetDrives();
+
+            PseudoConsoleUI.PrintAllDrives(drives);
+        }
+
+        /// <summary>
+        /// Метод содержит в себе логику постраничного вывода на экран списка каталогов и файлов
+        /// </summary>
+        /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
+        /// <param name="userPage">int Номер страницы</param>
+        public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirectoriesFilesArray dirFiles, int userPage)
+        {
+            FileInfo[] files = dirFiles.Files;
+
+            DirectoryInfo[] subdirectories = dirFiles.Directories;
+
+            int dirStart = 0;
+
+            int dirStop = 0;
+
+            int fileStart = 0;
+
+            int fileStop = 0;
+
+            int allLinesDir = subdirectories.Length;
+
+            int allLinesFile = files.Length;
+
+            int allLines = allLinesDir + allLinesFile;
+
+            if (userPage == -1)
+            {
+                dirStart = 0;
+
+                dirStop = allLinesDir;
+
+                fileStart = 0;
+
+                fileStop = allLinesFile;
+            }
+            else
+            {
+                int pageDir = 1 + allLinesDir / PseudoConsoleUI.PAGE_LINES;
+
+                int restDirLines = allLinesDir % PseudoConsoleUI.PAGE_LINES;
+
+                int linesOfFileAfterDir = PseudoConsoleUI.PAGE_LINES - restDirLines;
+
+                int filesdir = (allLinesFile - linesOfFileAfterDir) / PseudoConsoleUI.PAGE_LINES + 1;
+
+                if (userPage < pageDir)
+                {
+                    dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+
+                    dirStop = userPage * PseudoConsoleUI.PAGE_LINES;
+                }
+                if (userPage == pageDir)
+                {
+                    if ((restDirLines + allLinesFile) / PseudoConsoleUI.PAGE_LINES == 0)
+                    {
+                        dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+
+                        dirStop = allLinesDir;
+
+                        fileStop = allLinesFile;
+                    }
+                    if ((restDirLines + allLinesFile) / PseudoConsoleUI.PAGE_LINES > 0)
+                    {
+                        dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+
+                        dirStop = allLinesDir;
+
+                        fileStop = linesOfFileAfterDir;
+                    }
+                }
+                if (userPage > pageDir)
+                {
+                    if (userPage < (pageDir + filesdir))
+                    {
+                        fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
+
+                        fileStop = linesOfFileAfterDir + (userPage - pageDir) * PseudoConsoleUI.PAGE_LINES;
+                    }
+                    if (userPage >= (pageDir + filesdir))
+                    {
+                        fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
+
+                        fileStop = allLinesFile;
+                    }
+                }
+            }
+            PseudoConsoleUI.PrintAllSubdirectoriesAndFilesByPages(dirFiles, dirStart, dirStop, fileStart, fileStop);
+
+            PseudoConsoleUI.PrintPageNumber(allLines, userPage);
         }
 
         /// <summary>
@@ -429,15 +648,6 @@ namespace FileManager
         }
 
         /// <summary>
-        /// Метод записывает их в файл Exceptions.log сообщения о возникающих ошибках
-        /// </summary>
-        /// <param name="ex">Exception Объект, содержащий в себе данные об ошибке</param>
-        public static void ExceptionInFile(Exception ex)
-        {
-            File.AppendAllText("Exceptions.log", $"Time:\n{DateTime.Now}\nException\n{ex}");
-        }
-
-        /// <summary>
         /// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
         /// </summary>
         public static void UserCommandReader()
@@ -453,6 +663,12 @@ namespace FileManager
                     CommandInt = i;
 
                     break;
+                }
+                else if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
+                {
+                    comm = String.Format(drivesAndDirectories.CuttentDirectory.ToString() + Command);
+
+                    BasicLogic.CreateProcess(comm);
                 }
             }
         }
