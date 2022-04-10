@@ -108,49 +108,55 @@ namespace FileManager
         /// <param name="path">Принимает string значение управляющая команда</param>
         public static void ChangeDirectoryCommandExecuter(string path)
         {
-            if (Command.Split().Length == 2)
-            {
-                if (path == null || path == "")
-                {
-                    return;
-                }
+            
 
-                string temp = "";
+            #region For delete
 
-                if (path == "..")
-                {
-                    DirectoryInfo tempDir = drivesAndDirectories.CuttentDirectory.Parent;
-                    if (!(tempDir is null))
-                    {
-                        drivesAndDirectories.CuttentDirectory = tempDir;
-                    }
-                }
-                if (!path.Contains(":\\") && !path.Contains(":/") && !path.Contains(".."))
-                {
-                    temp = $"{drivesAndDirectories.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
+            //if (Command.Split().Length == 2)
+            //{
+            //    if (path == null || path == "")
+            //    {
+            //        return;
+            //    }
 
-                    if (Directory.Exists(temp))
-                    {
-                        drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp);
-                    }
-                    Command = "";
-                }
-                else if ((path.Contains('\\') || path.Contains('/')) && (path.Contains(":\\") || path.Contains(":/")))
-                {
-                    temp = $"{path}";
+            //    string temp = "";
 
-                    if ((temp[1] == ':') && !temp.Contains(drivesAndDirectories.CurrentDrive.ToString().ToUpperInvariant()))
-                    {
-                        drivesAndDirectories.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
-                    }
+            //    if (path == "..")
+            //    {
+            //        DirectoryInfo tempDir = drivesAndDirectories.CuttentDirectory.Parent;
+            //        if (!(tempDir is null))
+            //        {
+            //            drivesAndDirectories.CuttentDirectory = tempDir;
+            //        }
+            //    }
+            //    if (!path.Contains(":\\") && !path.Contains(":/") && !path.Contains(".."))
+            //    {
+            //        temp = $"{drivesAndDirectories.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
 
-                    if (Directory.Exists(temp))
-                    {
-                        drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
-                    }
-                    Command = "";
-                }
-            }
+            //        if (Directory.Exists(temp))
+            //        {
+            //            drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp);
+            //        }
+            //        Command = "";
+            //    }
+            //    else if ((path.Contains('\\') || path.Contains('/')) && (path.Contains(":\\") || path.Contains(":/")))
+            //    {
+            //        temp = $"{path}";
+
+            //        if ((temp[1] == ':') && !temp.Contains(drivesAndDirectories.CurrentDrive.ToString().ToUpperInvariant()))
+            //        {
+            //            drivesAndDirectories.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
+            //        }
+
+            //        if (Directory.Exists(temp))
+            //        {
+            //            drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
+            //        }
+            //        Command = "";
+            //    }
+            //}
+
+            #endregion
         }
 
         /// <summary>
