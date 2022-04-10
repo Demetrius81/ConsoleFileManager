@@ -6,6 +6,9 @@ namespace FileManager
 {
     internal interface IDirective
     {
-        void RunDirective(string path);
+        public string DirectiveName { get; }
+
+        void RunDirective(params string[] args);
+
     }
 }

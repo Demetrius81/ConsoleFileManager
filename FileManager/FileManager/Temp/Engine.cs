@@ -33,25 +33,25 @@ namespace FileManager
         ///// </summary>
         //public static int CommandInt { get => _commandInt; set => _commandInt = value; }
 
-        ///// <summary>
-        ///// Список консольных команд
-        ///// </summary>
-        //public static readonly List<string> commands = new List<string>
-        //    {
-        //        "EXIT",
-        //        "CD",
-        //        "CLS",
-        //        "COPY",
-        //        "DEL",
-        //        "DELTREE",
-        //        "MOVE",
-        //        "MD",
-        //        "RD",
-        //        "DIR",
-        //        "HELP",
-        //        "FILEINF",
-        //        "PROC"
-        //    };
+        /// <summary>
+        /// Список консольных команд
+        /// </summary>
+        public static readonly List<string> commands = new List<string>
+            {
+                "EXIT",
+                "CD",
+                "CLS",
+                "COPY",
+                "DEL",
+                "DELTREE",
+                "MOVE",
+                "MD",
+                "RD",
+                "DIR",
+                "HELP",
+                "FILEINF",
+                "PROC"
+            };
 
         ///// <summary>
         ///// Объект для хранения текущего состояния системы
@@ -71,18 +71,18 @@ namespace FileManager
 
                 string[] tempArr = JsonConvert.DeserializeObject<string>(temp).Split("|W|");
 
-                drivesAndDirectories.CurrentDrive = new DriveInfo(tempArr[0]);
+                UserCommands.DrivesAndDirs.CurrentDrive = new DriveInfo(tempArr[0]);
 
-                drivesAndDirectories.CuttentDirectory = new DirectoryInfo(tempArr[1]);
+                UserCommands.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(tempArr[1]);
 
-                if (!drivesAndDirectories.CuttentDirectory.Exists)
+                if (!UserCommands.DrivesAndDirs.CuttentDirectory.Exists)
                 {
-                    drivesAndDirectories = new DrivesAndDirectories();
+                    UserCommands.DrivesAndDirs = new DrivesAndDirectories();
                 }
             }
             else
             {
-                drivesAndDirectories = new DrivesAndDirectories();
+                UserCommands.DrivesAndDirs = new DrivesAndDirectories();
             }
         }
 
@@ -93,7 +93,7 @@ namespace FileManager
         /// 
         public static bool ExitCommandExecuter()
         {
-            string temp = $"{drivesAndDirectories.CurrentDrive.Name}|W|{drivesAndDirectories.CuttentDirectory.ToString()}";
+            string temp = $"{UserCommands.DrivesAndDirs.CurrentDrive.Name}|W|{UserCommands.DrivesAndDirs.CuttentDirectory.ToString()}";
 
             temp = JsonConvert.SerializeObject(temp);
 
@@ -102,15 +102,15 @@ namespace FileManager
             return true;
         }
 
+        #region For delete
         /// <summary>
         /// Метод меняет местоположение текущей директории
         /// </summary>
         /// <param name="path">Принимает string значение управляющая команда</param>
         public static void ChangeDirectoryCommandExecuter(string path)
         {
-            
 
-            #region For delete
+
 
             //if (Command.Split().Length == 2)
             //{
@@ -156,96 +156,110 @@ namespace FileManager
             //    }
             //}
 
-            #endregion
         }
+        #endregion
 
-        /// <summary>
-        /// Метод очищает консоль
-        /// </summary>
-        public static void ClearConsoleCommandExecuter()
-        {
-            Console.Clear();
-        }
 
-        /// <summary>
-        /// Метод копирует файлы или директории по указанному пути
-        /// </summary>
-        /// <returns>На выходе список скопированных файлов</returns>
-        public static List<string> CopyCommandExecuter()
-        {
-            string[] commands = Command.Split();
+        #region For delete
+        ///// <summary>
+        ///// Метод очищает консоль
+        ///// </summary>
+        //public static void ClearConsoleCommandExecuter()
+        //{
+        //    Console.Clear();
+        //}
+        #endregion
 
-            List<string> files = new List<string>();
 
-            if (commands.Length > 3 && (commands[commands.Length - 1].Contains(":\\") || commands[commands.Length - 1].Contains(":/")))
-            {
-                for (int i = 1; i < commands.Length - 1; i++)
-                {
-                    if (File.Exists(commands[i]))
-                    {
-                        try
-                        {
-                            string[] path = commands[i].Split('\\', '/');
 
-                            File.Copy(commands[i], $"{commands[commands.Length - 1]}\\{path[path.Length - 1]}", false);
+        #region For delete
 
-                            files.Add(commands[i]);
+        ///// <summary>
+        ///// Метод копирует файлы или директории по указанному пути
+        ///// </summary>
+        ///// <returns>На выходе список скопированных файлов</returns>
+        //public static List<string> CopyCommandExecuter()
+        //{
+        //    string[] commands = UserCommands.Command.Split();
 
-                            files.Add($"{commands[commands.Length - 1]}\\{path[path.Length - 1]}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Exeptions.ShowException(ex);
+        //    List<string> files = new List<string>();
 
-                            Exeptions.ExceptionInFile(ex);
-                        }
-                    }
-                }
-            }
-            return files;
-        }
+        //    if (commands.Length > 3 && (commands[commands.Length - 1].Contains(":\\") || commands[commands.Length - 1].Contains(":/")))
+        //    {
+        //        for (int i = 1; i < commands.Length - 1; i++)
+        //        {
+        //            if (File.Exists(commands[i]))
+        //            {
+        //                try
+        //                {
+        //                    string[] path = commands[i].Split('\\', '/');
 
-        /// <summary>
-        /// Метод удаляет каталог с файлами, если там нет подкаталога или файл
-        /// </summary>
-        public static void DeleteCommandExecuter()
-        {
-            string[] pathArr = Command.Split();
+        //                    File.Copy(commands[i], $"{commands[commands.Length - 1]}\\{path[path.Length - 1]}", false);
 
-            if ((pathArr[1].Contains(":\\") || pathArr[1].Contains(":/")) && pathArr[1].Split('\\', '/').Length == 1)
-            {
-                return;
-            }
+        //                    files.Add(commands[i]);
 
-            FileInfo file = new FileInfo(pathArr[1]);
+        //                    files.Add($"{commands[commands.Length - 1]}\\{path[path.Length - 1]}");
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    Exeptions.ShowException(ex);
 
-            DirectoryInfo directory = new DirectoryInfo(pathArr[1]);
+        //                    Exeptions.ExceptionInFile(ex);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return files;
+        //}
 
-            try
-            {
-                if (directory.Exists)
-                {
-                    DirectoryInfo[] directories = directory.GetDirectories();
+        #endregion
 
-                    if (directories.Length == 0)
-                    {
-                        directory.Delete(true);
-                    }
-                }
-                else if (file.Exists)
-                {
-                    file.Delete();
-                }
-            }
-            catch (Exception ex)
-            {
-                Exeptions.ShowException(ex);
 
-                Exeptions.ExceptionInFile(ex);
+        #region Fordelete
 
-                return;
-            }
-        }
+        ///// <summary>
+        ///// Метод удаляет каталог с файлами, если там нет подкаталога или файл
+        ///// </summary>
+        //public static void DeleteCommandExecuter()
+        //{
+        //    string[] pathArr = UserCommands.Command.Split();
+
+        //    if ((pathArr[1].Contains(":\\") || pathArr[1].Contains(":/")) && pathArr[1].Split('\\', '/').Length == 1)
+        //    {
+        //        return;
+        //    }
+
+        //    FileInfo file = new FileInfo(pathArr[1]);
+
+        //    DirectoryInfo directory = new DirectoryInfo(pathArr[1]);
+
+        //    try
+        //    {
+        //        if (directory.Exists)
+        //        {
+        //            DirectoryInfo[] directories = directory.GetDirectories();
+
+        //            if (directories.Length == 0)
+        //            {
+        //                directory.Delete(true);
+        //            }
+        //        }
+        //        else if (file.Exists)
+        //        {
+        //            file.Delete();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Exeptions.ShowException(ex);
+
+        //        Exeptions.ExceptionInFile(ex);
+
+        //        return;
+        //    }
+        //}
+
+        #endregion
 
         /// <summary>
         /// Метод рекурсивно удаляет каталог и все подкаталоги и файлы
@@ -296,11 +310,11 @@ namespace FileManager
         /// </summary>
         public static void DeleteTreeCommandExecuter()
         {
-            string[] commandsStringArray = Command.Split();
+            string[] commandsStringArray = UserCommands.Command.Split();
 
             if (commandsStringArray.Length == 1)
             {
-                string path = drivesAndDirectories.CuttentDirectory.ToString();
+                string path = UserCommands.DrivesAndDirs.CuttentDirectory.ToString();
 
                 ChangeDirectoryCommandExecuter("..");
 
@@ -319,7 +333,7 @@ namespace FileManager
         /// <param name="pathTo">string Путь куда перемешать</param>
         public static void MoveCommandExecuter(string pathFrom, string pathTo)
         {
-            if (Command.Split().Length == 3)
+            if (UserCommands.Command.Split().Length == 3)
             {
                 if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/"))
                     && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
@@ -356,13 +370,13 @@ namespace FileManager
         /// </summary>
         public static void MakingDirectoryCommandExecuter()
         {
-            string[] commands = Command.Split();
+            string[] commands = UserCommands.Command.Split();
 
-            Command = "";
+            UserCommands.Command = "";
 
             if (commands.Length > 1 && !commands[1].Contains('\\') && !commands[1].Contains('/'))
             {
-                Directory.SetCurrentDirectory(drivesAndDirectories.CuttentDirectory.ToString());
+                Directory.SetCurrentDirectory(UserCommands.DrivesAndDirs.CuttentDirectory.ToString());
 
                 Directory.CreateDirectory(commands[1]);
             }
@@ -380,7 +394,7 @@ namespace FileManager
         /// <param name="pathTo">string Путь куда перемещать</param>
         public static void RemoveDirectoryCommandExecuter(string pathFrom, string pathTo)
         {
-            if (Command.Split().Length == 3)
+            if (UserCommands.Command.Split().Length == 3)
             {
                 if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/")) && !pathFrom.Contains('.')
                     && !pathTo.Contains('.') && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
@@ -414,7 +428,7 @@ namespace FileManager
         {
             DrivesDirectoriesFilesArray dirFiles = new DrivesDirectoriesFilesArray();
 
-            DirectoryInfo ddd = drivesAndDirectories.CuttentDirectory;
+            DirectoryInfo ddd = UserCommands.DrivesAndDirs.CuttentDirectory;
 
             dirFiles.Directories = ddd.GetDirectories();
 
@@ -430,7 +444,7 @@ namespace FileManager
         {
             FileInfo file;
 
-            string[] commands = Command.Split();
+            string[] commands = UserCommands.Command.Split();
 
             if (commands.Length == 2)
             {
@@ -456,7 +470,7 @@ namespace FileManager
                 }
                 if (!commands[1].Contains(":\\") && !commands[1].Contains(":/") && !commands[1].Contains("/") && !commands[1].Contains("\\") && commands[1].Contains('.'))
                 {
-                    file = new FileInfo($"{drivesAndDirectories.CuttentDirectory}\\{commands[1]}");
+                    file = new FileInfo($"{UserCommands.DrivesAndDirs.CuttentDirectory}\\{commands[1]}");
 
                     try
                     {
@@ -484,7 +498,7 @@ namespace FileManager
         {
             DrivesDirectoriesFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
 
-            string[] commands = Command.Split();
+            string[] commands = UserCommands.Command.Split();
 
             bool isOk = false;
 
@@ -514,7 +528,7 @@ namespace FileManager
         /// </summary>
         public static void ProcessCommandExecuter()
         {
-            string[] commands = Command.Split();
+            string[] commands = UserCommands.Command.Split();
 
             if (commands.Length == 2)
             {
@@ -658,21 +672,21 @@ namespace FileManager
         /// </summary>
         public static void UserCommandReader()
         {
-            Command = Console.ReadLine();
+            UserCommands.Command = Console.ReadLine();
 
-            string comm = Command != "" ? Command.Split()[0] : "";
+            string comm = UserCommands.Command != "" ? UserCommands.Command.Split()[0] : "";
 
             for (int i = 0; i < commands.Count; i++)
             {
                 if (commands[i] == comm)
                 {
-                    CommandInt = i;
+                    UserCommands.CommandInt = i;
 
                     break;
                 }
                 else if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
                 {
-                    comm = String.Format(drivesAndDirectories.CuttentDirectory.ToString() + Command);
+                    comm = String.Format(UserCommands.DrivesAndDirs.CuttentDirectory.ToString() + UserCommands.Command);
 
                     BasicLogic.CreateProcess(comm);
                 }
