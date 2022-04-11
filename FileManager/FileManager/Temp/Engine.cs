@@ -121,21 +121,21 @@ namespace FileManager
 
         #region For delete
 
-        ///// <summary>
-        ///// Метод завершает работу консоли и сохраняет параметры программы в файл.
-        ///// </summary>
-        ///// <returns>Значение типа bool своего рода выключатель программы</returns>
-        ///// 
-        //public static bool ExitCommandExecuter()
-        //{
-        //    string temp = $"{UserCommands.DrivesAndDirs.CurrentDrive.Name}|W|{UserCommands.DrivesAndDirs.CuttentDirectory.ToString()}";
+        /// <summary>
+        /// Метод завершает работу консоли и сохраняет параметры программы в файл.
+        /// </summary>
+        /// <returns>Значение типа bool своего рода выключатель программы</returns>
+        /// 
+        public static bool ExitCommandExecuter()
+        {
+            string temp = $"{UserCommands.DrivesAndDirs.CurrentDrive.Name}|W|{UserCommands.DrivesAndDirs.CuttentDirectory}";
 
-        //    temp = JsonConvert.SerializeObject(temp);
+            temp = JsonConvert.SerializeObject(temp);
 
-        //    File.WriteAllText("path.json", temp);
+            File.WriteAllText("path.json", temp);
 
-        //    return true;
-        //}
+            return true;
+        }
 
         #endregion
 

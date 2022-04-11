@@ -128,12 +128,12 @@ namespace FileManager
 
                 //    break;
                 //}
-                case 12:
-                    {
-                    Engine.ProcessCommandExecuter();
+                //case 12:
+                //    {
+                //    Engine.ProcessCommandExecuter();
 
-                    break;
-                }
+                //    break;
+                //}
                 default:
                     {
                     break;
