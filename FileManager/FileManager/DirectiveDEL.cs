@@ -9,7 +9,7 @@ namespace FileManager
         private const string _directiveName = "DEL";
         public string DirectiveName { get => _directiveName; }
 
-        void IDirective.RunDirective(params string[] args)
+        public void RunDirective(params string[] args)
         {
             throw new NotImplementedException();
         }

@@ -86,23 +86,62 @@ namespace FileManager
             }
         }
 
+
+
+
         /// <summary>
-        /// Метод завершает работу консоли и сохраняет параметры программы в файл.
+        /// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
         /// </summary>
-        /// <returns>Значение типа bool своего рода выключатель программы</returns>
-        /// 
-        public static bool ExitCommandExecuter()
+        public static void UserCommandReader()
         {
-            string temp = $"{UserCommands.DrivesAndDirs.CurrentDrive.Name}|W|{UserCommands.DrivesAndDirs.CuttentDirectory.ToString()}";
+            UserCommands.Command = Console.ReadLine();
 
-            temp = JsonConvert.SerializeObject(temp);
+            string comm = UserCommands.Command != "" ? UserCommands.Command.Split()[0] : "";
 
-            File.WriteAllText("path.json", temp);
+            for (int i = 0; i < commands.Count; i++)
+            {
+                if (commands[i] == comm)
+                {
+                    UserCommands.CommandInt = i;
 
-            return true;
+                    break;
+                }
+                else if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
+                {
+                    comm = String.Format(UserCommands.DrivesAndDirs.CuttentDirectory.ToString() + UserCommands.Command);
+
+                    BasicLogic.CreateProcess(comm);
+                }
+            }
         }
 
+
+
+
+
         #region For delete
+
+        ///// <summary>
+        ///// Метод завершает работу консоли и сохраняет параметры программы в файл.
+        ///// </summary>
+        ///// <returns>Значение типа bool своего рода выключатель программы</returns>
+        ///// 
+        //public static bool ExitCommandExecuter()
+        //{
+        //    string temp = $"{UserCommands.DrivesAndDirs.CurrentDrive.Name}|W|{UserCommands.DrivesAndDirs.CuttentDirectory.ToString()}";
+
+        //    temp = JsonConvert.SerializeObject(temp);
+
+        //    File.WriteAllText("path.json", temp);
+
+        //    return true;
+        //}
+
+        #endregion
+
+        #region For delete
+
+
         /// <summary>
         /// Метод меняет местоположение текущей директории
         /// </summary>
@@ -159,7 +198,6 @@ namespace FileManager
         }
         #endregion
 
-
         #region For delete
         ///// <summary>
         ///// Метод очищает консоль
@@ -169,8 +207,6 @@ namespace FileManager
         //    Console.Clear();
         //}
         #endregion
-
-
 
         #region For delete
 
@@ -214,8 +250,10 @@ namespace FileManager
 
         #endregion
 
+        #region For delete
 
-        #region Fordelete
+
+
 
         ///// <summary>
         ///// Метод удаляет каталог с файлами, если там нет подкаталога или файл
@@ -261,436 +299,473 @@ namespace FileManager
 
         #endregion
 
-        /// <summary>
-        /// Метод рекурсивно удаляет каталог и все подкаталоги и файлы
-        /// </summary>
-        /// <param name="path">string Путь к удаляемому каталогу</param>
-        public static void DeleteTree(string path)
-        {
-            if ((path.Contains(":\\") || path.Contains(":/")) && path.Split('\\', '/').Length == 1)
-            {
-                return;
-            }
-
-            DirectoryInfo directory = new DirectoryInfo(path);
-            try
-            {
-                if (directory.Exists)
-                {
-                    DirectoryInfo[] directories = directory.GetDirectories();
-
-                    foreach (DirectoryInfo dir in directories)
-                    {
-                        FileInfo[] files = dir.GetFiles();
-                        foreach (FileInfo file in files)
-                        {
-                            if (file.Exists)
-                            {
-                                file.Delete();
-                            }
-                        }
-                        DeleteTree(dir.FullName);
-                    }
-                    directory.Delete(false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Exeptions.ShowException(ex);
-
-                Exeptions.ExceptionInFile(ex);
-
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Метод в зависимости от команды двумя разными способами рекурсивно
-        /// удаляет каталог и все подкаталоги и файлы
-        /// </summary>
-        public static void DeleteTreeCommandExecuter()
-        {
-            string[] commandsStringArray = UserCommands.Command.Split();
-
-            if (commandsStringArray.Length == 1)
-            {
-                string path = UserCommands.DrivesAndDirs.CuttentDirectory.ToString();
-
-                ChangeDirectoryCommandExecuter("..");
-
-                DeleteTree(commandsStringArray[1]);
-            }
-            else if (commandsStringArray.Length == 2)
-            {
-                DeleteTree(commandsStringArray[1]);
-            }
-        }
-
-        /// <summary>
-        /// Метод перемещает каталог со всем содержимым или файл
-        /// </summary>
-        /// <param name="pathFrom">string Путь откуда перемешать</param>
-        /// <param name="pathTo">string Путь куда перемешать</param>
-        public static void MoveCommandExecuter(string pathFrom, string pathTo)
-        {
-            if (UserCommands.Command.Split().Length == 3)
-            {
-                if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/"))
-                    && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
-                {
-                    FileInfo file = new FileInfo(pathFrom);
-
-                    DirectoryInfo directory = new DirectoryInfo(pathFrom);
-
-                    try
-                    {
-                        if (directory.Exists)
-                        {
-                            directory.MoveTo(pathTo);
-                        }
-                        else if (file.Exists)
-                        {
-                            file.MoveTo(pathTo);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Exeptions.ShowException(ex);
-
-                        Exeptions.ExceptionInFile(ex);
-
-                        return;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Метод создает директорию по указанному пути или в текущем каталоге
-        /// </summary>
-        public static void MakingDirectoryCommandExecuter()
-        {
-            string[] commands = UserCommands.Command.Split();
-
-            UserCommands.Command = "";
-
-            if (commands.Length > 1 && !commands[1].Contains('\\') && !commands[1].Contains('/'))
-            {
-                Directory.SetCurrentDirectory(UserCommands.DrivesAndDirs.CuttentDirectory.ToString());
-
-                Directory.CreateDirectory(commands[1]);
-            }
-            if (commands.Length > 1 && (commands[1].Contains(":\\") || commands[1].Contains(":/"))
-                && (commands[1].Contains('\\') || commands[1].Contains('/')))
-            {
-                Directory.CreateDirectory(commands[1]);
-            }
-        }
-
-        /// <summary>
-        /// Метод перемещает директорию
-        /// </summary>
-        /// <param name="pathFrom">string Путь откуда перемещать</param>
-        /// <param name="pathTo">string Путь куда перемещать</param>
-        public static void RemoveDirectoryCommandExecuter(string pathFrom, string pathTo)
-        {
-            if (UserCommands.Command.Split().Length == 3)
-            {
-                if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/")) && !pathFrom.Contains('.')
-                    && !pathTo.Contains('.') && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
-                {
-                    DirectoryInfo directory = new DirectoryInfo(pathFrom);
-
-                    try
-                    {
-                        if (directory.Exists)
-                        {
-                            directory.MoveTo(pathTo);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Exeptions.ShowException(ex);
-
-                        Exeptions.ExceptionInFile(ex);
-
-                        return;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Метод выводит в консоль все подкаталоги и файлы текущего каталога
-        /// </summary>
-        /// <returns>DrivesDirectoriesFilesArray Объект, в котором находятся данные о подкаталогах и файлах текущего каталога</returns>
-        public static DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
-        {
-            DrivesDirectoriesFilesArray dirFiles = new DrivesDirectoriesFilesArray();
-
-            DirectoryInfo ddd = UserCommands.DrivesAndDirs.CuttentDirectory;
-
-            dirFiles.Directories = ddd.GetDirectories();
-
-            dirFiles.Files = ddd.GetFiles();
-
-            return (dirFiles);
-        }
-
-        /// <summary>
-        /// Метод выводит в консоль данные о выбранном файле
-        /// </summary>
-        public static void FilePropertiesCommandExecuter()
-        {
-            FileInfo file;
-
-            string[] commands = UserCommands.Command.Split();
-
-            if (commands.Length == 2)
-            {
-                if ((commands[1].Contains(":\\") || commands[1].Contains(":/")) && commands[1].Contains('.'))
-                {
-                    file = new FileInfo(commands[1]);
-
-                    try
-                    {
-                        if (file.Exists)
-                        {
-                            PseudoConsoleUI.PrintFileProperties(file);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Exeptions.ShowException(ex);
-
-                        Exeptions.ExceptionInFile(ex);
-
-                        return;
-                    }
-                }
-                if (!commands[1].Contains(":\\") && !commands[1].Contains(":/") && !commands[1].Contains("/") && !commands[1].Contains("\\") && commands[1].Contains('.'))
-                {
-                    file = new FileInfo($"{UserCommands.DrivesAndDirs.CuttentDirectory}\\{commands[1]}");
-
-                    try
-                    {
-                        if (file.Exists)
-                        {
-                            PseudoConsoleUI.PrintFileProperties(file);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Exeptions.ShowException(ex);
-
-                        Exeptions.ExceptionInFile(ex);
-
-                        return;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Метод распознает команду пользователя для постраничного вывода каталагов и файлов.
-        /// </summary>
-        public static void ShowAllSubdirectoriesAndFilesByPages()
-        {
-            DrivesDirectoriesFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
-
-            string[] commands = UserCommands.Command.Split();
-
-            bool isOk = false;
-
-            int page = -1;
-
-            if (commands.Length == 3)
-            {
-                isOk = int.TryParse(commands[2], out page);
-            }
-            if (commands.Length == 3 && isOk && commands[1] == "-P" && page > 0)
-            {
-                ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
-            }
-            if (commands.Length == 2 && (commands[1] == "\\\\" || commands[1] == "//"))
-            {
-                ShowAllDrivesLogic();
-            }
-            if (commands.Length == 1)
-            {
-                ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
-            }
-
-        }
-
-        /// <summary>
-        /// Метод распознает команду управления процессами
-        /// </summary>
-        public static void ProcessCommandExecuter()
-        {
-            string[] commands = UserCommands.Command.Split();
-
-            if (commands.Length == 2)
-            {
-                if (commands[1] == "-DEL")
-                {
-                    PseudoConsoleUI.DeleteProcess();
-                }
-                if (commands[1] == "-CRT")
-                {
-                    PseudoConsoleUI.CreateProcess();
-                }
-            }
-            if (commands.Length == 1)
-            {
-                PseudoConsoleUI.PrintProcesses(BasicLogic.GetAllProcesses());
-            }
-        }
-
-        /// <summary>
-        /// Метод создает массив логических дисков
-        /// </summary>
-        public static void ShowAllDrivesLogic()
-        {
-            DriveInfo[] drives = DriveInfo.GetDrives();
-
-            PseudoConsoleUI.PrintAllDrives(drives);
-        }
-
-        /// <summary>
-        /// Метод содержит в себе логику постраничного вывода на экран списка каталогов и файлов
-        /// </summary>
-        /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
-        /// <param name="userPage">int Номер страницы</param>
-        public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirectoriesFilesArray dirFiles, int userPage)
-        {
-            FileInfo[] files = dirFiles.Files;
-
-            DirectoryInfo[] subdirectories = dirFiles.Directories;
-
-            int dirStart = 0;
-
-            int dirStop = 0;
-
-            int fileStart = 0;
-
-            int fileStop = 0;
-
-            int allLinesDir = subdirectories.Length;
-
-            int allLinesFile = files.Length;
-
-            int allLines = allLinesDir + allLinesFile;
-
-            if (userPage == -1)
-            {
-                dirStart = 0;
-
-                dirStop = allLinesDir;
-
-                fileStart = 0;
-
-                fileStop = allLinesFile;
-            }
-            else
-            {
-                int pageDir = 1 + allLinesDir / PseudoConsoleUI.PAGE_LINES;
-
-                int restDirLines = allLinesDir % PseudoConsoleUI.PAGE_LINES;
-
-                int linesOfFileAfterDir = PseudoConsoleUI.PAGE_LINES - restDirLines;
-
-                int filesdir = (allLinesFile - linesOfFileAfterDir) / PseudoConsoleUI.PAGE_LINES + 1;
-
-                if (userPage < pageDir)
-                {
-                    dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
-
-                    dirStop = userPage * PseudoConsoleUI.PAGE_LINES;
-                }
-                if (userPage == pageDir)
-                {
-                    if ((restDirLines + allLinesFile) / PseudoConsoleUI.PAGE_LINES == 0)
-                    {
-                        dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
-
-                        dirStop = allLinesDir;
-
-                        fileStop = allLinesFile;
-                    }
-                    if ((restDirLines + allLinesFile) / PseudoConsoleUI.PAGE_LINES > 0)
-                    {
-                        dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
-
-                        dirStop = allLinesDir;
-
-                        fileStop = linesOfFileAfterDir;
-                    }
-                }
-                if (userPage > pageDir)
-                {
-                    if (userPage < (pageDir + filesdir))
-                    {
-                        fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
-
-                        fileStop = linesOfFileAfterDir + (userPage - pageDir) * PseudoConsoleUI.PAGE_LINES;
-                    }
-                    if (userPage >= (pageDir + filesdir))
-                    {
-                        fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
-
-                        fileStop = allLinesFile;
-                    }
-                }
-            }
-            PseudoConsoleUI.PrintAllSubdirectoriesAndFilesByPages(dirFiles, dirStart, dirStop, fileStart, fileStop);
-
-            PseudoConsoleUI.PrintPageNumber(allLines, userPage);
-        }
-
-        /// <summary>
-        /// Метод воспроизводит из файла Help - лист
-        /// </summary>
-        /// <returns>List<string> Help - лист</returns>
-        public static List<string> HelpCommandExecuter()
-        {
-            List<string> list = new List<string>();
-
-            if (File.Exists(@"Help.txt"))
-            {
-
-                foreach (string strings in File.ReadAllLines(@"Help.txt"))
-                {
-                    list.Add(strings);
-                }
-            }
-            return list;
-        }
-
-        /// <summary>
-        /// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
-        /// </summary>
-        public static void UserCommandReader()
-        {
-            UserCommands.Command = Console.ReadLine();
-
-            string comm = UserCommands.Command != "" ? UserCommands.Command.Split()[0] : "";
-
-            for (int i = 0; i < commands.Count; i++)
-            {
-                if (commands[i] == comm)
-                {
-                    UserCommands.CommandInt = i;
-
-                    break;
-                }
-                else if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
-                {
-                    comm = String.Format(UserCommands.DrivesAndDirs.CuttentDirectory.ToString() + UserCommands.Command);
-
-                    BasicLogic.CreateProcess(comm);
-                }
-            }
-        }
+        #region For delete
+
+        ///// <summary>
+        ///// Метод рекурсивно удаляет каталог и все подкаталоги и файлы
+        ///// </summary>
+        ///// <param name="path">string Путь к удаляемому каталогу</param>
+        //public static void DeleteTree(string path)
+        //{
+        //    if ((path.Contains(":\\") || path.Contains(":/")) && path.Split('\\', '/').Length == 1)
+        //    {
+        //        return;
+        //    }
+
+        //    DirectoryInfo directory = new DirectoryInfo(path);
+        //    try
+        //    {
+        //        if (directory.Exists)
+        //        {
+        //            DirectoryInfo[] directories = directory.GetDirectories();
+
+        //            foreach (DirectoryInfo dir in directories)
+        //            {
+        //                FileInfo[] files = dir.GetFiles();
+        //                foreach (FileInfo file in files)
+        //                {
+        //                    if (file.Exists)
+        //                    {
+        //                        file.Delete();
+        //                    }
+        //                }
+        //                DeleteTree(dir.FullName);
+        //            }
+        //            directory.Delete(false);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Exeptions.ShowException(ex);
+
+        //        Exeptions.ExceptionInFile(ex);
+
+        //        return;
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Метод в зависимости от команды двумя разными способами рекурсивно
+        ///// удаляет каталог и все подкаталоги и файлы
+        ///// </summary>
+        //public static void DeleteTreeCommandExecuter()
+        //{
+        //    string[] commandsStringArray = UserCommands.Command.Split();
+
+        //    if (commandsStringArray.Length == 1)
+        //    {
+        //        string path = UserCommands.DrivesAndDirs.CuttentDirectory.ToString();
+
+        //        ChangeDirectoryCommandExecuter("..");
+
+        //        DeleteTree(commandsStringArray[1]);
+        //    }
+        //    else if (commandsStringArray.Length == 2)
+        //    {
+        //        DeleteTree(commandsStringArray[1]);
+        //    }
+        //}
+
+        #endregion
+
+        #region For delete
+
+
+
+        ///// <summary>
+        ///// Метод перемещает каталог со всем содержимым или файл
+        ///// </summary>
+        ///// <param name="pathFrom">string Путь откуда перемешать</param>
+        ///// <param name="pathTo">string Путь куда перемешать</param>
+        //public static void MoveCommandExecuter(string pathFrom, string pathTo)
+        //{
+        //    if (UserCommands.Command.Split().Length == 3)
+        //    {
+        //        if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/"))
+        //            && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
+        //        {
+        //            FileInfo file = new FileInfo(pathFrom);
+
+        //            DirectoryInfo directory = new DirectoryInfo(pathFrom);
+
+        //            try
+        //            {
+        //                if (directory.Exists)
+        //                {
+        //                    directory.MoveTo(pathTo);
+        //                }
+        //                else if (file.Exists)
+        //                {
+        //                    file.MoveTo(pathTo);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Exeptions.ShowException(ex);
+
+        //                Exeptions.ExceptionInFile(ex);
+
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
+
+
+        #endregion
+
+        #region For delete
+
+        ///// <summary>
+        ///// Метод создает директорию по указанному пути или в текущем каталоге
+        ///// </summary>
+        //public static void MakingDirectoryCommandExecuter()
+        //{
+        //    string[] commands = UserCommands.Command.Split();
+
+        //    UserCommands.Command = "";
+
+        //    if (commands.Length > 1 && !commands[1].Contains('\\') && !commands[1].Contains('/'))
+        //    {
+        //        Directory.SetCurrentDirectory(UserCommands.DrivesAndDirs.CuttentDirectory.ToString());
+
+        //        Directory.CreateDirectory(commands[1]);
+        //    }
+        //    if (commands.Length > 1 && (commands[1].Contains(":\\") || commands[1].Contains(":/"))
+        //        && (commands[1].Contains('\\') || commands[1].Contains('/')))
+        //    {
+        //        Directory.CreateDirectory(commands[1]);
+        //    }
+        //}
+
+        #endregion
+
+        #region For delete
+
+        ///// <summary>
+        ///// Метод перемещает директорию
+        ///// </summary>
+        ///// <param name="pathFrom">string Путь откуда перемещать</param>
+        ///// <param name="pathTo">string Путь куда перемещать</param>
+        //public static void RemoveDirectoryCommandExecuter(string pathFrom, string pathTo)
+        //{
+        //    if (UserCommands.Command.Split().Length == 3)
+        //    {
+        //        if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/")) && !pathFrom.Contains('.')
+        //            && !pathTo.Contains('.') && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
+        //        {
+        //            DirectoryInfo directory = new DirectoryInfo(pathFrom);
+
+        //            try
+        //            {
+        //                if (directory.Exists)
+        //                {
+        //                    directory.MoveTo(pathTo);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Exeptions.ShowException(ex);
+
+        //                Exeptions.ExceptionInFile(ex);
+
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
+
+        #endregion
+
+        #region For delete
+
+        ///// <summary>
+        ///// Метод выводит в консоль все подкаталоги и файлы текущего каталога
+        ///// </summary>
+        ///// <returns>DrivesDirectoriesFilesArray Объект, в котором находятся данные о подкаталогах и файлах текущего каталога</returns>
+        //public static DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
+        //{
+        //    DrivesDirectoriesFilesArray dirFiles = new DrivesDirectoriesFilesArray();
+
+        //    DirectoryInfo ddd = UserCommands.DrivesAndDirs.CuttentDirectory;
+
+        //    dirFiles.Directories = ddd.GetDirectories();
+
+        //    dirFiles.Files = ddd.GetFiles();
+
+        //    return (dirFiles);
+        //}
+
+
+
+
+
+
+        ///// <summary>
+        ///// Метод содержит в себе логику постраничного вывода на экран списка каталогов и файлов
+        ///// </summary>
+        ///// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
+        ///// <param name="userPage">int Номер страницы</param>
+        //public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirectoriesFilesArray dirFiles, int userPage)
+        //{
+        //    FileInfo[] files = dirFiles.Files;
+
+        //    DirectoryInfo[] subdirectories = dirFiles.Directories;
+
+        //    int dirStart = 0;
+
+        //    int dirStop = 0;
+
+        //    int fileStart = 0;
+
+        //    int fileStop = 0;
+
+        //    int allLinesDir = subdirectories.Length;
+
+        //    int allLinesFile = files.Length;
+
+        //    int allLines = allLinesDir + allLinesFile;
+
+        //    if (userPage == -1)
+        //    {
+        //        dirStart = 0;
+
+        //        dirStop = allLinesDir;
+
+        //        fileStart = 0;
+
+        //        fileStop = allLinesFile;
+        //    }
+        //    else
+        //    {
+        //        int pageDir = 1 + allLinesDir / PseudoConsoleUI.PAGE_LINES;
+
+        //        int restDirLines = allLinesDir % PseudoConsoleUI.PAGE_LINES;
+
+        //        int linesOfFileAfterDir = PseudoConsoleUI.PAGE_LINES - restDirLines;
+
+        //        int filesdir = (allLinesFile - linesOfFileAfterDir) / PseudoConsoleUI.PAGE_LINES + 1;
+
+        //        if (userPage < pageDir)
+        //        {
+        //            dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+
+        //            dirStop = userPage * PseudoConsoleUI.PAGE_LINES;
+        //        }
+        //        if (userPage == pageDir)
+        //        {
+        //            if ((restDirLines + allLinesFile) / PseudoConsoleUI.PAGE_LINES == 0)
+        //            {
+        //                dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+
+        //                dirStop = allLinesDir;
+
+        //                fileStop = allLinesFile;
+        //            }
+        //            if ((restDirLines + allLinesFile) / PseudoConsoleUI.PAGE_LINES > 0)
+        //            {
+        //                dirStart = (userPage - 1) * PseudoConsoleUI.PAGE_LINES;
+
+        //                dirStop = allLinesDir;
+
+        //                fileStop = linesOfFileAfterDir;
+        //            }
+        //        }
+        //        if (userPage > pageDir)
+        //        {
+        //            if (userPage < (pageDir + filesdir))
+        //            {
+        //                fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
+
+        //                fileStop = linesOfFileAfterDir + (userPage - pageDir) * PseudoConsoleUI.PAGE_LINES;
+        //            }
+        //            if (userPage >= (pageDir + filesdir))
+        //            {
+        //                fileStart = linesOfFileAfterDir + (userPage - pageDir - 1) * PseudoConsoleUI.PAGE_LINES;
+
+        //                fileStop = allLinesFile;
+        //            }
+        //        }
+        //    }
+        //    PseudoConsoleUI.PrintAllSubdirectoriesAndFilesByPages(dirFiles, dirStart, dirStop, fileStart, fileStop);
+
+        //    PseudoConsoleUI.PrintPageNumber(allLines, userPage);
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ///// <summary>
+        ///// Метод распознает команду пользователя для постраничного вывода каталагов и файлов.
+        ///// </summary>
+        //public static void ShowAllSubdirectoriesAndFilesByPages()
+        //{
+        //    DrivesDirectoriesFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
+
+        //    string[] commands = UserCommands.Command.Split();
+
+        //    bool isOk = false;
+
+        //    int page = -1;
+
+        //    if (commands.Length == 3)
+        //    {
+        //        isOk = int.TryParse(commands[2], out page);
+        //    }
+        //    if (commands.Length == 3 && isOk && commands[1] == "-P" && page > 0)
+        //    {
+        //        ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
+        //    }
+        //    if (commands.Length == 2 && (commands[1] == "\\\\" || commands[1] == "//"))
+        //    {
+        //        ShowAllDrivesLogic();
+        //    }
+        //    if (commands.Length == 1)
+        //    {
+        //        ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
+        //    }
+
+        //}
+
+
+
+        ///// <summary>
+        ///// Метод создает массив логических дисков
+        ///// </summary>
+        //public static void ShowAllDrivesLogic()
+        //{
+        //    DriveInfo[] drives = DriveInfo.GetDrives();
+
+        //    PseudoConsoleUI.PrintAllDrives(drives);
+        //}
+
+
+
+
+
+
+
+        #endregion
+
+        #region For delete
+
+        ///// <summary>
+        ///// Метод выводит в консоль данные о выбранном файле
+        ///// </summary>
+        //public static void FilePropertiesCommandExecuter()
+        //{
+        //    FileInfo file;
+
+        //    string[] commands = UserCommands.Command.Split();
+
+        //    if (commands.Length == 2)
+        //    {
+        //        if ((commands[1].Contains(":\\") || commands[1].Contains(":/")) && commands[1].Contains('.'))
+        //        {
+        //            file = new FileInfo(commands[1]);
+
+        //            try
+        //            {
+        //                if (file.Exists)
+        //                {
+        //                    PseudoConsoleUI.PrintFileProperties(file);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Exeptions.ShowException(ex);
+
+        //                Exeptions.ExceptionInFile(ex);
+
+        //                return;
+        //            }
+        //        }
+        //        if (!commands[1].Contains(":\\") && !commands[1].Contains(":/") && !commands[1].Contains("/") && !commands[1].Contains("\\") && commands[1].Contains('.'))
+        //        {
+        //            file = new FileInfo($"{UserCommands.DrivesAndDirs.CuttentDirectory}\\{commands[1]}");
+
+        //            try
+        //            {
+        //                if (file.Exists)
+        //                {
+        //                    PseudoConsoleUI.PrintFileProperties(file);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Exeptions.ShowException(ex);
+
+        //                Exeptions.ExceptionInFile(ex);
+
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
+
+        #endregion
+
+        #region For delete
+
+        ///// <summary>
+        ///// Метод распознает команду управления процессами
+        ///// </summary>
+        //public static void ProcessCommandExecuter()
+        //{
+        //    string[] commands = UserCommands.Command.Split();
+
+        //    if (commands.Length == 2)
+        //    {
+        //        if (commands[1] == "-DEL")
+        //        {
+        //            PseudoConsoleUI.DeleteProcess();
+        //        }
+        //        if (commands[1] == "-CRT")
+        //        {
+        //            PseudoConsoleUI.CreateProcess();
+        //        }
+        //    }
+        //    if (commands.Length == 1)
+        //    {
+        //        PseudoConsoleUI.PrintProcesses(BasicLogic.GetAllProcesses());
+        //    }
+        //}
+
+        #endregion
+
+        #region For delete
+
+        ///// <summary>
+        ///// Метод воспроизводит из файла Help - лист
+        ///// </summary>
+        ///// <returns>List<string> Help - лист</returns>
+        //public static List<string> HelpCommandExecuter()
+        //{
+        //    List<string> list = new List<string>();
+
+        //    if (File.Exists(@"Help.txt"))
+        //    {
+
+        //        foreach (string strings in File.ReadAllLines(@"Help.txt"))
+        //        {
+        //            list.Add(strings);
+        //        }
+        //    }
+        //    return list;
+        //}
+
+        #endregion
+
     }
 }
