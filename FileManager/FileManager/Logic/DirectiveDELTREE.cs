@@ -69,11 +69,11 @@ namespace FileManager
 
             if (commandsStringArray.Length == 1)
             {
-                string path = UserCommands.DrivesAndDirs.CuttentDirectory.ToString();
+                string path = UserCommands.DrivesAndDirs.CuttentDirectory.ToString();//TODO: ВОЗМОЖНА ОШИБКА
 
                 ChangeDirectoryCommandExecuter("..");
 
-                DeleteTree(commandsStringArray[1]);
+                DeleteTree(commandsStringArray[1]);//TODO: ВОЗМОЖНА ОШИБКА
             }
             else if (commandsStringArray.Length == 2)
             {

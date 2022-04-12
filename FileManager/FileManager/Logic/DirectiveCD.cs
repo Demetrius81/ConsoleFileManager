@@ -20,7 +20,7 @@ namespace FileManager
         /// Метод меняет местоположение текущей директории
         /// </summary>
         /// <param name="path">Принимает string значение управляющая команда</param>
-        public void StartDirective(string path)
+        public void ChangeDirectoryCommandExecuter(string path)
         {
             if (UserCommands.Command.Split().Length == 2)
             {

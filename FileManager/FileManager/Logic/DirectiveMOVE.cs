@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveRD : IDirective
+    internal class DirectiveMOVE : IDirective
     {
         private const string _directiveName = "MOVE";
         public string DirectiveName { get => _directiveName; }
@@ -14,19 +15,26 @@ namespace FileManager
             throw new NotImplementedException();
         }
 
-
         /// <summary>
-        /// Метод перемещает директорию
+        /// Метод перемещает каталог со всем содержимым или файл
         /// </summary>
-        /// <param name="pathFrom">string Путь откуда перемещать</param>
-        /// <param name="pathTo">string Путь куда перемещать</param>
-        public static void RemoveDirectoryCommandExecuter(string pathFrom, string pathTo)
+        /// <param name="pathFrom">string Путь откуда перемешать</param>
+        /// <param name="pathTo">string Путь куда перемешать</param>
+        public static void MoveCommandExecuter()
         {
+
+
             if (UserCommands.Command.Split().Length == 3)
             {
-                if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/")) && !pathFrom.Contains('.')
-                    && !pathTo.Contains('.') && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
+                string pathFrom = UserCommands.Command.Split()[1];
+
+                string pathTo = UserCommands.Command.Split()[2];
+
+                if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/"))
+                    && (pathTo.Contains(":\\") || pathTo.Contains(":/")))
                 {
+                    FileInfo file = new FileInfo(pathFrom);
+
                     DirectoryInfo directory = new DirectoryInfo(pathFrom);
 
                     try
@@ -34,6 +42,10 @@ namespace FileManager
                         if (directory.Exists)
                         {
                             directory.MoveTo(pathTo);
+                        }
+                        else if (file.Exists)
+                        {
+                            file.MoveTo(pathTo);
                         }
                     }
                     catch (Exception ex)
@@ -47,6 +59,10 @@ namespace FileManager
                 }
             }
         }
+
+
+
+
 
 
 
