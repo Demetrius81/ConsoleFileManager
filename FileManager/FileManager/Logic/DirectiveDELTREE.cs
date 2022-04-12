@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace FileManager
@@ -71,7 +72,9 @@ namespace FileManager
             {
                 string path = UserCommands.DrivesAndDirs.CuttentDirectory.ToString();//TODO: ВОЗМОЖНА ОШИБКА
 
-                ChangeDirectoryCommandExecuter("..");
+                DirectiveCD temp = new DirectiveCD();
+
+                temp.ChangeDirectoryCommandExecuter("..");
 
                 DeleteTree(commandsStringArray[1]);//TODO: ВОЗМОЖНА ОШИБКА
             }

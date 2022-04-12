@@ -12,7 +12,7 @@ namespace FileManager
 
         public void RunDirective(params string[] args)
         {
-            StartDirective(args[0]);
+            //StartDirective(args[0]);
         }
 
 

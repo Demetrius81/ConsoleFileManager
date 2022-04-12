@@ -36,22 +36,22 @@ namespace FileManager
         /// <summary>
         /// Список консольных команд
         /// </summary>
-        public static readonly List<string> commands = new List<string>
-            {
-                "EXIT",
-                "CD",
-                "CLS",
-                "COPY",
-                "DEL",
-                "DELTREE",
-                "MOVE",
-                "MD",
-                "RD",
-                "DIR",
-                "HELP",
-                "FILEINF",
-                "PROC"
-            };
+        //public static readonly List<string> commands = new List<string>
+        //    {
+        //        "EXIT",
+        //        "CD",
+        //        "CLS",
+        //        "COPY",
+        //        "DEL",
+        //        "DELTREE",
+        //        "MOVE",
+        //        "MD",
+        //        "RD",
+        //        "DIR",
+        //        "HELP",
+        //        "FILEINF",
+        //        "PROC"
+        //    };
 
         ///// <summary>
         ///// Объект для хранения текущего состояния системы
@@ -60,142 +60,144 @@ namespace FileManager
 
         #endregion
 
-        /// <summary>
-        /// Метод запускает консоль, читает из файла сохраненный при прошлом корректном выходе статус.
-        /// </summary>
-        public static void StartCommandExecuter()
-        {
-            if (File.Exists("path.json"))
-            {
-                string temp = File.ReadAllText("path.json");
+        #region For delete
 
-                string[] tempArr = JsonConvert.DeserializeObject<string>(temp).Split("|W|");
+        ///// <summary>
+        ///// Метод запускает консоль, читает из файла сохраненный при прошлом корректном выходе статус.
+        ///// </summary>
+        //public static void StartCommandExecuter()
+        //{
+        //    if (File.Exists("path.json"))
+        //    {
+        //        string temp = File.ReadAllText("path.json");
 
-                UserCommands.DrivesAndDirs.CurrentDrive = new DriveInfo(tempArr[0]);
+        //        string[] tempArr = JsonConvert.DeserializeObject<string>(temp).Split("|W|");
 
-                UserCommands.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(tempArr[1]);
+        //        UserCommands.DrivesAndDirs.CurrentDrive = new DriveInfo(tempArr[0]);
 
-                if (!UserCommands.DrivesAndDirs.CuttentDirectory.Exists)
-                {
-                    UserCommands.DrivesAndDirs = new DrivesAndDirectories();
-                }
-            }
-            else
-            {
-                UserCommands.DrivesAndDirs = new DrivesAndDirectories();
-            }
-        }
+        //        UserCommands.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(tempArr[1]);
 
-
-
-
-        /// <summary>
-        /// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
-        /// </summary>
-        public static void UserCommandReader()
-        {
-            UserCommands.Command = Console.ReadLine();
-
-            string comm = UserCommands.Command != "" ? UserCommands.Command.Split()[0] : "";
-
-            for (int i = 0; i < commands.Count; i++)
-            {
-                if (commands[i] == comm)
-                {
-                    UserCommands.CommandInt = i;
-
-                    break;
-                }
-                else if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
-                {
-                    comm = String.Format(UserCommands.DrivesAndDirs.CuttentDirectory.ToString() + UserCommands.Command);
-
-                    BasicLogic.CreateProcess(comm);
-                }
-            }
-        }
+        //        if (!UserCommands.DrivesAndDirs.CuttentDirectory.Exists)
+        //        {
+        //            UserCommands.DrivesAndDirs = new DrivesAndDirectories();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        UserCommands.DrivesAndDirs = new DrivesAndDirectories();
+        //    }
+        //}
 
 
+
+
+        ///// <summary>
+        ///// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
+        ///// </summary>
+        //public static void UserCommandReader()
+        //{
+        //    UserCommands.Command = Console.ReadLine();
+
+        //    string comm = UserCommands.Command != "" ? UserCommands.Command.Split()[0] : "";
+
+        //    for (int i = 0; i < commands.Count; i++)
+        //    {
+        //        if (commands[i] == comm)
+        //        {
+        //            UserCommands.CommandInt = i;
+
+        //            break;
+        //        }
+        //        else if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
+        //        {
+        //            comm = String.Format(UserCommands.DrivesAndDirs.CuttentDirectory.ToString() + UserCommands.Command);
+
+        //            BasicLogic.CreateProcess(comm);
+        //        }
+        //    }
+        //}
+
+        #endregion
 
 
 
         #region For delete
 
-        /// <summary>
-        /// Метод завершает работу консоли и сохраняет параметры программы в файл.
-        /// </summary>
-        /// <returns>Значение типа bool своего рода выключатель программы</returns>
-        /// 
-        public static bool ExitCommandExecuter()
-        {
-            string temp = $"{UserCommands.DrivesAndDirs.CurrentDrive.Name}|W|{UserCommands.DrivesAndDirs.CuttentDirectory}";
+        ///// <summary>
+        ///// Метод завершает работу консоли и сохраняет параметры программы в файл.
+        ///// </summary>
+        ///// <returns>Значение типа bool своего рода выключатель программы</returns>
+        ///// 
+        //public static bool ExitCommandExecuter()
+        //{
+        //    string temp = $"{UserCommands.DrivesAndDirs.CurrentDrive.Name}|W|{UserCommands.DrivesAndDirs.CuttentDirectory}";
 
-            temp = JsonConvert.SerializeObject(temp);
+        //    temp = JsonConvert.SerializeObject(temp);
 
-            File.WriteAllText("path.json", temp);
+        //    File.WriteAllText("path.json", temp);
 
-            return true;
-        }
+        //    return true;
+        //}
 
         #endregion
 
         #region For delete
 
 
-        /// <summary>
-        /// Метод меняет местоположение текущей директории
-        /// </summary>
-        /// <param name="path">Принимает string значение управляющая команда</param>
-        public static void ChangeDirectoryCommandExecuter(string path)
-        {
+        ///// <summary>
+        ///// Метод меняет местоположение текущей директории
+        ///// </summary>
+        ///// <param name="path">Принимает string значение управляющая команда</param>
+        //public static void ChangeDirectoryCommandExecuter(string path)
+        //{
 
 
 
-            //if (Command.Split().Length == 2)
-            //{
-            //    if (path == null || path == "")
-            //    {
-            //        return;
-            //    }
+        //if (Command.Split().Length == 2)
+        //{
+        //    if (path == null || path == "")
+        //    {
+        //        return;
+        //    }
 
-            //    string temp = "";
+        //    string temp = "";
 
-            //    if (path == "..")
-            //    {
-            //        DirectoryInfo tempDir = drivesAndDirectories.CuttentDirectory.Parent;
-            //        if (!(tempDir is null))
-            //        {
-            //            drivesAndDirectories.CuttentDirectory = tempDir;
-            //        }
-            //    }
-            //    if (!path.Contains(":\\") && !path.Contains(":/") && !path.Contains(".."))
-            //    {
-            //        temp = $"{drivesAndDirectories.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
+        //    if (path == "..")
+        //    {
+        //        DirectoryInfo tempDir = drivesAndDirectories.CuttentDirectory.Parent;
+        //        if (!(tempDir is null))
+        //        {
+        //            drivesAndDirectories.CuttentDirectory = tempDir;
+        //        }
+        //    }
+        //    if (!path.Contains(":\\") && !path.Contains(":/") && !path.Contains(".."))
+        //    {
+        //        temp = $"{drivesAndDirectories.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
 
-            //        if (Directory.Exists(temp))
-            //        {
-            //            drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp);
-            //        }
-            //        Command = "";
-            //    }
-            //    else if ((path.Contains('\\') || path.Contains('/')) && (path.Contains(":\\") || path.Contains(":/")))
-            //    {
-            //        temp = $"{path}";
+        //        if (Directory.Exists(temp))
+        //        {
+        //            drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp);
+        //        }
+        //        Command = "";
+        //    }
+        //    else if ((path.Contains('\\') || path.Contains('/')) && (path.Contains(":\\") || path.Contains(":/")))
+        //    {
+        //        temp = $"{path}";
 
-            //        if ((temp[1] == ':') && !temp.Contains(drivesAndDirectories.CurrentDrive.ToString().ToUpperInvariant()))
-            //        {
-            //            drivesAndDirectories.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
-            //        }
+        //        if ((temp[1] == ':') && !temp.Contains(drivesAndDirectories.CurrentDrive.ToString().ToUpperInvariant()))
+        //        {
+        //            drivesAndDirectories.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
+        //        }
 
-            //        if (Directory.Exists(temp))
-            //        {
-            //            drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
-            //        }
-            //        Command = "";
-            //    }
-            //}
+        //        if (Directory.Exists(temp))
+        //        {
+        //            drivesAndDirectories.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
+        //        }
+        //        Command = "";
+        //    }
+        //}
 
-        }
+        //}
         #endregion
 
         #region For delete

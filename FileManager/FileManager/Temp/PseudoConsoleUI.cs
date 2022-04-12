@@ -427,16 +427,7 @@ namespace FileManager
 
             if (userData != "")
             {
-                try
-                {
-                    userDataInt = Convert.ToInt32.(userData);
-
-                    isItId = true;
-                }
-                catch (Exception)
-                {
-                    isItId = false;
-                }
+                isItId = int.TryParse(userData, out userDataInt);
 
                 if (isItId)
                 {
