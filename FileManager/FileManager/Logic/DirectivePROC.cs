@@ -35,7 +35,7 @@ namespace FileManager
         /// </summary>
         public static void ProcessCommandExecuter()
         {
-            string[] commands = UserCommands.Command.Split();
+            string[] commands = SystemVaribles.Command.Split();
 
             if (commands.Length == 2)
             {

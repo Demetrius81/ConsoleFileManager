@@ -276,7 +276,7 @@ namespace FileManager
         /// Метод выводит на экран состояние текущей директории
         /// </summary>
         /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
-        public static void PrintDirectoryProrerties(DrivesAndDirectories dirFiles)
+        public static void PrintDirectoryProrerties(CurrentDrivesAndDirs dirFiles)
         {
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
@@ -371,7 +371,7 @@ namespace FileManager
         /// метод перемещает курсор на указанную позицию
         /// </summary>
         /// /// <param name="dir">DrivesAndDirectories актуальное состояние программы</param>
-        public static void SetCursorPosition(DrivesAndDirectories temp)
+        public static void SetCursorPosition(CurrentDrivesAndDirs temp)
         {
             Console.ForegroundColor = ConsoleColor.White;
 

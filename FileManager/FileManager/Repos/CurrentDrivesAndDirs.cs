@@ -5,7 +5,7 @@ namespace FileManager
     /// <summary>
     /// Класс для хранения текущего состояния программы
     /// </summary>
-    public class DrivesAndDirectories
+    public class CurrentDrivesAndDirs
     {
         /// <summary>
         /// Поле, где храниться текущий диск
@@ -31,7 +31,7 @@ namespace FileManager
         /// <summary>
         /// Конструктор класса. Инициализирует переменные класса
         /// </summary>
-        public DrivesAndDirectories()
+        public CurrentDrivesAndDirs()
         {
             DriveInfo[] drives = DriveInfo.GetDrives();
 

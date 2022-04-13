@@ -12,7 +12,7 @@ namespace FileManager
 
         public void RunDirective(params string[] args)
         {
-            throw new NotImplementedException();
+            DeleteCommandExecuter();
         }
 
 
@@ -22,7 +22,7 @@ namespace FileManager
         /// </summary>
         public static void DeleteCommandExecuter()
         {
-            string[] pathArr = UserCommands.Command.Split();
+            string[] pathArr = SystemVaribles.Command.Split();
 
             if ((pathArr[1].Contains(":\\") || pathArr[1].Contains(":/")) && pathArr[1].Split('\\', '/').Length == 1)
             {

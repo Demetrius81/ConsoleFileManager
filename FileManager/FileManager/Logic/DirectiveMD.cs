@@ -22,13 +22,13 @@ namespace FileManager
         /// </summary>
         public static void MakingDirectoryCommandExecuter()
         {
-            string[] commands = UserCommands.Command.Split();
+            string[] commands = SystemVaribles.Command.Split();
 
-            UserCommands.Command = "";
+            SystemVaribles.Command = "";
 
             if (commands.Length > 1 && !commands[1].Contains('\\') && !commands[1].Contains('/'))
             {
-                Directory.SetCurrentDirectory(UserCommands.DrivesAndDirs.CuttentDirectory.ToString());
+                Directory.SetCurrentDirectory(SystemVaribles.DrivesAndDirs.CuttentDirectory.ToString());
 
                 Directory.CreateDirectory(commands[1]);
             }

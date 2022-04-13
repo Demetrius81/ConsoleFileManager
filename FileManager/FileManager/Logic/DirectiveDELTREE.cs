@@ -13,7 +13,7 @@ namespace FileManager
 
         public void RunDirective(params string[] args)
         {
-            throw new NotImplementedException();
+            DeleteTreeCommandExecuter();
         }
 
 
@@ -66,17 +66,21 @@ namespace FileManager
         /// </summary>
         public static void DeleteTreeCommandExecuter()
         {
-            string[] commandsStringArray = UserCommands.Command.Split();
+            string[] commandsStringArray = SystemVaribles.Command.Split();
 
             if (commandsStringArray.Length == 1)
             {
-                string path = UserCommands.DrivesAndDirs.CuttentDirectory.ToString();//TODO: ВОЗМОЖНА ОШИБКА
+                string path = SystemVaribles.DrivesAndDirs.CuttentDirectory.ToString();
 
-                DirectiveCD temp = new DirectiveCD();
+                DirectiveCD dirCD = new DirectiveCD();
 
-                temp.ChangeDirectoryCommandExecuter("..");
+                SystemVaribles.Command = "CD ..";
 
-                DeleteTree(commandsStringArray[1]);//TODO: ВОЗМОЖНА ОШИБКА
+                dirCD.RunDirective();
+
+                SystemVaribles.Command = "";
+
+                DeleteTree(path);
             }
             else if (commandsStringArray.Length == 2)
             {

@@ -5,46 +5,30 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveCOPY : IDirective
+    internal class DirectiveCOPY : LateBinding, IDirective
     {
         private const string _directiveName = "COPY";
         public string DirectiveName { get => _directiveName; }
 
         void IDirective.RunDirective(params string[] args)
         {
-            throw new NotImplementedException();
+            CopyCommandExecuter();
+
+            NameToSerch = DirectiveName;
+
+            DirectivesConsole();
+
+            PrintDirectiveSelection();
         }
-
-
-        /// <summary>
-        /// Метод выводит на экран скопированные файлы
-        /// </summary>
-        public static void ShowCopyCommand(List<string> files)
-        {
-            Console.SetCursorPosition(0, Console.BufferHeight - 1);
-
-            Console.WriteLine();
-
-            Console.SetCursorPosition(0, Console.BufferHeight - 1);
-
-            Console.WriteLine($"Sucsessfully copied {files.Count / 2} files:");
-
-            for (int i = 0; i < files.Count; i += 2)
-            {
-                Console.SetCursorPosition(0, Console.BufferHeight - 1);
-
-                Console.WriteLine($"Copy {files[i]} to {files[i + 1]} is done.");
-            }
-            Console.WriteLine();
-        }
+        
 
         /// <summary>
         /// Метод копирует файлы или директории по указанному пути
         /// </summary>
         /// <returns>На выходе список скопированных файлов</returns>
-        public static List<string> CopyCommandExecuter()
+        public static void CopyCommandExecuter()
         {
-            string[] commands = UserCommands.Command.Split();
+            string[] commands = SystemVaribles.Command.Split();
 
             List<string> files = new List<string>();
 
@@ -73,10 +57,9 @@ namespace FileManager
                     }
                 }
             }
-            return files;
+            SystemVaribles.Files.Clear();
+
+            SystemVaribles.Files.AddRange(files);
         }
-
-
-
     }
 }

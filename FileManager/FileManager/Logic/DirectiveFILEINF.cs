@@ -24,7 +24,7 @@ namespace FileManager
         {
             FileInfo file;
 
-            string[] commands = UserCommands.Command.Split();
+            string[] commands = SystemVaribles.Command.Split();
 
             if (commands.Length == 2)
             {
@@ -50,7 +50,7 @@ namespace FileManager
                 }
                 if (!commands[1].Contains(":\\") && !commands[1].Contains(":/") && !commands[1].Contains("/") && !commands[1].Contains("\\") && commands[1].Contains('.'))
                 {
-                    file = new FileInfo($"{UserCommands.DrivesAndDirs.CuttentDirectory}\\{commands[1]}");
+                    file = new FileInfo($"{SystemVaribles.DrivesAndDirs.CuttentDirectory}\\{commands[1]}");
 
                     try
                     {

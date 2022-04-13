@@ -24,11 +24,11 @@ namespace FileManager
         {
 
 
-            if (UserCommands.Command.Split().Length == 3)
+            if (SystemVaribles.Command.Split().Length == 3)
             {
-                string pathFrom = UserCommands.Command.Split()[1];
+                string pathFrom = SystemVaribles.Command.Split()[1];
 
-                string pathTo = UserCommands.Command.Split()[2];
+                string pathTo = SystemVaribles.Command.Split()[2];
 
                 if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/"))
                     && (pathTo.Contains(":\\") || pathTo.Contains(":/")))

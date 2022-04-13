@@ -25,7 +25,7 @@ namespace FileManager
         {
             DrivesDirectoriesFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
 
-            string[] commands = UserCommands.Command.Split();
+            string[] commands = SystemVaribles.Command.Split();
 
             bool isOk = false;
 
@@ -59,7 +59,7 @@ namespace FileManager
         {
             DrivesDirectoriesFilesArray dirFiles = new DrivesDirectoriesFilesArray();
 
-            DirectoryInfo ddd = UserCommands.DrivesAndDirs.CuttentDirectory;
+            DirectoryInfo ddd = SystemVaribles.DrivesAndDirs.CuttentDirectory;
 
             dirFiles.Directories = ddd.GetDirectories();
 

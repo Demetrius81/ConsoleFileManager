@@ -4,23 +4,21 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveCLS : IDirective
+    internal class DirectiveCLS : LateBinding, IDirective
     {
         private const string _directiveName = "CLS";
         public string DirectiveName { get => _directiveName; }
 
-        void IDirective.RunDirective(params string[] args)
+        public void RunDirective(params string[] args)
         {
-            throw new NotImplementedException();
+            NameToSerch = DirectiveName;
+
+            DirectivesConsole();
+
+            PrintDirectiveSelection();
         }
 
-        /// <summary>
-        /// Метод очищает консоль
-        /// </summary>
-        public static void ClearConsoleCommandExecuter()
-        {
-            Console.Clear();
-        }
+        
 
     }
 }

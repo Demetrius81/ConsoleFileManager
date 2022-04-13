@@ -11,8 +11,6 @@ namespace FileManager
     {
         private static List<IDirective> _directives= new List<IDirective>();
 
-
-
         #region For delete
 
         /////// <summary>
@@ -148,35 +146,30 @@ namespace FileManager
         /// </summary>
         private static void DirectiveSelection()
         {
-            bool exit = false;
+            SystemVaribles.Exit = false;
 
-            StartCommandExecuter();
+            StartStop.StartCommandExecuter();
 
             Directives();
 
-            while (exit)
+            while (!SystemVaribles.Exit)
             {
-                PseudoConsoleUI.SetCursorPosition(UserCommands.DrivesAndDirs);
+                SystemVaribles.Command = "";
 
-                UserCommands.Command = Console.ReadLine();
+                PseudoConsoleUI.SetCursorPosition(SystemVaribles.DrivesAndDirs);
 
-                if (UserCommands.Command.Contains(".EXE") || UserCommands.Command.Contains(".COM") || UserCommands.Command.Contains(".BAT"))
+                SystemVaribles.Command = Console.ReadLine();
+
+                if (SystemVaribles.Command.Contains(".EXE") || SystemVaribles.Command.Contains(".COM") || SystemVaribles.Command.Contains(".BAT"))
                 {
-                    UserCommands.Command = String.Format(UserCommands.DrivesAndDirs.CuttentDirectory.ToString() + UserCommands.Command);
+                    SystemVaribles.Command = String.Format(SystemVaribles.DrivesAndDirs.CuttentDirectory.ToString() + SystemVaribles.Command);
 
-                    BasicLogic.CreateProcess(UserCommands.Command);
+                    BasicLogic.CreateProcess(SystemVaribles.Command);
 
                     continue;
                 }
-                string[] commandsStringArray = UserCommands.Command.Split();
-
-                //if (UserCommands.CommandInt == -1)
-                //{
-                //    continue;
-                //}
+                string[] commandsStringArray = SystemVaribles.Command.Split();
                 
-                //userChoice = Console.ReadLine();
-
                 foreach (IDirective directive in _directives)
                 {
                     if (directive.DirectiveName == commandsStringArray[0].ToUpperInvariant())
@@ -186,7 +179,6 @@ namespace FileManager
                 }
             }
         }
-
         
         /// <summary>
         /// Метод при помощи механизмов класса System.Reflection динамически подключает библиотеку классов
@@ -199,9 +191,9 @@ namespace FileManager
 
             foreach (Type type in types)
             {
-                FieldInfo field = type.GetField("_directiveName");
+                PropertyInfo field = type.GetProperty("DirectiveName");
 
-                if (type.IsInterface && type.GetField("_directiveName")!=null)
+                if (!(field is null) && !type.IsInterface)
                 {
                     object obj = Activator.CreateInstance(type);
 
@@ -209,71 +201,5 @@ namespace FileManager
                 }
             }
         }
-
-
-
-        /// <summary>
-        /// Метод запускает консоль, читает из файла сохраненный при прошлом корректном выходе статус.
-        /// </summary>
-        public static void StartCommandExecuter()
-        {
-            if (File.Exists("path.json"))
-            {
-                string temp = File.ReadAllText("path.json");
-
-                string[] tempArr = JsonConvert.DeserializeObject<string>(temp).Split("|W|");
-
-                UserCommands.DrivesAndDirs.CurrentDrive = new DriveInfo(tempArr[0]);
-
-                UserCommands.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(tempArr[1]);
-
-                if (!UserCommands.DrivesAndDirs.CuttentDirectory.Exists)
-                {
-                    UserCommands.DrivesAndDirs = new DrivesAndDirectories();
-                }
-            }
-            else
-            {
-                UserCommands.DrivesAndDirs = new DrivesAndDirectories();
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// Метод считывает из консоли команды пользователя и сравнивает их со списком команд
-        /// </summary>
-        public static void UserCommandReader()
-        {
-            UserCommands.Command = Console.ReadLine();
-
-            //string comm = UserCommands.Command != "" ? UserCommands.Command.Split()[0] : "";
-
-            //for (int i = 0; i < commands.Count; i++)
-            //{
-            //    //if (commands[i] == comm)
-                //{
-                //    UserCommands.CommandInt = i;
-
-                //    break;
-                //}
-                //else 
-                //if (comm.Contains(".EXE") || comm.Contains(".COM") || comm.Contains(".BAT"))
-                //{
-                //    comm = String.Format(UserCommands.DrivesAndDirs.CuttentDirectory.ToString() + UserCommands.Command);
-
-                //    BasicLogic.CreateProcess(comm);
-                //}
-            //}
-        }
-
-
-
-
-
-
-
-
     }
 }
