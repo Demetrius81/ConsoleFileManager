@@ -5,15 +5,21 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveFILEINF : IDirective
+    internal class DirectiveFILEINF : Directive, IDirective
     {
         private const string _directiveName = "FILEINF";
 
         public string DirectiveName { get => _directiveName; }
 
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
-            //StartDirective(args[0]);
+            NameToSerch = DirectiveName;
+
+            SVarible = varibles;
+
+            PrintFilePropertiesRun();           
+
+            return SVarible;
         }
 
 
@@ -22,21 +28,19 @@ namespace FileManager
         /// </summary>
         public static void FilePropertiesCommandExecuter()
         {
-            FileInfo file;
-
-            string[] commands = Varibles.Command.Split();
+            string[] commands = SVarible.Command.Split();
 
             if (commands.Length == 2)
             {
                 if ((commands[1].Contains(":\\") || commands[1].Contains(":/")) && commands[1].Contains('.'))
                 {
-                    file = new FileInfo(commands[1]);
+                    SVarible.VarFile = new FileInfo(commands[1]);
 
                     try
                     {
-                        if (file.Exists)
+                        if (SVarible.VarFile.Exists)
                         {
-                            PseudoConsoleUI.PrintFileProperties(file);
+                            PrintFilePropertiesRun();
                         }
                     }
                     catch (Exception ex)
@@ -50,13 +54,13 @@ namespace FileManager
                 }
                 if (!commands[1].Contains(":\\") && !commands[1].Contains(":/") && !commands[1].Contains("/") && !commands[1].Contains("\\") && commands[1].Contains('.'))
                 {
-                    file = new FileInfo($"{Varibles.DrivesAndDirs.CuttentDirectory}\\{commands[1]}");
+                    SVarible.VarFile = new FileInfo($"{SVarible.DrivesAndDirs.CuttentDirectory}\\{commands[1]}");
 
                     try
                     {
-                        if (file.Exists)
+                        if (SVarible.VarFile.Exists)
                         {
-                            PseudoConsoleUI.PrintFileProperties(file);
+                            PrintFilePropertiesRun();
                         }
                     }
                     catch (Exception ex)
@@ -73,7 +77,12 @@ namespace FileManager
 
 
 
+        private static void PrintFilePropertiesRun()
+        {
+            DirectivesConsole();
 
+            PrintDirectiveSelection();
+        }
 
 
 

@@ -12,11 +12,11 @@ namespace FileManager
 
         public Varibles RunDirective(Varibles varibles)
         {
-            Varibles = varibles;
+            SVarible = varibles;
 
             DeleteCommandExecuter();
 
-            return Varibles;
+            return SVarible;
         }
 
 
@@ -26,7 +26,7 @@ namespace FileManager
         /// </summary>
         public static void DeleteCommandExecuter()
         {
-            string[] pathArr = Varibles.Command.Split();
+            string[] pathArr = SVarible.Command.Split();
 
             if ((pathArr[1].Contains(":\\") || pathArr[1].Contains(":/")) && pathArr[1].Split('\\', '/').Length == 1)
             {

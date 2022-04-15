@@ -13,13 +13,13 @@ namespace FileManager
         {
             NameToSerch = DirectiveName;
 
-            Varibles = varibles;
+            SVarible = varibles;
 
             DirectivesConsole();
 
             PrintDirectiveSelection();
 
-            return Varibles;
+            return SVarible;
         }
     }
 }

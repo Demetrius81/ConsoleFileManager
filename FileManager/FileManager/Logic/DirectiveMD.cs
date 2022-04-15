@@ -5,14 +5,18 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveMD : IDirective
+    internal class DirectiveMD : Directive, IDirective
     {
         private const string _directiveName = "MD";
         public string DirectiveName { get => _directiveName; }
 
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
-            throw new NotImplementedException();
+            SVarible = varibles;
+
+            MakingDirectoryCommandExecuter();            
+
+            return varibles;
         }
 
 
@@ -22,13 +26,13 @@ namespace FileManager
         /// </summary>
         public static void MakingDirectoryCommandExecuter()
         {
-            string[] commands = Varibles.Command.Split();
+            string[] commands = SVarible.Command.Split();
 
-            Varibles.Command = "";
+            SVarible.Command = "";
 
             if (commands.Length > 1 && !commands[1].Contains('\\') && !commands[1].Contains('/'))
             {
-                Directory.SetCurrentDirectory(Varibles.DrivesAndDirs.CuttentDirectory.ToString());
+                Directory.SetCurrentDirectory(SVarible.DrivesAndDirs.CuttentDirectory.ToString());
 
                 Directory.CreateDirectory(commands[1]);
             }

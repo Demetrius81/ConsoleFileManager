@@ -4,15 +4,25 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectivePROC : IDirective
+    internal class DirectivePROC : Directive, IDirective
     {
         private const string _directiveName = "PROC";
 
         public string DirectiveName { get => _directiveName; }
 
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
-            //StartDirective(args[0]);
+            SVarible = varibles;
+
+            SVarible.TaskManager = new BasicLogic();
+
+            NameToSerch = DirectiveName;
+
+            DirectivesConsole();
+
+            PrintDirectiveSelection();
+
+            return varibles;
         }
 
 
@@ -35,34 +45,55 @@ namespace FileManager
         /// </summary>
         public static void ProcessCommandExecuter()
         {
-            string[] commands = Varibles.Command.Split();
+            string[] commands = SVarible.Command.Split();
 
             if (commands.Length == 2)
             {
                 if (commands[1] == "-DEL")
                 {
-                    PseudoConsoleUI.DeleteProcess();
+                    DeleteProcessCall();
                 }
                 if (commands[1] == "-CRT")
                 {
-                    PseudoConsoleUI.CreateProcess();
+                    CreateProcessCall();
                 }
             }
             if (commands.Length == 1)
             {
-                PseudoConsoleUI.PrintProcesses(BasicLogic.GetAllProcesses());
+                PrintProcessesCall();
             }
         }
 
 
 
+        private static void PrintProcessesCall()
+        {
+            NameToSerch = "PROCPRINTALL";
+
+            DirectivesConsole();
+
+            PrintDirectiveSelection();
+        }
 
 
 
+        private static void DeleteProcessCall()
+        {
+            NameToSerch = "PROCDELETE";
 
+            DirectivesConsole();
 
+            PrintDirectiveSelection();
+        }
 
+        private static void CreateProcessCall()
+        {
+            NameToSerch = "PROCCREATE";
 
+            DirectivesConsole();
+
+            PrintDirectiveSelection();
+        }
 
     }
 }

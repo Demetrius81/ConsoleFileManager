@@ -5,14 +5,19 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveMOVE : IDirective
+    internal class DirectiveMOVE : Directive, IDirective
     {
         private const string _directiveName = "MOVE";
+
         public string DirectiveName { get => _directiveName; }
 
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
-            throw new NotImplementedException();
+            SVarible = varibles;
+
+            MoveCommandExecuter();
+
+            return varibles;
         }
 
         /// <summary>
@@ -24,11 +29,11 @@ namespace FileManager
         {
 
 
-            if (Varibles.Command.Split().Length == 3)
+            if (SVarible.Command.Split().Length == 3)
             {
-                string pathFrom = Varibles.Command.Split()[1];
+                string pathFrom = SVarible.Command.Split()[1];
 
-                string pathTo = Varibles.Command.Split()[2];
+                string pathTo = SVarible.Command.Split()[2];
 
                 if ((pathFrom.Contains(":\\") || pathFrom.Contains(":/"))
                     && (pathTo.Contains(":\\") || pathTo.Contains(":/")))

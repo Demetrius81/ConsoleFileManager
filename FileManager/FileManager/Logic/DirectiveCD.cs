@@ -13,7 +13,7 @@ namespace FileManager
         
         public Varibles RunDirective(Varibles varibles)
         {
-            Varibles = varibles;
+            SVarible = varibles;
 
             ChangeDirectoryCommandExecuter();
 
@@ -32,7 +32,7 @@ namespace FileManager
         /// <param name="path">Принимает string значение управляющая команда</param>
         private void ChangeDirectoryCommandExecuter()
         {
-            string[] commands = Varibles.Command.Split();
+            string[] commands = SVarible.Command.Split();
 
             string path = commands[1];
 
@@ -47,34 +47,34 @@ namespace FileManager
 
                 if (path == "..")
                 {
-                    DirectoryInfo tempDir = Varibles.DrivesAndDirs.CuttentDirectory.Parent;
+                    DirectoryInfo tempDir = SVarible.DrivesAndDirs.CuttentDirectory.Parent;
                     if (!(tempDir is null))
                     {
-                        Varibles.DrivesAndDirs.CuttentDirectory = tempDir;
+                        SVarible.DrivesAndDirs.CuttentDirectory = tempDir;
                     }
                 }
                 if (!path.Contains(":\\") && !path.Contains(":/") && !path.Contains(".."))
                 {
-                    temp = $"{Varibles.DrivesAndDirs.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
+                    temp = $"{SVarible.DrivesAndDirs.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
 
                     if (Directory.Exists(temp))
                     {
-                        Varibles.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp);
+                        SVarible.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp);
                     }
-                    Varibles.Command = "";
+                    SVarible.Command = "";
                 }
                 else if ((path.Contains('\\') || path.Contains('/')) && (path.Contains(":\\") || path.Contains(":/")))
                 {
                     temp = $"{path}";
 
-                    if ((temp[1] == ':') && !temp.Contains(Varibles.DrivesAndDirs.CurrentDrive.ToString().ToUpperInvariant()))
+                    if ((temp[1] == ':') && !temp.Contains(SVarible.DrivesAndDirs.CurrentDrive.ToString().ToUpperInvariant()))
                     {
-                        Varibles.DrivesAndDirs.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
+                        SVarible.DrivesAndDirs.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
                     }
 
                     if (Directory.Exists(temp))
                     {
-                        Varibles.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
+                        SVarible.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
                     }                    
                 }
             }

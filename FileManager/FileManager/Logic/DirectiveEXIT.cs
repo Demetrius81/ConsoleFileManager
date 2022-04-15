@@ -14,11 +14,11 @@ namespace FileManager
 
         public Varibles RunDirective(Varibles varibles)
         {
-            Varibles = varibles;
+            SVarible = varibles;
 
-            Varibles.Exit = ExitCommandExecuter(varibles);
+            SVarible.Exit = ExitCommandExecuter(varibles);
 
-            return Varibles;
+            return SVarible;
         }
 
 

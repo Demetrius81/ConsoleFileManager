@@ -14,7 +14,7 @@ namespace FileManager
         {
             NameToSerch = DirectiveName;
 
-            Varibles = varibles;
+            SVarible = varibles;
 
             CopyCommandExecuter();            
 
@@ -22,7 +22,7 @@ namespace FileManager
 
             PrintDirectiveSelection();
 
-            return Varibles;
+            return SVarible;
         }
         
 

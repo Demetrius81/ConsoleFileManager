@@ -13,11 +13,11 @@ namespace FileManager
 
         public Varibles RunDirective(Varibles varibles)
         {
-            Varibles = varibles;
+            SVarible = varibles;
 
             DeleteTreeCommandExecuter();
 
-            return Varibles;
+            return SVarible;
         }
 
 
@@ -70,17 +70,17 @@ namespace FileManager
         /// </summary>
         public static void DeleteTreeCommandExecuter()
         {
-            string[] commandsStringArray = Varibles.Command.Split();
+            string[] commandsStringArray = SVarible.Command.Split();
 
             if (commandsStringArray.Length == 1)
             {
-                string path = Varibles.DrivesAndDirs.CuttentDirectory.ToString();
+                string path = SVarible.DrivesAndDirs.CuttentDirectory.ToString();
 
                 DirectiveCD dirCD = new DirectiveCD();
 
-                Varibles.Command = "CD ..";
+                SVarible.Command = "CD ..";
 
-                Varibles = dirCD.RunDirective(Varibles);
+                SVarible = dirCD.RunDirective(SVarible);
 
                 DeleteTree(path);
             }

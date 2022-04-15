@@ -15,9 +15,9 @@ namespace FileManager
 
         public static string NameToSerch { get => _nameToSerch; set => _nameToSerch = value; }
 
-        private static Varibles _varibles;
+        private static Varibles _sVarible;
 
-        internal static Varibles Varibles { get => _varibles; set => _varibles = value; }
+        internal static Varibles SVarible { get => _sVarible; set => _sVarible = value; }
 
         /// <summary>
         /// Метод при помощи механизмов класса System.Reflection динамически подключает библиотеку классов
@@ -47,7 +47,7 @@ namespace FileManager
             {
                 if (directive.Name == NameToSerch)
                 {
-                    Varibles = directive.StartPrint(Varibles);
+                    SVarible = directive.StartPrint(SVarible);
                 }
             }                       
         }
