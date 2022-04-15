@@ -8,7 +8,7 @@ namespace FileManager
     {
         public string DirectiveName { get; }
 
-        void RunDirective(params string[] args);
+        Varibles RunDirective(Varibles varibles);
 
     }
 }

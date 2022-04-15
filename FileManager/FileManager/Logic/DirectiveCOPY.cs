@@ -5,20 +5,24 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveCOPY : LateBinding, IDirective
+    internal class DirectiveCOPY : Directive, IDirective
     {
         private const string _directiveName = "COPY";
         public string DirectiveName { get => _directiveName; }
 
-        void IDirective.RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
-            CopyCommandExecuter();
-
             NameToSerch = DirectiveName;
+
+            Varibles = varibles;
+
+            CopyCommandExecuter();            
 
             DirectivesConsole();
 
             PrintDirectiveSelection();
+
+            return Varibles;
         }
         
 
@@ -28,7 +32,7 @@ namespace FileManager
         /// <returns>На выходе список скопированных файлов</returns>
         public static void CopyCommandExecuter()
         {
-            string[] commands = SystemVaribles.Command.Split();
+            string[] commands = FileManager.Varibles.Command.Split();
 
             List<string> files = new List<string>();
 
@@ -57,9 +61,9 @@ namespace FileManager
                     }
                 }
             }
-            SystemVaribles.Files.Clear();
+            FileManager.Varibles.Files.Clear();
 
-            SystemVaribles.Files.AddRange(files);
+            FileManager.Varibles.Files.AddRange(files);
         }
     }
 }

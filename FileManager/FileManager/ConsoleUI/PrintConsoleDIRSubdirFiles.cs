@@ -5,14 +5,18 @@ using System.Text;
 
 namespace FileManager.ConsoleUI
 {
-    internal class PrintConsoleDIR : IPrintConsole
+    internal class PrintConsoleDIRSubdirFiles : PrintConsole, IPrintConsole
     {
 
-        public string Name => "DIR";
+        public string Name => "DIRSD";
 
-        public void StartPrint()
+        public Varibles StartPrint(Varibles varibles)
         {
-            throw new NotImplementedException();
+            SysVaribles = varibles;
+
+            
+
+            return SysVaribles;
         }
 
 
@@ -22,7 +26,7 @@ namespace FileManager.ConsoleUI
         /// </summary>
         /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
         /// <param name="userPage">int Номер страницы</param>
-        public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirectoriesFilesArray dirFiles, int userPage)
+        public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirsFilesArray dirFiles, int userPage)
         {
             FileInfo[] files = dirFiles.Files;
 

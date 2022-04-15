@@ -2,10 +2,26 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FileManager.ConsoleUI
+namespace FileManager
 {
-    internal class PrintConsoleCOPY
+    internal class PrintConsoleCOPY : PrintConsole, IPrintConsole
     {
+        public string Name => "COPY";
+
+
+        public Varibles StartPrint(Varibles varibles)
+        {
+            SysVaribles = varibles;
+
+            ShowCopyCommand();
+
+            return SysVaribles;
+        }
+
+
+
+
+
         /// <summary>
         /// Метод выводит на экран скопированные файлы
         /// </summary>
@@ -13,9 +29,9 @@ namespace FileManager.ConsoleUI
         {
             List<string> files = new List<string>();
 
-            files.AddRange(SystemVaribles.Files);
+            files.AddRange(SysVaribles.Files);
 
-            SystemVaribles.Files.Clear();
+            SysVaribles.Files.Clear();
 
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
 

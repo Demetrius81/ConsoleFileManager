@@ -5,20 +5,24 @@ using System.Text;
 
 namespace FileManager
 {
-    public abstract class LateBinding
+    public class Directive
     {
-        private List<IPrintConsole> _printConsole = new List<IPrintConsole>();
+        private static List<IPrintConsole> _printConsole = new List<IPrintConsole>();
 
-        internal List<IPrintConsole> PrintConsole { get => _printConsole; set => _printConsole = value; }
+        internal static List<IPrintConsole> PrintConsole { get => _printConsole; set => _printConsole = value; }
 
-        private string _nameToSerch;
+        private static string _nameToSerch;
 
-        public string NameToSerch { get => _nameToSerch; set => _nameToSerch = value; }
+        public static string NameToSerch { get => _nameToSerch; set => _nameToSerch = value; }
+
+        private static Varibles _varibles;
+
+        internal static Varibles Varibles { get => _varibles; set => _varibles = value; }
 
         /// <summary>
         /// Метод при помощи механизмов класса System.Reflection динамически подключает библиотеку классов
         /// </summary>
-        protected void DirectivesConsole()
+        internal static void DirectivesConsole()
         {
             Assembly asm = Assembly.GetExecutingAssembly();
 
@@ -37,13 +41,13 @@ namespace FileManager
             }
         }
 
-        protected void PrintDirectiveSelection()
+        internal static void PrintDirectiveSelection()
         {
             foreach (IPrintConsole directive in PrintConsole)
             {
                 if (directive.Name == NameToSerch)
                 {
-                    directive.StartPrint();
+                    Varibles = directive.StartPrint(Varibles);
                 }
             }                       
         }

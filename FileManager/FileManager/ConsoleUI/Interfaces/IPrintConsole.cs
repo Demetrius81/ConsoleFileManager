@@ -8,6 +8,8 @@ namespace FileManager
     {
         public string Name { get; }
 
-        public void StartPrint(params object[] args);
+        
+
+        public Varibles StartPrint(Varibles varibles);
     }
 }

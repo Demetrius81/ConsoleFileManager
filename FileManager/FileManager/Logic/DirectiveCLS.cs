@@ -4,21 +4,22 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveCLS : LateBinding, IDirective
+    internal class DirectiveCLS : Directive, IDirective
     {
         private const string _directiveName = "CLS";
         public string DirectiveName { get => _directiveName; }
-
-        public void RunDirective(params string[] args)
+        
+        public Varibles RunDirective(Varibles varibles)
         {
             NameToSerch = DirectiveName;
+
+            Varibles = varibles;
 
             DirectivesConsole();
 
             PrintDirectiveSelection();
+
+            return Varibles;
         }
-
-        
-
     }
 }

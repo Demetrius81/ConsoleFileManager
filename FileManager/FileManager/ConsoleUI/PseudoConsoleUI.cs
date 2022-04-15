@@ -90,7 +90,7 @@ namespace FileManager
         /// <param name="dirStop">int крайний каталог на странице</param>
         /// <param name="fileStart">int первый файл на странице</param>
         /// <param name="fileStop">int крайний файл на странице</param>
-        public static void PrintAllSubdirectoriesAndFilesByPages(DrivesDirectoriesFilesArray dirFiles, int dirStart, int dirStop, int fileStart, int fileStop)
+        public static void PrintAllSubdirectoriesAndFilesByPages(DrivesDirsFilesArray dirFiles, int dirStart, int dirStop, int fileStart, int fileStop)
         {
             FileInfo[] files = dirFiles.Files;
 

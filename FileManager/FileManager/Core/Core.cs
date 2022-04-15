@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -9,7 +10,11 @@ namespace FileManager
 {
     public static class Core
     {
-        private static List<IDirective> _directives= new List<IDirective>();
+        private static List<IDirective> _directives = new List<IDirective>();
+
+        private static Varibles _varibles = new Varibles();
+
+        internal static Varibles Varibles { get => _varibles; set => _varibles = value; }
 
         #region For delete
 
@@ -146,40 +151,57 @@ namespace FileManager
         /// </summary>
         private static void DirectiveSelection()
         {
-            SystemVaribles.Exit = false;
+            Varibles.Exit = false;
 
-            StartStop.StartCommandExecuter();
+            Varibles = Start.StartCommandExecuter(Varibles);
 
             Directives();
 
-            while (!SystemVaribles.Exit)
+            while (!Varibles.Exit)
             {
-                SystemVaribles.Command = "";
+                Varibles.Command = "";
 
-                PseudoConsoleUI.SetCursorPosition(SystemVaribles.DrivesAndDirs);
+                PseudoConsoleUI.SetCursorPosition(Varibles.DrivesAndDirs);
 
-                SystemVaribles.Command = Console.ReadLine();
+                Varibles.Command = Console.ReadLine();
 
-                if (SystemVaribles.Command.Contains(".EXE") || SystemVaribles.Command.Contains(".COM") || SystemVaribles.Command.Contains(".BAT"))
+                if (Varibles.Command.Contains(".EXE") ||
+                    Varibles.Command.Contains(".COM") ||
+                    Varibles.Command.Contains(".BAT"))
                 {
-                    SystemVaribles.Command = String.Format(SystemVaribles.DrivesAndDirs.CuttentDirectory.ToString() + SystemVaribles.Command);
+                    Varibles.Command = String.Format(Varibles.DrivesAndDirs.CuttentDirectory.ToString()
+                        + Varibles.Command);
 
-                    BasicLogic.CreateProcess(SystemVaribles.Command);
+                    ProcessStartInfo startInfo = new ProcessStartInfo(Varibles.Command);
 
+                    Process process = new Process();
+
+                    process.StartInfo = startInfo;
+
+                    try
+                    {
+                        process.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        Exeptions.ShowException(ex);
+
+                        Exeptions.ExceptionInFile(ex);
+                    }
                     continue;
                 }
-                string[] commandsStringArray = SystemVaribles.Command.Split();
-                
+                string[] commandsStringArray = Varibles.Command.Split();
+
                 foreach (IDirective directive in _directives)
                 {
                     if (directive.DirectiveName == commandsStringArray[0].ToUpperInvariant())
                     {
-                        directive.RunDirective();
+                        Varibles = directive.RunDirective(Varibles);
                     }
                 }
             }
         }
-        
+
         /// <summary>
         /// Метод при помощи механизмов класса System.Reflection динамически подключает библиотеку классов
         /// </summary>

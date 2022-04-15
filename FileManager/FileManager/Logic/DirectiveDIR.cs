@@ -5,14 +5,26 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveDIR : IDirective
+    internal class DirectiveDIR : Directive, IDirective
     {
         private const string _directiveName = "DIR";
         public string DirectiveName { get => _directiveName; }
 
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
-            throw new NotImplementedException();
+
+            Varibles = varibles;
+
+            NameToSerch = DirectiveName;
+
+            ShowAllSubdirectoriesAndFilesByPages();
+
+            DirectivesConsole();
+
+            PrintDirectiveSelection();
+
+            return Varibles;
+            
         }
 
 
@@ -23,9 +35,9 @@ namespace FileManager
 
         public static void ShowAllSubdirectoriesAndFilesByPages()
         {
-            DrivesDirectoriesFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
+            DrivesDirsFilesArray dirFiles = ShowAllSubdirectoriesAndFilesCommandExecuter();
 
-            string[] commands = SystemVaribles.Command.Split();
+            string[] commands = Varibles.Command.Split();
 
             bool isOk = false;
 
@@ -35,7 +47,7 @@ namespace FileManager
             {
                 isOk = int.TryParse(commands[2], out page);
             }
-            if (commands.Length == 3 && isOk && commands[1] == "-P" && page > 0)
+            if ((commands.Length == 3 && isOk && commands[1] == "-P" && page > 0) || (commands.Length == 1))
             {
                 ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
             }
@@ -43,11 +55,6 @@ namespace FileManager
             {
                 ShowAllDrivesLogic();
             }
-            if (commands.Length == 1)
-            {
-                ShowAllSubdirectoriesAndFilesLogic(dirFiles, page);
-            }
-
         }
 
 
@@ -55,15 +62,11 @@ namespace FileManager
         /// Метод выводит в консоль все подкаталоги и файлы текущего каталога
         /// </summary>
         /// <returns>DrivesDirectoriesFilesArray Объект, в котором находятся данные о подкаталогах и файлах текущего каталога</returns>
-        public static DrivesDirectoriesFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
+        public static DrivesDirsFilesArray ShowAllSubdirectoriesAndFilesCommandExecuter()
         {
-            DrivesDirectoriesFilesArray dirFiles = new DrivesDirectoriesFilesArray();
+            Varibles.DrivesDirFilesArray.Directories = Varibles.DrivesAndDirs.CuttentDirectory.GetDirectories();
 
-            DirectoryInfo ddd = SystemVaribles.DrivesAndDirs.CuttentDirectory;
-
-            dirFiles.Directories = ddd.GetDirectories();
-
-            dirFiles.Files = ddd.GetFiles();
+            Varibles.DrivesDirFilesArray.Files = Varibles.DrivesAndDirs.CuttentDirectory.GetFiles();
 
             return (dirFiles);
         }
@@ -74,11 +77,11 @@ namespace FileManager
         /// </summary>
         /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
         /// <param name="userPage">int Номер страницы</param>
-        public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirectoriesFilesArray dirFiles, int userPage)
+        public static void ShowAllSubdirectoriesAndFilesLogic(DrivesDirsFilesArray dirFiles, int userPage)
         {
-            FileInfo[] files = dirFiles.Files;
+            FileInfo[] files = Varibles.DrivesAndDirs.CuttentDirectory.GetFiles();
 
-            DirectoryInfo[] subdirectories = dirFiles.Directories;
+            DirectoryInfo[] subdirectories = Varibles.DrivesAndDirs.CuttentDirectory.GetDirectories();
 
             int dirStart = 0;
 

@@ -5,7 +5,7 @@ namespace FileManager
     /// <summary>
     /// Класс для временного хранения информации о файловой системе
     /// </summary>
-    public class DrivesDirectoriesFilesArray
+    public class DrivesDirsFilesArray
     {
         /// <summary>
         /// Поле, где храняться данные о дисках

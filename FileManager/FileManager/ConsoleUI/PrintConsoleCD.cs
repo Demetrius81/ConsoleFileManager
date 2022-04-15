@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FileManager.ConsoleUI
+namespace FileManager
 {
-    public class PrintConsoleCD : IPrintConsole
+    public class PrintConsoleCD : PrintConsole, IPrintConsole
     {
         public string Name => "CD";
 
-        public void StartPrint()
+        public Varibles StartPrint(Varibles varibles)
         {
-            throw new NotImplementedException();
+            SysVaribles = varibles;
+
+            PrintDirectoryProrerties();
+
+            return SysVaribles;
         }
 
 
@@ -20,7 +24,7 @@ namespace FileManager.ConsoleUI
         /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
         public static void PrintDirectoryProrerties()
         {
-            CurrentDrivesAndDirs dirFiles = SystemVaribles.DrivesAndDirs;
+            CurrentDrivesAndDirs dirFiles = SysVaribles.DrivesAndDirs;
 
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
@@ -76,7 +80,6 @@ namespace FileManager.ConsoleUI
 
             Console.WriteLine();
         }
-
 
 
     }

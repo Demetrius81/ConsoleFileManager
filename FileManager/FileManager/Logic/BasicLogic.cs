@@ -67,6 +67,7 @@ namespace FileManager
         public bool CreateNewProcess(string programmName)
         {
             ProcessStartInfo startInfo;
+
             if (programmName.Contains(@"http://"))
             {
                 startInfo = new ProcessStartInfo()

@@ -5,16 +5,16 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveCD : LateBinding, IDirective 
+    internal class DirectiveCD : Directive, IDirective 
     {
         private string _directiveName = "CD";
 
         public string DirectiveName { get => _directiveName; }
-
         
-
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
+            Varibles = varibles;
+
             ChangeDirectoryCommandExecuter();
 
             NameToSerch = DirectiveName;
@@ -22,6 +22,8 @@ namespace FileManager
             DirectivesConsole();
 
             PrintDirectiveSelection();
+
+            return varibles;
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace FileManager
         /// <param name="path">Принимает string значение управляющая команда</param>
         private void ChangeDirectoryCommandExecuter()
         {
-            string[] commands = SystemVaribles.Command.Split();
+            string[] commands = Varibles.Command.Split();
 
             string path = commands[1];
 
@@ -45,36 +47,35 @@ namespace FileManager
 
                 if (path == "..")
                 {
-                    DirectoryInfo tempDir = SystemVaribles.DrivesAndDirs.CuttentDirectory.Parent;
+                    DirectoryInfo tempDir = Varibles.DrivesAndDirs.CuttentDirectory.Parent;
                     if (!(tempDir is null))
                     {
-                        SystemVaribles.DrivesAndDirs.CuttentDirectory = tempDir;
+                        Varibles.DrivesAndDirs.CuttentDirectory = tempDir;
                     }
                 }
                 if (!path.Contains(":\\") && !path.Contains(":/") && !path.Contains(".."))
                 {
-                    temp = $"{SystemVaribles.DrivesAndDirs.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
+                    temp = $"{Varibles.DrivesAndDirs.CuttentDirectory.ToString().ToUpperInvariant()}\\{path.ToUpperInvariant()}";
 
                     if (Directory.Exists(temp))
                     {
-                        SystemVaribles.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp);
+                        Varibles.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp);
                     }
-                    SystemVaribles.Command = "";
+                    Varibles.Command = "";
                 }
                 else if ((path.Contains('\\') || path.Contains('/')) && (path.Contains(":\\") || path.Contains(":/")))
                 {
                     temp = $"{path}";
 
-                    if ((temp[1] == ':') && !temp.Contains(SystemVaribles.DrivesAndDirs.CurrentDrive.ToString().ToUpperInvariant()))
+                    if ((temp[1] == ':') && !temp.Contains(Varibles.DrivesAndDirs.CurrentDrive.ToString().ToUpperInvariant()))
                     {
-                        SystemVaribles.DrivesAndDirs.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
+                        Varibles.DrivesAndDirs.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
                     }
 
                     if (Directory.Exists(temp))
                     {
-                        SystemVaribles.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
-                    }
-                    SystemVaribles.Command = "";
+                        Varibles.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
+                    }                    
                 }
             }
         }       

@@ -5,15 +5,19 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveDELTREE : IDirective
+    internal class DirectiveDELTREE : Directive, IDirective
     {
 
         private const string _directiveName = "DELTREE";
         public string DirectiveName { get => _directiveName; }
 
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
+            Varibles = varibles;
+
             DeleteTreeCommandExecuter();
+
+            return Varibles;
         }
 
 
@@ -66,19 +70,17 @@ namespace FileManager
         /// </summary>
         public static void DeleteTreeCommandExecuter()
         {
-            string[] commandsStringArray = SystemVaribles.Command.Split();
+            string[] commandsStringArray = Varibles.Command.Split();
 
             if (commandsStringArray.Length == 1)
             {
-                string path = SystemVaribles.DrivesAndDirs.CuttentDirectory.ToString();
+                string path = Varibles.DrivesAndDirs.CuttentDirectory.ToString();
 
                 DirectiveCD dirCD = new DirectiveCD();
 
-                SystemVaribles.Command = "CD ..";
+                Varibles.Command = "CD ..";
 
-                dirCD.RunDirective();
-
-                SystemVaribles.Command = "";
+                Varibles = dirCD.RunDirective(Varibles);
 
                 DeleteTree(path);
             }

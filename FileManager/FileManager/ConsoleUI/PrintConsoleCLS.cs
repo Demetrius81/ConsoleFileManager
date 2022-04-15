@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FileManager.ConsoleUI
+namespace FileManager
 {
-    internal class PrintConsoleCLS : IPrintConsole
+    internal class PrintConsoleCLS : PrintConsole, IPrintConsole
     {
         public string Name => "CLS";
 
 
-        public void StartPrint()
+        public Varibles StartPrint(Varibles varibles)
         {
+            SysVaribles = varibles;
+
             ClearConsoleCommandExecuter();
+
+            return SysVaribles;
         }
 
 
@@ -22,6 +26,6 @@ namespace FileManager.ConsoleUI
         {
             Console.Clear();
         }
-
+                
     }
 }

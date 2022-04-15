@@ -5,14 +5,18 @@ using System.Text;
 
 namespace FileManager
 {
-    internal class DirectiveDEL : IDirective
+    internal class DirectiveDEL : Directive, IDirective
     {
         private const string _directiveName = "DEL";
         public string DirectiveName { get => _directiveName; }
 
-        public void RunDirective(params string[] args)
+        public Varibles RunDirective(Varibles varibles)
         {
+            Varibles = varibles;
+
             DeleteCommandExecuter();
+
+            return Varibles;
         }
 
 
@@ -22,7 +26,7 @@ namespace FileManager
         /// </summary>
         public static void DeleteCommandExecuter()
         {
-            string[] pathArr = SystemVaribles.Command.Split();
+            string[] pathArr = Varibles.Command.Split();
 
             if ((pathArr[1].Contains(":\\") || pathArr[1].Contains(":/")) && pathArr[1].Split('\\', '/').Length == 1)
             {
