@@ -11,7 +11,7 @@ namespace FileManager
     /// </summary>
     public class Engine
     {
-        #region Fields and properties
+        #region Fields and properties For delete
 
         ///// <summary>
         ///// Поле для хранения текущей команды пользователя
@@ -118,8 +118,6 @@ namespace FileManager
         //}
 
         #endregion
-
-
 
         #region For delete
 

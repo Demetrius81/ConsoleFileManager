@@ -10,7 +10,7 @@ namespace FileManager
     /// </summary>
     public class PseudoConsoleUI
     {
-        #region Fields and properties
+
 
         /// <summary>
         /// Константа запроса на ввод информации
@@ -52,7 +52,6 @@ namespace FileManager
         /// </summary>
         public const int PAGE_LINES = 40;
 
-        #endregion
 
 
         #region For delete
@@ -81,75 +80,71 @@ namespace FileManager
 
         #endregion
 
+        #region For delete
 
-        
 
-        
+        ///// <summary>
+        ///// Метод выводит на экран состояние текущей директории
+        ///// </summary>
+        ///// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
+        //public static void PrintDirectoryProrerties(CurrentDrivesAndDirs dirFiles)
+        //{
+        //    Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-        
+        //    Console.WriteLine();
 
-        
+        //    Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-        /// <summary>
-        /// Метод выводит на экран состояние текущей директории
-        /// </summary>
-        /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
-        public static void PrintDirectoryProrerties(CurrentDrivesAndDirs dirFiles)
-        {
-            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+        //    Console.ForegroundColor = ConsoleColor.DarkGray;
 
-            Console.WriteLine();
+        //    Console.Write($"Текущая директория: ");
 
-            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+        //    Console.ForegroundColor = ConsoleColor.Magenta;
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
+        //    Console.Write($"{dirFiles.CuttentDirectory.FullName}");
 
-            Console.Write($"Текущая директория: ");
+        //    Console.ForegroundColor = ConsoleColor.DarkGray;
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
+        //    Console.Write($" содержит: ");
 
-            Console.Write($"{dirFiles.CuttentDirectory.FullName}");
+        //    Console.ForegroundColor = ConsoleColor.Magenta;
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
+        //    Console.Write($"{dirFiles.CuttentDirectory.GetFiles().Length}");
 
-            Console.Write($" содержит: ");
+        //    Console.ForegroundColor = ConsoleColor.DarkGray;
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
+        //    Console.Write($" файлов,");
 
-            Console.Write($"{dirFiles.CuttentDirectory.GetFiles().Length}");
+        //    Console.ForegroundColor = ConsoleColor.Magenta;
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
+        //    Console.WriteLine();
 
-            Console.Write($" файлов,");
+        //    Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
+        //    Console.ForegroundColor = ConsoleColor.DarkGray;
 
-            Console.WriteLine();
+        //    Console.Write($"имеет атрибуты: ");
 
-            Console.SetCursorPosition(0, Console.BufferHeight - 1);
+        //    Console.ForegroundColor = ConsoleColor.Magenta;
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
+        //    Console.Write($"{dirFiles.CuttentDirectory.Attributes}");
 
-            Console.Write($"имеет атрибуты: ");
+        //    Console.ForegroundColor = ConsoleColor.DarkGray;
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
+        //    Console.Write($", Время создания: ");
 
-            Console.Write($"{dirFiles.CuttentDirectory.Attributes}");
+        //    Console.ForegroundColor = ConsoleColor.Magenta;
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
+        //    Console.Write($"{dirFiles.CuttentDirectory.CreationTime:dd-MM-yyyy HH-mm-ss}");
 
-            Console.Write($", Время создания: ");
+        //    Console.ForegroundColor = ConsoleColor.White;
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
+        //    Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-            Console.Write($"{dirFiles.CuttentDirectory.CreationTime:dd-MM-yyyy HH-mm-ss}");
+        //    Console.WriteLine();
+        //}
 
-            Console.ForegroundColor = ConsoleColor.White;
-
-            Console.SetCursorPosition(0, Console.BufferHeight - 1);
-
-            Console.WriteLine();
-        }
+        #endregion
 
         #region For delete
 

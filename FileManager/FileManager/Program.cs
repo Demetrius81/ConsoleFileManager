@@ -12,8 +12,6 @@ namespace FileManager
 
         static void Main(string[] args)
         {
-            PseudoConsoleUI.WindowSettings();
-
             Core.RunConsole();
         }
 
