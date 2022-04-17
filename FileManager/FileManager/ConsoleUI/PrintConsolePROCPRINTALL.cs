@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FileManager.ConsoleUI
 {
-    internal class PrintConsolePROCPRINTALL : PrintConsole, IPrintConsole
+    internal class PrintConsoleProcPrintAll : PrintConsole, IPrintConsole
     {
         public string Name => "PROCPRINTALL";
 

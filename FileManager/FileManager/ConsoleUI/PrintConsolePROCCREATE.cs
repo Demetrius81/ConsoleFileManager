@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FileManager.ConsoleUI
 {
-    internal class PrintConsolePROCCREATE : PrintConsole, IPrintConsole
+    internal class PrintConsoleProcCreate : PrintConsole, IPrintConsole
     {
         public string Name => "PROCCREATE";
 

@@ -32,7 +32,7 @@ namespace FileManager
         /// <returns>На выходе список скопированных файлов</returns>
         public static void CopyCommandExecuter()
         {
-            string[] commands = FileManager.Varibles.Command.Split();
+            string[] commands = SVarible.Command.Split();
 
             List<string> files = new List<string>();
 
@@ -61,9 +61,9 @@ namespace FileManager
                     }
                 }
             }
-            FileManager.Varibles.Files.Clear();
+            SVarible.Files.Clear();
 
-            FileManager.Varibles.Files.AddRange(files);
+            SVarible.Files.AddRange(files);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FileManager.ConsoleUI
 {
-    internal class PrintConsolePROCDELETE : PrintConsole, IPrintConsole
+    internal class PrintConsoleProcDelete : PrintConsole, IPrintConsole
     {
         public string Name => "PROCDELETE";
 
