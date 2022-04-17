@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы копирования
+    /// </summary>
     internal class DirectiveCOPY : Directive, IDirective
     {
         private const string _directiveName = "COPY";
@@ -16,7 +18,7 @@ namespace FileManager
 
             SVarible = varibles;
 
-            CopyCommandExecuter();            
+            CopyCommandExecuter();
 
             DirectivesConsole();
 
@@ -24,13 +26,12 @@ namespace FileManager
 
             return SVarible;
         }
-        
 
         /// <summary>
         /// Метод копирует файлы или директории по указанному пути
         /// </summary>
         /// <returns>На выходе список скопированных файлов</returns>
-        public static void CopyCommandExecuter()
+        private static void CopyCommandExecuter()
         {
             string[] commands = SVarible.Command.Split();
 

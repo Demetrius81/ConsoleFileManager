@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы перемещения
+    /// </summary>
     internal class DirectiveMOVE : Directive, IDirective
     {
         private const string _directiveName = "MOVE";
@@ -27,8 +28,6 @@ namespace FileManager
         /// <param name="pathTo">string Путь куда перемешать</param>
         public static void MoveCommandExecuter()
         {
-
-
             if (SVarible.Command.Split().Length == 3)
             {
                 string pathFrom = SVarible.Command.Split()[1];
@@ -64,17 +63,5 @@ namespace FileManager
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

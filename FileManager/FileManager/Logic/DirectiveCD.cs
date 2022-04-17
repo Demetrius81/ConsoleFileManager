@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace FileManager
 {
-    internal class DirectiveCD : Directive, IDirective 
+    /// <summary>
+    /// Класс директивы смены директории
+    /// </summary>
+    internal class DirectiveCD : Directive, IDirective
     {
         private string _directiveName = "CD";
 
         public string DirectiveName { get => _directiveName; }
-        
+
         public Varibles RunDirective(Varibles varibles)
         {
             SVarible = varibles;
@@ -42,12 +42,12 @@ namespace FileManager
                 {
                     return;
                 }
-
                 string temp = "";
 
                 if (path == "..")
                 {
                     DirectoryInfo tempDir = SVarible.DrivesAndDirs.CuttentDirectory.Parent;
+
                     if (!(tempDir is null))
                     {
                         SVarible.DrivesAndDirs.CuttentDirectory = tempDir;
@@ -71,13 +71,12 @@ namespace FileManager
                     {
                         SVarible.DrivesAndDirs.CurrentDrive = new DriveInfo(temp.Substring(0, 2).ToUpperInvariant());
                     }
-
                     if (Directory.Exists(temp))
                     {
                         SVarible.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(temp.ToUpperInvariant());
-                    }                    
+                    }
                 }
             }
-        }       
+        }
     }
 }

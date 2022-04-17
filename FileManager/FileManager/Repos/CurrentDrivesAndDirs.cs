@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace FileManager
 {
     /// <summary>
     /// Класс для хранения текущего состояния программы
     /// </summary>
+    [Serializable]
     public class CurrentDrivesAndDirs
     {
         /// <summary>
@@ -15,7 +17,7 @@ namespace FileManager
 
         /// <summary>
         /// Свойство для доступа к полю, где храниться текущий диск
-        /// </summary>
+        /// </summary>        
         public DriveInfo CurrentDrive { get => _currentDrive; set => _currentDrive = value; }
 
         /// <summary>
@@ -48,5 +50,5 @@ namespace FileManager
 
             }
         }
-    }    
+    }
 }

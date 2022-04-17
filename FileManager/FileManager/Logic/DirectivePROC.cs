@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы вызова диспетчера процессов
+    /// </summary>
     internal class DirectivePROC : Directive, IDirective
     {
         private const string _directiveName = "PROC";
@@ -24,21 +24,6 @@ namespace FileManager
 
             return varibles;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Метод распознает команду управления процессами
@@ -64,8 +49,9 @@ namespace FileManager
             }
         }
 
-
-
+        /// <summary>
+        /// Метод вызывает логику вывода в консоль всех активных процессов
+        /// </summary>
         private static void PrintProcessesCall()
         {
             NameToSerch = "PROCPRINTALL";
@@ -75,8 +61,9 @@ namespace FileManager
             PrintDirectiveSelection();
         }
 
-
-
+        /// <summary>
+        /// Метод вызывает логику удаления процесса
+        /// </summary>
         private static void DeleteProcessCall()
         {
             NameToSerch = "PROCDELETE";
@@ -86,6 +73,9 @@ namespace FileManager
             PrintDirectiveSelection();
         }
 
+        /// <summary>
+        /// Метод вызывает логику создания процесса
+        /// </summary>
         private static void CreateProcessCall()
         {
             NameToSerch = "PROCCREATE";
@@ -94,6 +84,5 @@ namespace FileManager
 
             PrintDirectiveSelection();
         }
-
     }
 }

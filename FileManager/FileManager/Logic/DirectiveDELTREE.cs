@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы рекурсивного удаления дерева каталогов
+    /// </summary>
     internal class DirectiveDELTREE : Directive, IDirective
     {
-
         private const string _directiveName = "DELTREE";
         public string DirectiveName { get => _directiveName; }
 
@@ -25,13 +25,12 @@ namespace FileManager
         /// Метод рекурсивно удаляет каталог и все подкаталоги и файлы
         /// </summary>
         /// <param name="path">string Путь к удаляемому каталогу</param>
-        public static void DeleteTree(string path)
+        private static void DeleteTree(string path)
         {
             if ((path.Contains(":\\") || path.Contains(":/")) && path.Split('\\', '/').Length == 1)
             {
                 return;
             }
-
             DirectoryInfo directory = new DirectoryInfo(path);
             try
             {
@@ -68,7 +67,7 @@ namespace FileManager
         /// Метод в зависимости от команды двумя разными способами рекурсивно
         /// удаляет каталог и все подкаталоги и файлы
         /// </summary>
-        public static void DeleteTreeCommandExecuter()
+        private static void DeleteTreeCommandExecuter()
         {
             string[] commandsStringArray = SVarible.Command.Split();
 
@@ -89,7 +88,5 @@ namespace FileManager
                 DeleteTree(commandsStringArray[1]);
             }
         }
-
-
     }
 }

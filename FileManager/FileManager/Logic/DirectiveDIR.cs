@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
+﻿
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы логики вывода списка подкаталогов
+    /// </summary>
     internal class DirectiveDIR : Directive, IDirective
     {
         private const string _directiveName = "DIR";
+
         public string DirectiveName { get => _directiveName; }
 
         public Varibles RunDirective(Varibles varibles)
@@ -22,13 +22,10 @@ namespace FileManager
             return SVarible;
         }
 
-
-
-
-
-
-
-        public static void ShowAllSubdirectoriesAndFilesByPages()
+        /// <summary>
+        /// Метод распознает команды консоли и запускает соответствующую логику
+        /// </summary>
+        private void ShowAllSubdirectoriesAndFilesByPages()
         {
             string[] commands = SVarible.Command.Split();
 
@@ -52,12 +49,11 @@ namespace FileManager
             }
         }
 
-
-
-
-
-
-        private static Varibles ShowAllSubdirsAndFiles()
+        /// <summary>
+        /// Метод запускает вывод в консоль всех подкаталогов и файлов
+        /// </summary>
+        /// <returns></returns>
+        private Varibles ShowAllSubdirsAndFiles()
         {
             NameToSerch = "DIRSDF";
 
@@ -68,13 +64,11 @@ namespace FileManager
             return SVarible;
         }
 
-
-
-
-
-
-
-        private static Varibles ShowAllDrives()
+        /// <summary>
+        /// Метод запускает вывод в консоль всех логических дисков
+        /// </summary>
+        /// <returns></returns>
+        private Varibles ShowAllDrives()
         {
             NameToSerch = "DIRD";
 
@@ -84,10 +78,5 @@ namespace FileManager
 
             return SVarible;
         }
-
-
-
-
-
     }
 }

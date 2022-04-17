@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы вызова помощи
+    /// </summary>
     internal class DirectiveHELP : Directive, IDirective
     {
         private const string _directiveName = "HELP";
@@ -26,8 +27,6 @@ namespace FileManager
             return varibles;
         }
 
-        
-
         /// <summary>
         /// Метод воспроизводит из файла Help - лист
         /// </summary>
@@ -42,13 +41,7 @@ namespace FileManager
                 {
                     SVarible.Files.Add(strings);
                 }
-            }            
+            }
         }
-
-
-
-
-
-
     }
 }

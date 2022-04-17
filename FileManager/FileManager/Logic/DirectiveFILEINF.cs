@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы информации о файле
+    /// </summary>
     internal class DirectiveFILEINF : Directive, IDirective
     {
         private const string _directiveName = "FILEINF";
@@ -17,11 +18,10 @@ namespace FileManager
 
             SVarible = varibles;
 
-            PrintFilePropertiesRun();           
+            PrintFilePropertiesRun();
 
             return SVarible;
         }
-
 
         /// <summary>
         /// Метод выводит в консоль данные о выбранном файле
@@ -75,19 +75,14 @@ namespace FileManager
             }
         }
 
-
-
+        /// <summary>
+        /// Метод запускает процесс вывода в консоль свойств файла
+        /// </summary>
         private static void PrintFilePropertiesRun()
         {
             DirectivesConsole();
 
             PrintDirectiveSelection();
         }
-
-
-
-
-
-
     }
 }

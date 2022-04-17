@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы выхода
+    /// </summary>
     internal class DirectiveEXIT : Directive, IDirective
     {
         private const string _directiveName = "EXIT";
@@ -27,14 +28,14 @@ namespace FileManager
         /// </summary>
         /// <returns>Значение типа bool своего рода выключатель программы</returns>
         /// 
-        public static bool ExitCommandExecuter(Varibles varibles)
+        private bool ExitCommandExecuter(Varibles varibles)
         {
-            string temp = $"{varibles.DrivesAndDirs.CurrentDrive.Name}|W|{varibles.DrivesAndDirs.CuttentDirectory.ToString()}";
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-            temp = JsonConvert.SerializeObject(temp);
-
-            File.WriteAllText("path.json", temp);
-
+            using (FileStream fileStream = new FileStream("system.bin", FileMode.OpenOrCreate))
+            {
+                binaryFormatter.Serialize(fileStream, varibles.DrivesAndDirs);
+            }
             return true;
         }
     }

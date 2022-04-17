@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы удаления
+    /// </summary>
     internal class DirectiveDEL : Directive, IDirective
     {
         private const string _directiveName = "DEL";
+
         public string DirectiveName { get => _directiveName; }
 
         public Varibles RunDirective(Varibles varibles)
@@ -19,12 +21,10 @@ namespace FileManager
             return SVarible;
         }
 
-
-
         /// <summary>
         /// Метод удаляет каталог с файлами, если там нет подкаталога или файл
         /// </summary>
-        public static void DeleteCommandExecuter()
+        private void DeleteCommandExecuter()
         {
             string[] pathArr = SVarible.Command.Split();
 
@@ -32,7 +32,6 @@ namespace FileManager
             {
                 return;
             }
-
             FileInfo file = new FileInfo(pathArr[1]);
 
             DirectoryInfo directory = new DirectoryInfo(pathArr[1]);
@@ -62,7 +61,5 @@ namespace FileManager
                 return;
             }
         }
-
-
     }
 }

@@ -5,20 +5,21 @@ using System.Text;
 namespace FileManager
 {
     /// <summary>
-    /// Интерфейс вывода в консоль
+    /// Интерфейс директивы
     /// </summary>
-    internal interface IPrintConsole
+    internal interface IDirective
     {
         /// <summary>
-        /// Наименование процесса вывода
+        /// Наименование директивы
         /// </summary>
-        public string Name { get; }
+        public string DirectiveName { get; }
 
         /// <summary>
-        /// Метод завускает процесс вывода информации в консоль
+        /// Метод запускает логику директивы
         /// </summary>
         /// <param name="varibles">Varibles текущее состояние программы</param>
         /// <returns>Varibles состояние программы после выполнения логики директивы</returns>
-        public Varibles StartPrint(Varibles varibles);
+        Varibles RunDirective(Varibles varibles);
+
     }
 }

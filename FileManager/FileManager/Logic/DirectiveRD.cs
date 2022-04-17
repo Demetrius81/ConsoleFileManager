@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы перемещения директории
+    /// </summary>
     internal class DirectiveRD : Directive, IDirective
     {
         private string _directiveName = "RD";
@@ -19,7 +20,6 @@ namespace FileManager
 
             return varibles;
         }
-
 
         /// <summary>
         /// Метод перемещает директорию
@@ -57,13 +57,5 @@ namespace FileManager
                 }
             }
         }
-
-
-
-
-
-
-
-
     }
 }

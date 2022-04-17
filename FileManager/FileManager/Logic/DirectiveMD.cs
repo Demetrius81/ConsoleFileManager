@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс директивы создания директории
+    /// </summary>
     internal class DirectiveMD : Directive, IDirective
     {
         private const string _directiveName = "MD";
+
         public string DirectiveName { get => _directiveName; }
 
         public Varibles RunDirective(Varibles varibles)
@@ -18,8 +19,6 @@ namespace FileManager
 
             return varibles;
         }
-
-
 
         /// <summary>
         /// Метод создает директорию по указанному пути или в текущем каталоге
@@ -42,18 +41,5 @@ namespace FileManager
                 Directory.CreateDirectory(commands[1]);
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
