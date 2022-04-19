@@ -9,7 +9,7 @@ namespace FileManager
     /// </summary>
     public class Directive
     {
-        private static List<IPrintConsole> _printConsole = new List<IPrintConsole>();
+        private static List<IPrintConsole> _printConsole;
 
         /// <summary>
         /// Свойство для доступа к списку классов для вывода в консоль
@@ -35,9 +35,11 @@ namespace FileManager
         /// </summary>
         internal static void DirectivesConsole()
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-
+            Assembly asm = Assembly.LoadFrom("ConsoleUI.dll"); 
+                
             Type[] types = asm.GetTypes();
+
+            PrintConsole = new List<IPrintConsole>();
 
             foreach (Type type in types)
             {

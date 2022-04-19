@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using Newtonsoft.Json;
+using System.IO;
 
 namespace FileManager
 {
@@ -13,25 +13,26 @@ namespace FileManager
         /// </summary>
         public static Varibles StartCommandExecuter(Varibles varibles)
         {
-            if (File.Exists("system.bin"))
-            {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-                using (FileStream fileStream = new FileStream("system.bin", FileMode.OpenOrCreate))
+
+            if (File.Exists("path.json"))
+            {
+                string temp = File.ReadAllText("path.json");
+
+                string[] tempArr = JsonConvert.DeserializeObject<string>(temp).Split("|W|");
+
+                if (tempArr.Length == 2)
                 {
-                    varibles.DrivesAndDirs = binaryFormatter.Deserialize(fileStream) as CurrentDrivesAndDirs;
+                    varibles.DrivesAndDirs.CurrentDrive = new DriveInfo(tempArr[0]);
+
+                    varibles.DrivesAndDirs.CuttentDirectory = new DirectoryInfo(tempArr[1]);
                 }
                 if (varibles.DrivesAndDirs is null || !varibles.DrivesAndDirs.CuttentDirectory.Exists)
                 {
                     varibles.DrivesAndDirs = new CurrentDrivesAndDirs();
                 }
             }
-            else
-            {
-                varibles.DrivesAndDirs = new CurrentDrivesAndDirs();
-            }
             return varibles;
         }
-
     }
 }

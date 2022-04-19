@@ -7,7 +7,7 @@ namespace FileManager
     /// <summary>
     /// Интерфейс директивы
     /// </summary>
-    internal interface IDirective
+    public interface IDirective
     {
         /// <summary>
         /// Наименование директивы

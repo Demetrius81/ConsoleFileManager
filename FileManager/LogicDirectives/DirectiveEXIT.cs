@@ -30,12 +30,12 @@ namespace FileManager
         /// 
         private bool ExitCommandExecuter(Varibles varibles)
         {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            string temp = $"{varibles.DrivesAndDirs.CurrentDrive.Name}|W|{varibles.DrivesAndDirs.CuttentDirectory.ToString()}";
 
-            using (FileStream fileStream = new FileStream("system.bin", FileMode.OpenOrCreate))
-            {
-                binaryFormatter.Serialize(fileStream, varibles.DrivesAndDirs);
-            }
+            temp = JsonConvert.SerializeObject(temp);
+
+            File.WriteAllText("path.json", temp);
+
             return true;
         }
     }

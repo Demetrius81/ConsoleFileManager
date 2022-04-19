@@ -7,7 +7,7 @@ namespace FileManager
     /// <summary>
     /// Интерфейс вывода в консоль
     /// </summary>
-    internal interface IPrintConsole
+    public interface IPrintConsole
     {
         /// <summary>
         /// Наименование процесса вывода

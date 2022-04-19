@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace FileManager
 {
     /// <summary>
     /// Класс для хранения текущего состояния программы
     /// </summary>
-    [Serializable]
     public class CurrentDrivesAndDirs
     {
         /// <summary>

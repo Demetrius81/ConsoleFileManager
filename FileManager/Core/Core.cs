@@ -1,20 +1,17 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace FileManager
 {
     public static class Core
     {
-        private static List<IDirective> _directives = new List<IDirective>();
+        private static List<IDirective> _directives;
 
-        private static Varibles _varibles = new Varibles();
+        private static Varibles _sysVaribles = new Varibles();
 
-        internal static Varibles Varibles { get => _varibles; set => _varibles = value; }
+        internal static Varibles SysVaribles { get => _sysVaribles; set => _sysVaribles = value; }
 
         #region For delete
 
@@ -153,32 +150,36 @@ namespace FileManager
         /// </summary>
         private static void DirectiveSelection()
         {
-            Varibles.Exit = false;
+            SysVaribles.Exit = false;
 
-            Varibles = Start.StartCommandExecuter(Varibles);
+            SysVaribles.DrivesAndDirs = new CurrentDrivesAndDirs();
+
+            SysVaribles = Start.StartCommandExecuter(SysVaribles);
 
             Directives();
             
-
-
             PseudoConsoleUI.WindowSettings();////????????????????????????????????
 
-            while (!Varibles.Exit)
+            while (!SysVaribles.Exit)
             {
-                Varibles.Command = "";
+                CurrentDrivesAndDirs temp = SysVaribles.DrivesAndDirs;
 
-                PseudoConsoleUI.SetCursorPosition(Varibles.DrivesAndDirs);/////????????????????????
+                SysVaribles = new Varibles();
 
-                Varibles.Command = Console.ReadLine();////??????????????????????????????????????????
+                SysVaribles.DrivesAndDirs = temp;
 
-                if (Varibles.Command.Contains(".EXE") ||
-                    Varibles.Command.Contains(".COM") ||
-                    Varibles.Command.Contains(".BAT"))
+                PseudoConsoleUI.SetCursorPosition(SysVaribles.DrivesAndDirs);/////????????????????????
+
+                SysVaribles.Command = Console.ReadLine();////??????????????????????????????????????????
+
+                if (SysVaribles.Command.Contains(".EXE") ||
+                    SysVaribles.Command.Contains(".COM") ||
+                    SysVaribles.Command.Contains(".BAT"))
                 {
-                    Varibles.Command = String.Format(Varibles.DrivesAndDirs.CuttentDirectory.ToString()
-                        + Varibles.Command);
+                    SysVaribles.Command = String.Format(SysVaribles.DrivesAndDirs.CuttentDirectory.ToString()
+                        + SysVaribles.Command);
 
-                    ProcessStartInfo startInfo = new ProcessStartInfo(Varibles.Command);
+                    ProcessStartInfo startInfo = new ProcessStartInfo(SysVaribles.Command);
 
                     Process process = new Process();
 
@@ -196,13 +197,13 @@ namespace FileManager
                     }
                     continue;
                 }
-                string[] commandsStringArray = Varibles.Command.Split();
+                string[] commandsStringArray = SysVaribles.Command.Split();
 
                 foreach (IDirective directive in _directives)
                 {
                     if (directive.DirectiveName == commandsStringArray[0].ToUpperInvariant())
                     {
-                        Varibles = directive.RunDirective(Varibles);
+                        SysVaribles = directive.RunDirective(SysVaribles);
                     }
                 }
             }
@@ -213,7 +214,9 @@ namespace FileManager
         /// </summary>
         private static void Directives()
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
+            Assembly asm = Assembly.LoadFrom("LogicDirectives.dll");
+
+            _directives = new List<IDirective>();
 
             Type[] types = asm.GetTypes();
 
