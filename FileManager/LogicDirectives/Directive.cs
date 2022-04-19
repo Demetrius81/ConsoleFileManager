@@ -7,7 +7,7 @@ namespace FileManager
     /// <summary>
     /// Базовый класс логики директивы
     /// </summary>
-    public class Directive
+    internal class Directive
     {
         private static List<IPrintConsole> _printConsole;
 

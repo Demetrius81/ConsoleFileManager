@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace FileManager.ConsoleUI
 {
@@ -18,12 +16,11 @@ namespace FileManager.ConsoleUI
             return SysVaribles;
         }
 
-
         /// <summary>
         /// Метод выводит в консоль все процессы
         /// </summary>
         /// <param name="process"></param>
-        public static void PrintProcesses()
+        private static void PrintProcesses()
         {
             Process[] process = SysVaribles.TaskManager.GetAllProcesses();
 
@@ -66,30 +63,5 @@ namespace FileManager.ConsoleUI
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -8,7 +8,7 @@ namespace FileManager
     /// </summary>
     public class Varibles
     {
-        
+
         private string _command;
 
         /// <summary>
@@ -36,28 +36,28 @@ namespace FileManager
         /// Свойство для доступа к переменной списку строк
         /// </summary>
         public List<string> Files { get => _files; set => _files = value; }
-        
+
         private bool _exit;
 
         /// <summary>
         /// Свойство для доступа к логической переменной-триггера для выхода из бесконечного цикла
         /// </summary>
         public bool Exit { get => _exit; set => _exit = value; }
-        
+
         private int _userPage;
 
         /// <summary>
         /// Свойство для доступа к целочисленной переменной
         /// </summary>
         public int UserPage { get => _userPage; set => _userPage = value; }
-        
+
         private FileInfo _varFile;
 
         /// <summary>
         /// Свойство для доступа к переменной типа FileInfo
         /// </summary>
         public FileInfo VarFile { get => _varFile; set => _varFile = value; }
-        
+
         private BasicLogic _taskManager;
 
         /// <summary>
@@ -67,12 +67,16 @@ namespace FileManager
 
         public Varibles()
         {
-
             _command = "";
+
             _drivesAndDirs = new CurrentDrivesAndDirs();
+
             _drivesDirFilesArray = new DrivesDirsFilesArray();
+
             _files = new List<string>();
+
             _exit = false;
+
             _userPage = -1;
         }
     }

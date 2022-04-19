@@ -5,7 +5,6 @@ namespace FileManager.ConsoleUI
 {
     internal class PrintConsoleDIRSubdirFiles : PrintConsole, IPrintConsole
     {
-
         public string Name => "DIRSDF";
 
         public Varibles StartPrint(Varibles varibles)
@@ -17,12 +16,10 @@ namespace FileManager.ConsoleUI
             return SysVaribles;
         }
 
-
-
         /// <summary>
         /// Метод содержит в себе логику постраничного вывода на экран списка каталогов и файлов
         /// </summary>
-        public static void ShowAllSubdirectoriesAndFilesLogic()
+        private static void ShowAllSubdirectoriesAndFilesLogic()
         {
             FileInfo[] files = SysVaribles.DrivesAndDirs.CuttentDirectory.GetFiles();
 
@@ -108,7 +105,6 @@ namespace FileManager.ConsoleUI
             PrintPageNumber(allLines);
         }
 
-
         /// <summary>
         /// Метод выводит на экран все подкаталоги и файлы текущего каталога
         /// </summary>
@@ -117,7 +113,7 @@ namespace FileManager.ConsoleUI
         /// <param name="dirStop">int крайний каталог на странице</param>
         /// <param name="fileStart">int первый файл на странице</param>
         /// <param name="fileStop">int крайний файл на странице</param>
-        public static void PrintAllSubdirectoriesAndFilesByPages(int dirStart, int dirStop, int fileStart, int fileStop)
+        private static void PrintAllSubdirectoriesAndFilesByPages(int dirStart, int dirStop, int fileStart, int fileStop)
         {
             FileInfo[] files = SysVaribles.DrivesAndDirs.CuttentDirectory.GetFiles();
 
@@ -181,12 +177,11 @@ namespace FileManager.ConsoleUI
             }
         }
 
-
         /// <summary>
         /// Метод выводит на экран текущий номер страницы
         /// </summary>
         /// <param name="allLines">int количество всех подкаталогов и файлов в каталоге</param>
-        public static void PrintPageNumber(int allLines)
+        private static void PrintPageNumber(int allLines)
         {
             if (SysVaribles.UserPage != -1)
             {
@@ -197,20 +192,5 @@ namespace FileManager.ConsoleUI
                 Console.Write($"Страница {p} из {(1 + allLines / PseudoConsoleUI.PAGE_LINES)}");
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

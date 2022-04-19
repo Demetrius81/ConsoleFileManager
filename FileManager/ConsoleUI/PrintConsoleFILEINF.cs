@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace FileManager.ConsoleUI
 {
@@ -18,12 +15,10 @@ namespace FileManager.ConsoleUI
             return SysVaribles;
         }
 
-
-
         /// <summary>
         /// Метод выводит в консоль параметры полученного файла
         /// </summary>        
-        public static void PrintFileProperties()
+        private static void PrintFileProperties()
         {
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
@@ -75,8 +70,5 @@ namespace FileManager.ConsoleUI
 
             Console.WriteLine();
         }
-
-
-
     }
 }

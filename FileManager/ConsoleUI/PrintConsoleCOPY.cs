@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FileManager
 {
     internal class PrintConsoleCOPY : PrintConsole, IPrintConsole
     {
         public string Name => "COPY";
-
 
         public Varibles StartPrint(Varibles varibles)
         {
@@ -18,14 +16,10 @@ namespace FileManager
             return SysVaribles;
         }
 
-
-
-
-
         /// <summary>
         /// Метод выводит на экран скопированные файлы
         /// </summary>
-        public static void ShowCopyCommand()
+        private static void ShowCopyCommand()
         {
             List<string> files = new List<string>();
 
@@ -49,6 +43,5 @@ namespace FileManager
             }
             Console.WriteLine();
         }
-
     }
 }

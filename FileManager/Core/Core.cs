@@ -7,10 +7,17 @@ namespace FileManager
 {
     public static class Core
     {
+        /// <summary>
+        /// Список директив
+        /// </summary>
         private static List<IDirective> _directives;
+
 
         private static Varibles _sysVaribles = new Varibles();
 
+        /// <summary>
+        /// Переменная - состояние системы
+        /// </summary>
         internal static Varibles SysVaribles { get => _sysVaribles; set => _sysVaribles = value; }
 
         #region For delete
@@ -134,16 +141,13 @@ namespace FileManager
 
         #endregion
 
+        /// <summary>
+        /// Метод запускает работу логики ядра
+        /// </summary>
         public static void RunConsole()
         {
-            
-
             DirectiveSelection();
         }
-
-
-
-
 
         /// <summary>
         /// Метод запускает цикл по выбору и выполнению задачи
@@ -157,8 +161,8 @@ namespace FileManager
             SysVaribles = Start.StartCommandExecuter(SysVaribles);
 
             Directives();
-            
-            PseudoConsoleUI.WindowSettings();////????????????????????????????????
+
+            PseudoConsoleUI.WindowSettings();
 
             while (!SysVaribles.Exit)
             {
@@ -168,9 +172,9 @@ namespace FileManager
 
                 SysVaribles.DrivesAndDirs = temp;
 
-                PseudoConsoleUI.SetCursorPosition(SysVaribles.DrivesAndDirs);/////????????????????????
+                PseudoConsoleUI.SetCursorPosition(SysVaribles.DrivesAndDirs);
 
-                SysVaribles.Command = Console.ReadLine();////??????????????????????????????????????????
+                SysVaribles.Command = Console.ReadLine();
 
                 if (SysVaribles.Command.Contains(".EXE") ||
                     SysVaribles.Command.Contains(".COM") ||
@@ -191,9 +195,9 @@ namespace FileManager
                     }
                     catch (Exception ex)
                     {
-                        Exeptions.ShowException(ex);//???????????????????????????
+                        Exeptions.ShowException(ex);
 
-                        Exeptions.ExceptionInFile(ex);//?????????????????????????????
+                        Exeptions.ExceptionInFile(ex);
                     }
                     continue;
                 }

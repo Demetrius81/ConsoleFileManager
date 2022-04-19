@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 
 namespace FileManager
 {
@@ -10,8 +7,6 @@ namespace FileManager
     /// </summary>
     public class PseudoConsoleUI
     {
-
-
         /// <summary>
         /// Константа запроса на ввод информации
         /// </summary>
@@ -51,8 +46,6 @@ namespace FileManager
         /// Количество строк в странице
         /// </summary>
         public const int PAGE_LINES = 40;
-
-
 
         #region For delete
 
@@ -167,7 +160,6 @@ namespace FileManager
 
         #endregion
 
-
         /// <summary>
         /// Метод задает размеры окна и буфера консоли
         /// </summary>
@@ -192,9 +184,7 @@ namespace FileManager
 
             Console.Write(temp.CuttentDirectory + INPUT_REQUEST);
         }
-
         
-
         /// <summary>
         /// Метод запрашивает сведения о процессе
         /// </summary>
@@ -212,10 +202,7 @@ namespace FileManager
 
             SetCursorPositionForProcesses();
         }
-
         
-
-
         /// <summary>
         /// Метод перещает курсор на указанную позицию для работы с процессами
         /// </summary>
@@ -227,32 +214,5 @@ namespace FileManager
 
             Console.Write(PseudoConsoleUI.INPUT_REQUEST);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

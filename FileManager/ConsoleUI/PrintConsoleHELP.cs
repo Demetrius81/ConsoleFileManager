@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FileManager
 {
@@ -17,11 +15,10 @@ namespace FileManager
             return SysVaribles;
         }
 
-
         /// <summary>
         /// Метод выводит на экран Help - лист
         /// </summary>
-        public static void PrintHelp()
+        private static void PrintHelp()
         {
             Console.WriteLine();
 
@@ -32,18 +29,6 @@ namespace FileManager
                 Console.WriteLine(row);
             }
             Console.WriteLine();
-
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 }

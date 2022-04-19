@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FileManager
 {
-    public class PrintConsoleCD : PrintConsole, IPrintConsole
+    internal class PrintConsoleCD : PrintConsole, IPrintConsole
     {
         public string Name => "CD";
 
@@ -22,7 +20,7 @@ namespace FileManager
         /// Метод выводит на экран состояние текущей директории
         /// </summary>
         /// <param name="dirFiles">DrivesAndDirectories актуальное состояние программы</param>
-        public static void PrintDirectoryProrerties()
+        private static void PrintDirectoryProrerties()
         {
             CurrentDrivesAndDirs dirFiles = SysVaribles.DrivesAndDirs;
 
@@ -80,7 +78,5 @@ namespace FileManager
 
             Console.WriteLine();
         }
-
-
     }
 }

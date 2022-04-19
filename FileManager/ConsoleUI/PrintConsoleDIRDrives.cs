@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileManager
 {
-    internal class PrintConsoleDIRDrives:PrintConsole, IPrintConsole
+    internal class PrintConsoleDIRDrives : PrintConsole, IPrintConsole
     {
-
         public string Name => "DIRD";
 
         public Varibles StartPrint(Varibles varibles)
@@ -19,11 +16,10 @@ namespace FileManager
             return SysVaribles;
         }
 
-
         /// <summary>
         /// Метод создает массив логических дисков
         /// </summary>
-        public static void ShowAllDrivesLogic()
+        private static void ShowAllDrivesLogic()
         {
             DriveInfo[] drives = DriveInfo.GetDrives();
 
@@ -34,7 +30,7 @@ namespace FileManager
         /// Метод выводит в консоль все логические диски
         /// </summary>
         /// <param name="drives">DriveInfo[] массив логических дисков</param>
-        public static void PrintAllDrives(DriveInfo[] drives)
+        private static void PrintAllDrives(DriveInfo[] drives)
         {
             string r;
 
@@ -73,11 +69,5 @@ namespace FileManager
                 Console.WriteLine();
             }
         }
-
-
-
-
-
-
     }
 }

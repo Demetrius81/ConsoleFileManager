@@ -13,8 +13,6 @@ namespace FileManager
         /// </summary>
         public static Varibles StartCommandExecuter(Varibles varibles)
         {
-
-
             if (File.Exists("path.json"))
             {
                 string temp = File.ReadAllText("path.json");

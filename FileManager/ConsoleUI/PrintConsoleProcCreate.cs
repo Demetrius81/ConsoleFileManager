@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace FileManager.ConsoleUI
 {
@@ -17,7 +14,6 @@ namespace FileManager.ConsoleUI
 
             return SysVaribles;
         }
-
 
         /// <summary>
         /// Метод запускает процесс
@@ -58,26 +54,5 @@ namespace FileManager.ConsoleUI
                 }
             }
         }
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
