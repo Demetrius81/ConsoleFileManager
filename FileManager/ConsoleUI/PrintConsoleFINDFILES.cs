@@ -39,25 +39,21 @@ namespace FileManager
 
                 Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
-                Console.Write($"{ Path.GetFileNameWithoutExtension(SysVaribles.DrivesDirFilesArray.Files[i].FullName)}");
+                Console.Write($"{ SysVaribles.DrivesDirFilesArray.Files[i].FullName}");
 
-                Console.SetCursorPosition(25, Console.BufferHeight - 1);
-
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-
-                Console.Write($"{ Path.GetExtension(SysVaribles.DrivesDirFilesArray.Files[i].FullName)}");
+                Console.WriteLine();
 
                 Console.ForegroundColor = ConsoleColor.White;
 
-                Console.SetCursorPosition(30, Console.BufferHeight - 1);
+                Console.SetCursorPosition(0, Console.BufferHeight - 1);
 
                 Console.Write($"{SysVaribles.DrivesDirFilesArray.Files[i].Length} Bytes");
 
-                Console.SetCursorPosition(70, Console.BufferHeight - 1);
+                Console.SetCursorPosition(30, Console.BufferHeight - 1);
 
                 Console.Write($"{ SysVaribles.DrivesDirFilesArray.Files[i].CreationTime:HH-mm-ss dd-MM-yyyy}");
 
-                Console.SetCursorPosition(90, Console.BufferHeight - 1);
+                Console.SetCursorPosition(50, Console.BufferHeight - 1);
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
 
