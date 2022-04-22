@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace FileManager
 {
@@ -15,21 +12,10 @@ namespace FileManager
         {
             SVarible = varibles;
 
-            
-
-
-
-
-
-            NameToSerch = DirectiveName;
-
-            DirectivesConsole();
-
-            PrintDirectiveSelection();
+            FindCommandExecuter();
 
             return varibles;
         }
-
 
         /// <summary>
         /// Метод меняет местоположение текущей директории
@@ -59,46 +45,59 @@ namespace FileManager
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// Метод получает список файлов
         /// </summary>
-        void GetFiles(string path, string searchPattern, SearchOption searchOption)
+        private void GetFiles(string path, string searchPattern, SearchOption searchOption)
         {
 
             DirectoryInfo directory = new DirectoryInfo(path);
 
             SVarible.DrivesDirFilesArray.Files = directory.GetFiles(searchPattern, searchOption);
 
-
-
-            //string[] files = Directory.GetFiles(@"C:\", "*.txt");
+            SVarible = StartPrintFiles();
         }
 
         /// <summary>
         /// Метод получает получть список каталогов
         /// </summary>
-        void GetDirs(string path, string searchPattern, SearchOption searchOption)
+        private void GetDirs(string path, string searchPattern, SearchOption searchOption)
         {
             DirectoryInfo directory = new DirectoryInfo(path);
 
             SVarible.DrivesDirFilesArray.Directories = directory.GetDirectories(searchPattern, searchOption);
 
-            //string[] dirs = Directory.GetDirectories(@"C:\", "d*");
+            SVarible = StartPrintDirs();
         }
 
+        /// <summary>
+        /// Метод запускает вывод в консоль список всех найденых файлов
+        /// </summary>
+        /// <returns></returns>
+        private Varibles StartPrintFiles()
+        {
+            NameToSerch = "FINDFILES";
 
+            DirectivesConsole();
 
+            PrintDirectiveSelection();
+
+            return SVarible;
+        }
+
+        /// <summary>
+        /// Метод запускает вывод в консоль список всех найденых директорий
+        /// </summary>
+        /// <returns></returns>
+        private Varibles StartPrintDirs()
+        {
+            NameToSerch = "FINDDIRS";
+
+            DirectivesConsole();
+
+            PrintDirectiveSelection();
+
+            return SVarible;
+        }
     }
 }
