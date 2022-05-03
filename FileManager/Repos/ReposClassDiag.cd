@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FileManager.CurrentDrivesAndDirs" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAQAAAAAAAAIAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>CurrentDrivesAndDirs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileManager.DrivesDirsFilesArray" Collapsed="true">
+    <Position X="8" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAACAAAAAAgAAAAAAAAAAAEIA=</HashCode>
+      <FileName>DrivesDirsFilesArray.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileManager.Varibles" Collapsed="true">
+    <Position X="4.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAIAAACEAAAAAAAAIQABAAAABAAEgAEIAAAABAAEIA=</HashCode>
+      <FileName>Varibles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

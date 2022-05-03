@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DrivesAndDirectories\DrivesAndDirectories.csproj" />
-    <ProjectReference Include="..\Processes\TaskManager.csproj" />
+    <ProjectReference Include="..\TaskManager\TaskManager.csproj" />
   </ItemGroup>
 
 </Project>

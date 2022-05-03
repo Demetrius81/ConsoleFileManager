@@ -9,7 +9,7 @@ namespace FileManager
         /// Метод создает список процессов
         /// </summary>
         /// <returns></returns>
-        public static Process[] GetAllProcesses()
+        public Process[] GetAllProcesses()
         {
             return Process.GetProcesses();
         }
@@ -67,6 +67,7 @@ namespace FileManager
         public bool CreateNewProcess(string programmName)
         {
             ProcessStartInfo startInfo;
+
             if (programmName.Contains(@"http://"))
             {
                 startInfo = new ProcessStartInfo()
@@ -105,7 +106,7 @@ namespace FileManager
         /// Метод запускает программу по указанному пути
         /// </summary>
         /// <param name="programmName">string Путь к программе</param>
-        public static void CreateProcess(string programmName)
+        public void CreateProcess(string programmName)
         {
             try
             {
