@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleUI\PseudoConsoleUI.csproj" />
-    <ProjectReference Include="..\DrivesAndDirectories\DrivesAndDirectories.csproj" />
-    <ProjectReference Include="..\Exeptions\Exeptions.csproj" />
+    <ProjectReference Include="..\ConsoleUI\ConsoleUI.csproj" />
+    <ProjectReference Include="..\Repos\Repos.csproj" />
+    <ProjectReference Include="..\TaskManager\TaskManager.csproj" />
   </ItemGroup>
 
 </Project>

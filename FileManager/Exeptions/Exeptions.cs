@@ -5,7 +5,6 @@ namespace FileManager
 {
     public class Exeptions
     {
-
         /// <summary>
         /// Метод выводит на экран сообщения о возникающих ошибках
         /// </summary>
